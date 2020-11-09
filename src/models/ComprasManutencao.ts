@@ -57,7 +57,7 @@ class ComprasManutencao {
   quantidade_ja_entregue: number;
 
   @Column('enum')
-  ja_emitiu_fornecedor: 'S' | '';
+  ja_emitiu_fornecedor: 'S' | null;
 
   @Column('decimal')
   valor_total: number;
@@ -66,19 +66,19 @@ class ComprasManutencao {
   status_sc: 'B' | 'L' | 'R';
 
   @Column('enum')
-  status_pc: 'B' | 'L' | 'R' | '';
+  status_pc: 'B' | 'L' | 'R' | null;
 
   @Column('date')
   previsao_entrega: Date;
 
   @Column('enum')
-  pc_eliminado_residuo: 'S' | '';
+  pc_eliminado_residuo: 'S' | null;
 
   @Column()
   motivo_eliminado_residuo: string;
 
   @Column('enum')
-  sc_eliminado_residuo: 'S' | '';
+  sc_eliminado_residuo: 'S' | null;
 
   @Column('date')
   data_pc: Date;
@@ -102,7 +102,7 @@ class ComprasManutencao {
   forma_pagamento: string;
 
   @Column('enum')
-  pagamento_antecipado: 'S' | '';
+  pagamento_antecipado: 'S' | null;
 
   @Column('enum')
   area: 'PCM' | 'ALMOX' | 'PRODUCAO' | 'OUTROS';
