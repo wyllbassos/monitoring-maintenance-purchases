@@ -1,47 +1,112 @@
-import TransactionsRepository from '../repositories/TransactionsRepository';
+import { getRepository, Repository } from 'typeorm';
+
+import AppError from '../errors/AppError';
+import Category from '../models/Category';
+
 import Transaction from '../models/Transaction';
+
+import CreateCategoryService from './CreateCategoryService';
 
 interface Request {
   title: string;
   value: number;
   type: 'income' | 'outcome';
+  category: string;
+}
+
+function checkIfValueIsValid(value: number): void {
+  if (!value) {
+    throw new AppError('The value field cannot be null');
+  }
+
+  const valueString = String(value);
+  const valueNumber = Number.parseFloat(valueString);
+  const valueSplit = valueString.split('.');
+
+  if (Number.isNaN(valueNumber)) {
+    throw new AppError("The value isn't a Number");
+  }
+  if (valueSplit.length > 1 && valueSplit[1].length > 2) {
+    throw new AppError('The max of fractional Part in value is 2 digits');
+  }
+  if (value <= 0) {
+    throw new AppError("The value isn't a positive number");
+  }
+}
+
+function checkParms(
+  { title, type, value }: Omit<Request, 'category'>,
+  balance: number,
+): void {
+  if (!title) {
+    throw new AppError('The title field cannot be null');
+  }
+
+  if (!type || (type !== 'income' && type !== 'outcome')) {
+    throw new AppError('The type field must be income or outcome');
+  }
+
+  checkIfValueIsValid(value);
+
+  console.log(type, value, balance);
+
+  if (type === 'outcome' && value > balance) {
+    throw new AppError("The account don't have a balance to this transaction");
+  }
+}
+
+async function getBalance(
+  transactionRepository: Repository<Transaction>,
+): Promise<number> {
+  const transactions = await transactionRepository.find();
+
+  console.log(transactions);
+
+  const income = transactions
+    .filter(({ type }) => type === 'income')
+    .reduce((total, { value }) => total + value, 0);
+
+  const outcome = transactions
+    .filter(({ type }) => type === 'outcome')
+    .reduce((total, { value }) => total + value, 0);
+
+  const total = income - outcome;
+  return total;
 }
 
 class CreateTransactionService {
-  private transactionsRepository: TransactionsRepository;
+  public async execute({
+    title,
+    value,
+    type,
+    category,
+  }: Request): Promise<Transaction> {
+    const transactionRepository = getRepository(Transaction);
 
-  constructor(transactionsRepository: TransactionsRepository) {
-    this.transactionsRepository = transactionsRepository;
-  }
+    let categoryOfTransaction = new Category();
 
-  public execute({ title, value, type }: Request): Transaction {
-    const valueString = String(value);
-    const valueNumber = Number.parseFloat(valueString);
+    const balance = await getBalance(transactionRepository);
 
-    const valueSplit = valueString.split('.');
-    if (type !== 'income' && type !== 'outcome') {
-      throw new Error("The type isn't a 'income' or 'outcome'");
+    checkParms({ title, value, type }, balance);
+
+    if (category) {
+      const createCategoryService = new CreateCategoryService();
+
+      categoryOfTransaction = await createCategoryService.execute({
+        title: category,
+      });
     }
-    if (Number.isNaN(valueNumber)) {
-      throw new Error("The value isn't a Number");
-    }
-    if (valueSplit.length > 1 && valueSplit[1].length > 2) {
-      throw new Error('The max of fractional Part in value is 2 digits');
-    }
-    if (value <= 0) {
-      throw new Error("The value isn't a positive number");
-    }
-    if (
-      type === 'outcome' &&
-      valueNumber > this.transactionsRepository.getBalance().total
-    ) {
-      throw new Error("The account don't have a balance to this transaction");
-    }
-    return this.transactionsRepository.create({
+
+    const transaction = transactionRepository.create({
       title,
-      value: valueNumber,
+      value,
       type,
+      category_id: categoryOfTransaction.id,
     });
+
+    await transactionRepository.save(transaction);
+
+    return transaction;
   }
 }
 
