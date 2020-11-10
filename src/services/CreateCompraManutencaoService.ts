@@ -5,7 +5,6 @@ import AppError from '../errors/AppError';
 import ComprasManutencao from '../models/ComprasManutencao';
 
 interface Request {
-  status: string;
   sc: string;
   item: string;
   produto: string;
@@ -35,8 +34,6 @@ interface Request {
   requisitante: string;
   fornecedor: string;
   forma_pagamento: string;
-  pagamento_antecipado: 'S' | null;
-  area: 'PCM' | 'ALMOX' | 'PRODUCAO' | 'OUTROS';
 }
 
 class CreateCompraManutencaoService {
@@ -47,6 +44,11 @@ class CreateCompraManutencaoService {
 
     const compraManutencao = comprasManutencaoRepository.create(request);
 
+    // definir regras de negocio para setar os campos status & pagamento_antecipado & area.
+    compraManutencao.status = "Teste";
+    compraManutencao.pagamento_antecipado = "S";
+    compraManutencao.area = "PCM";
+
     await comprasManutencaoRepository.save(compraManutencao);
 
     return compraManutencao;
@@ -54,9 +56,6 @@ class CreateCompraManutencaoService {
 }
 
 function checkFiels(request: Request) {
-  if(!request.status){
-    throw new AppError(`The status field cannot be null`);
-  }
   if(!request.sc){
     throw new AppError(`The sc field cannot be null`);
   }
@@ -92,15 +91,6 @@ function checkFiels(request: Request) {
   }
   if(!request.solicitante){
     throw new AppError(`The solicitante field cannot be null`);
-  }
-  if(request.pagamento_antecipado !== undefined && request.pagamento_antecipado !== null && request.pagamento_antecipado !== "S"){
-    throw new AppError(`The pagamento_antecipado field must be 'S'`);
-  }
-  if(!request.area){
-    throw new AppError(`The area field cannot be null`);
-  }
-  if(request.area !== null && ['B', 'L', 'R'].indexOf(request.area) === -1){
-    throw new AppError(`The area field must be 'PCM', 'ALMOX', 'PRODUCAO', 'OUTROS'`);
   }
 }
 

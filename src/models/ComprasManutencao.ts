@@ -4,7 +4,11 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import TipoPagamento from '../models/TiposPagamento';
+import Solicitante from '../models/Solicitantes';
 
 @Entity('compras_manutencao')
 class ComprasManutencao {
@@ -90,7 +94,11 @@ class ComprasManutencao {
   centro_custo_pc: string;
 
   @Column()
-  solicitante: string;
+  solicitante_id: string;
+
+  @ManyToOne(() => Solicitante)
+  @JoinColumn({ name: 'solicitante_id' })
+  solicitante: Solicitante;
 
   @Column()
   requisitante: string;
@@ -99,13 +107,11 @@ class ComprasManutencao {
   fornecedor: string;
 
   @Column()
-  forma_pagamento: string;
+  tipo_pagamento_id: string;
 
-  @Column('enum')
-  pagamento_antecipado: 'S' | null;
-
-  @Column('enum')
-  area: 'PCM' | 'ALMOX' | 'PRODUCAO' | 'OUTROS';
+  @ManyToOne(() => TipoPagamento)
+  @JoinColumn({ name: 'tipo_pagamento_id' })
+  tipo_pagamento: TipoPagamento;
 
   @CreateDateColumn()
   created_at: Date;

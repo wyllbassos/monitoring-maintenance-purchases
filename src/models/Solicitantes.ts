@@ -9,26 +9,16 @@ import {
 } from 'typeorm';
 // import Category from './Category';
 
-@Entity('transactions')
-class Transaction {
+@Entity('solicitantes')
+class Solicitantes {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  title: string;
+  usuario: string;
 
   @Column('enum')
-  type: 'income' | 'outcome';
-
-  @Column('decimal')
-  value: number;
-
-  // @Column()
-  // category_id: string;
-
-  // @ManyToOne(() => Category)
-  // @JoinColumn({ name: 'category_id' })
-  // provider: Category;
+  area: 'PCM' | 'ALMOX' | 'PRODUCAO' | 'PROJETOS';
 
   @CreateDateColumn()
   created_at: Date;
@@ -37,4 +27,4 @@ class Transaction {
   updated_at: Date;
 }
 
-export default Transaction;
+export default Solicitantes;
