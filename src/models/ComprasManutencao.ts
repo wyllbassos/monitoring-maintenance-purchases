@@ -1,20 +1,16 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+import BaseColumnSchemaPart from './BaseColumnSchemaPart';
+
 import TipoPagamento from '../models/TiposPagamento';
 import Solicitante from '../models/Solicitantes';
 
 @Entity('compras_manutencao')
-class ComprasManutencao {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+class ComprasManutencao extends BaseColumnSchemaPart{
   @Column()
   status: string;
 
@@ -94,30 +90,24 @@ class ComprasManutencao {
   centro_custo_pc: string;
 
   @Column()
-  solicitante_id: string;
-
-  @ManyToOne(() => Solicitante)
-  @JoinColumn({ name: 'solicitante_id' })
-  solicitante: Solicitante;
-
-  @Column()
   requisitante: string;
 
   @Column()
   fornecedor: string;
 
   @Column()
+  solicitante_id: string;
+
+  @Column()
   tipo_pagamento_id: string;
+
+  @ManyToOne(() => Solicitante)
+  @JoinColumn({ name: 'solicitante_id' })
+  solicitante: Solicitante;
 
   @ManyToOne(() => TipoPagamento)
   @JoinColumn({ name: 'tipo_pagamento_id' })
   tipo_pagamento: TipoPagamento;
-
-  @CreateDateColumn()
-  created_at: Date;
-
-  @UpdateDateColumn()
-  updated_at: Date;
 }
 
 export default ComprasManutencao;

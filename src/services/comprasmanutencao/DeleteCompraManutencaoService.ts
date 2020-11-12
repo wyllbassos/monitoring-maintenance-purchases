@@ -1,9 +1,9 @@
 // import AppError from '../errors/AppError';
 import { getRepository, Repository } from 'typeorm';
 
-import AppError from '../errors/AppError';
+import AppError from '../../errors/AppError';
 
-import ComprasManutencao from '../models/ComprasManutencao';
+import ComprasManutencao from '../../models/ComprasManutencao';
 
 class DeleteCompraManutencaoService {
   public async execute({ id }:{ id: string }): Promise<void> {

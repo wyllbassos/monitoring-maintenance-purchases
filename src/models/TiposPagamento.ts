@@ -1,30 +1,24 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 // import Category from './Category';
+import ComprasManutencao from './ComprasManutencao';
+import BaseColumnSchemaPart from './BaseColumnSchemaPart';
 
 @Entity('tipos_pagamento')
-class Solicitantes {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+class TiposPagamento extends BaseColumnSchemaPart{
   @Column()
   codigo: string;
-
-  @Column('enum')
+    
+  @Column()
   descricao: string;
 
-  @CreateDateColumn()
-  created_at: Date;
-
-  @UpdateDateColumn()
-  updated_at: Date;
+  @OneToMany(Tipe => ComprasManutencao, ComprasManutencao => ComprasManutencao.tipo_pagamento)
+  @JoinColumn({ referencedColumnName: 'tipo_pagamento_id' })
+  compras_manutencao: ComprasManutencao[];
 }
 
-export default Solicitantes;
+export default TiposPagamento;

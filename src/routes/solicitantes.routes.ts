@@ -3,7 +3,7 @@ import { getRepository } from 'typeorm';
 
 import Solicitantes from '../models/Solicitantes'
 
-import CreateSolicitanteService from '../services/CreateSolicitanteService';
+import CreateSolicitanteService from '../services/solicitante/CreateSolicitanteService';
 // import DeleteCompraManutencaoService from '../services/DeleteCompraManutencaoService';
 
 
@@ -12,7 +12,7 @@ const solicitantesRouter = Router();
 solicitantesRouter.get('/', async (request: Request, response: Response) => {
   const solicitantesRepository = getRepository(Solicitantes)
 
-  const solicitantes = await solicitantesRepository.find();
+  const solicitantes = await solicitantesRepository.find({relations: ['compras_manutencao']});
 
   return response.json(solicitantes);
 });

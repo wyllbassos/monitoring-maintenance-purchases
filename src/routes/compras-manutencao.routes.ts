@@ -3,8 +3,8 @@ import { getRepository } from 'typeorm';
 
 import ComprasManutencao from '../models/ComprasManutencao'
 
-import CreateCompraManutencaoService from '../services/CreateCompraManutencaoService';
-import DeleteCompraManutencaoService from '../services/DeleteCompraManutencaoService';
+import CreateCompraManutencaoService from '../services/comprasmanutencao/CreateCompraManutencaoService';
+import DeleteCompraManutencaoService from '../services/comprasmanutencao/DeleteCompraManutencaoService';
 // import ImportTransactionsService from '../services/ImportTransactionsService';
 
 const comprasManutencaoRouter = Router();
@@ -12,7 +12,9 @@ const comprasManutencaoRouter = Router();
 comprasManutencaoRouter.get('/', async (request: Request, response: Response) => {
   const comprasManutencaoRepository = getRepository(ComprasManutencao)
 
-  const comprasManutencao = await comprasManutencaoRepository.find();
+  const comprasManutencao = await comprasManutencaoRepository.find({
+    relations: ['tipo_pagamento', 'solicitante']
+  });
 
   return response.json(comprasManutencao);
 });

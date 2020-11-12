@@ -1,8 +1,13 @@
 import { getRepository, Repository } from 'typeorm';
 
-import AppError from '../errors/AppError';
+import AppError from '../../errors/AppError';
 
-import ComprasManutencao from '../models/ComprasManutencao';
+import ComprasManutencao from '../../models/ComprasManutencao';
+import Solicitantes from './../../models/Solicitantes';
+import TiposPagamento from './../../models/TiposPagamento';
+
+import CreateSolicitanteService from '../solicitante/CreateSolicitanteService'
+import CreateTipoPagamentoService from '../tipopagamento/CreateTipoPagamentoService'
 
 interface Request {
   sc: string;
@@ -30,6 +35,7 @@ interface Request {
   data_pc: Date;
   conta_pc: string;
   centro_custo_pc: string;
+  tipo_pagamento: string;
   solicitante: string;
   requisitante: string;
   fornecedor: string;
@@ -39,15 +45,40 @@ interface Request {
 class CreateCompraManutencaoService {
   public async execute(request: Request): Promise<ComprasManutencao> {
     const comprasManutencaoRepository = getRepository(ComprasManutencao);    
-
+    const solicitantesRepository = getRepository(Solicitantes);    
+    const tiposPagamentoRepository = getRepository(TiposPagamento);    
+    
     checkFiels(request);
 
-    const compraManutencao = comprasManutencaoRepository.create(request);
+    const createSolicitanteService = new CreateSolicitanteService()
+    const createTipoPagamentoService = new CreateTipoPagamentoService()
+
+
+    let solicitante = await solicitantesRepository.findOne({ where: { usuario: request.solicitante } })
+    let tipo_pagamento = await tiposPagamentoRepository.findOne({ where: { codigo: request.tipo_pagamento } })
+
+    if(!solicitante){
+      solicitante = await createSolicitanteService.execute({ usuario: request.solicitante, area: "OUTROS" })
+    }
+    if(!tipo_pagamento){
+      tipo_pagamento = await createTipoPagamentoService.execute({ codigo: request.tipo_pagamento, descricao: "-" })
+    }
+
+    const compraManutencao = comprasManutencaoRepository.create({
+      ...request,
+      solicitante: undefined,
+      tipo_pagamento: undefined,
+      solicitante_id: solicitante.id,
+      tipo_pagamento_id: tipo_pagamento.id,
+    });
+
+    compraManutencao.solicitante = solicitante;
+    compraManutencao.tipo_pagamento = tipo_pagamento;
 
     // definir regras de negocio para setar os campos status & pagamento_antecipado & area.
     compraManutencao.status = "Teste";
-    compraManutencao.pagamento_antecipado = "S";
-    compraManutencao.area = "PCM";
+
+    
 
     await comprasManutencaoRepository.save(compraManutencao);
 
