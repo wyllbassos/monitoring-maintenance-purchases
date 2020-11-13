@@ -3,11 +3,13 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import BaseColumnSchemaPart from './BaseColumnSchemaPart';
 
 import TipoPagamento from '../models/TiposPagamento';
 import Solicitante from '../models/Solicitantes';
+import HistoricoAlteracoes from './HistoricoAlteracoes';
 
 @Entity('compras_manutencao')
 class ComprasManutencao extends BaseColumnSchemaPart{
@@ -108,6 +110,10 @@ class ComprasManutencao extends BaseColumnSchemaPart{
   @ManyToOne(() => TipoPagamento)
   @JoinColumn({ name: 'tipo_pagamento_id' })
   tipo_pagamento: TipoPagamento;
+
+  @OneToMany(Tipe => HistoricoAlteracoes, HistoricoAlteracoes => HistoricoAlteracoes)
+  @JoinColumn({ referencedColumnName: 'tabela_alterada_id' })
+  historico_alteracoes: HistoricoAlteracoes[];
 }
 
 export default ComprasManutencao;

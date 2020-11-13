@@ -1,14 +1,23 @@
 import { Router, Request, Response } from 'express';
 import { getRepository } from 'typeorm';
+import multer from 'multer';
 
 import ComprasManutencao from '../models/ComprasManutencao'
 
-import CreateCompraManutencaoService from '../services/comprasmanutencao/CreateCompraManutencaoService';
+import CreateCompraManutencaoService, { CreateCompraManutencao } from '../services/comprasmanutencao/CreateCompraManutencaoService';
 import DeleteCompraManutencaoService from '../services/comprasmanutencao/DeleteCompraManutencaoService';
-// import ImportTransactionsService from '../services/ImportTransactionsService';
+import ImportCompraManutencaoService from '../services/comprasmanutencao/ImportCompraManutencaoService';
+
+import uploadConfig from '../config/upload';
+import AppError from '../errors/AppError';
 
 const comprasManutencaoRouter = Router();
+const upload = multer(uploadConfig);
 
+function isComprasManutencao(object: any): object is string {
+  return 'id' === object;
+}
+const keys = ['id', 'sc']
 comprasManutencaoRouter.get('/', async (request: Request, response: Response) => {
   const comprasManutencaoRepository = getRepository(ComprasManutencao)
 
@@ -20,7 +29,7 @@ comprasManutencaoRouter.get('/', async (request: Request, response: Response) =>
 });
 
 comprasManutencaoRouter.post('/', async (request: Request, response: Response) => {
-  const insertCompraManutencao: ComprasManutencao = request.body;
+  const insertCompraManutencao: CreateCompraManutencao = request.body;
 
   const createCompraManutencao = new CreateCompraManutencaoService();
 
@@ -40,11 +49,19 @@ comprasManutencaoRouter.delete('/:id', async (request: Request, response: Respon
   },
 );
 
-// comprasManutencaoRouter.post(
-//   '/import',
-//   async (request: Request, response: Response) => {
-//     // TODO
-//   },
-// );
+comprasManutencaoRouter.post(
+  '/import',
+  upload.single('file'),
+  async (request: Request, response: Response) => {
+    const { nome_tabela } = request.body
+    const importCompraManutencaoService = new ImportCompraManutencaoService();
+    const comprasManutencao = await importCompraManutencaoService.execute({
+      importFilename: request.file.filename,
+      nome_tabela,
+    })
+;
+    return response.json(comprasManutencao);
+  },
+);
 
 export default comprasManutencaoRouter;

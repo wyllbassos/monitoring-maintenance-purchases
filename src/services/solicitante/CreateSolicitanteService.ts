@@ -1,8 +1,10 @@
 import { getRepository, Repository } from 'typeorm';
 
 import AppError from '../../errors/AppError';
+import HistoricoAlteracoes from '../../models/HistoricoAlteracoes';
 
 import Solicitantes from '../../models/Solicitantes';
+import CreateHistoricoAlteracoesService from '../historicoalteracoes/CreateHistoricoAlteracoesService';
 
 interface Request {
   usuario: string;
@@ -25,10 +27,22 @@ class CreateCompraManutencaoService {
       if(solicitante.area === request.area){
         return solicitante;
       }
+      const valor_antigo = solicitante.area
+      const valor_novo = request.area
+
       solicitante.area = request.area;
       
       await this.solicitantesRepository.save(solicitante);
-      
+
+      const createHistoricoAlteracoesService = new CreateHistoricoAlteracoesService();
+      createHistoricoAlteracoesService.execute({
+        tabela_alterada_id: solicitante.id,
+        campo: "area",
+        tabela: "solicitantes",
+        valor_antigo,
+        valor_novo,
+      })
+
       return solicitante
     }
 

@@ -9,7 +9,7 @@ import TiposPagamento from './../../models/TiposPagamento';
 import CreateSolicitanteService from '../solicitante/CreateSolicitanteService'
 import CreateTipoPagamentoService from '../tipopagamento/CreateTipoPagamentoService'
 
-interface Request {
+export interface CreateCompraManutencao {
   sc: string;
   item: string;
   produto: string;
@@ -39,11 +39,11 @@ interface Request {
   solicitante: string;
   requisitante: string;
   fornecedor: string;
-  forma_pagamento: string;
+  
 }
 
 class CreateCompraManutencaoService {
-  public async execute(request: Request): Promise<ComprasManutencao> {
+  public async execute(request: CreateCompraManutencao): Promise<ComprasManutencao> {
     const comprasManutencaoRepository = getRepository(ComprasManutencao);    
     const solicitantesRepository = getRepository(Solicitantes);    
     const tiposPagamentoRepository = getRepository(TiposPagamento);    
@@ -78,15 +78,13 @@ class CreateCompraManutencaoService {
     // definir regras de negocio para setar os campos status & pagamento_antecipado & area.
     compraManutencao.status = "Teste";
 
-    
-
     await comprasManutencaoRepository.save(compraManutencao);
 
     return compraManutencao;
   }
 }
 
-function checkFiels(request: Request) {
+function checkFiels(request: CreateCompraManutencao) {
   if(!request.sc){
     throw new AppError(`The sc field cannot be null`);
   }
@@ -108,10 +106,11 @@ function checkFiels(request: Request) {
   if(!request.status_sc){
     throw new AppError(`The status_sc field cannot be null`);
   }
-  if(['B', 'L', 'R'].indexOf(request.status_sc) === -1){
+  if(['B', 'L', 'R'].indexOf(request.status_sc) < 0){
     throw new AppError(`The status_sc field must be 'B', 'L', 'R'`);
   }
-  if(request.status_pc !== undefined && request.status_pc !== null && ['B', 'L', 'R'].indexOf(request.status_pc) === -1){
+  if(request.status_pc !== undefined && request.status_pc !== null && ['B', 'L', 'R'].indexOf(request.status_pc) < 0){
+    console.log(request.status_pc)
     throw new AppError(`The status_pc field must be 'B', 'L', 'R'`);
   }
   if(request.pc_eliminado_residuo !== undefined && request.pc_eliminado_residuo !== null && request.pc_eliminado_residuo !== "S"){
