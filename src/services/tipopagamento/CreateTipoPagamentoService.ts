@@ -13,13 +13,10 @@ class CreateTipoPagamentoService {
   private tiposPagamentoRepository = getRepository(TiposPagamento);
 
   public async execute(request: Request): Promise<TiposPagamento> {
+    const { codigo } = request;
     this.checkFiels(request);
 
-    let tipoPagamento = await this.tiposPagamentoRepository.findOne({
-      where: {
-        codigo: request.codigo
-      }
-    })
+    let tipoPagamento = await this.tiposPagamentoRepository.findOne({ where: { codigo } })
 
     if(tipoPagamento){
       if(tipoPagamento.descricao === request.descricao){
@@ -34,10 +31,25 @@ class CreateTipoPagamentoService {
 
     tipoPagamento = this.tiposPagamentoRepository.create(request);
 
-    await this.tiposPagamentoRepository.save(tipoPagamento);
+    try {
+      await this.tiposPagamentoRepository.save(tipoPagamento);
+    } catch (error) {
+      if (error.message.search("duplicate key value violates unique constraint") >= 0 ){
+        tipoPagamento = await this.tiposPagamentoRepository.findOne({ where: { codigo } })
+        if(tipoPagamento){
+          if(tipoPagamento.descricao === request.descricao){
+            return tipoPagamento;
+          }
+      } else {
+          throw new AppError("Error to include Solicitante");
+        }
+      }
+    }
 
     return tipoPagamento;
   }
+
+
   private checkFiels = (request: Request) => {
     if(!request.codigo){
       throw new AppError(`The codigo field cannot be null`);

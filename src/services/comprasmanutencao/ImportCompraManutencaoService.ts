@@ -47,28 +47,24 @@ class ImportCompraManutencaoService {
       throw new AppError(`Tabela ${nome_tabela} não existe no arquivo Excel`);
     }
 
-    const importCreateComprasManutencao:CreateCompraManutencao[] = result[nome_tabela];
-
-    const promises = importCreateComprasManutencao.map(createCompraManutencao => {
-      console.log(createCompraManutencao);
-      return createCompraManutencaoService.execute(createCompraManutencao)
+    let importCreateComprasManutencao:CreateCompraManutencao[] = result[nome_tabela];
+    importCreateComprasManutencao.splice(0, 1);
+    const promises = importCreateComprasManutencao.map(async createCompraManutencao => {
+      try {
+        const compraManutencao = await createCompraManutencaoService.execute(createCompraManutencao)
+        return compraManutencao 
+      } catch (error) {
+        //await fs.promises.unlink(importFilePath);
+        throw new AppError(error);
+      }
     })
 
     const comprasManutencao = Promise.all(promises);
 
-    //const campos:string[] = Object.keys(result[nome_tabela][0]);
-
-    // campos.forEach(element => {
-    //   console.log(element)
-    //   if(element in (new ComprasManutencao()))
-    //     console.log(element)
-    // })
-
-    //const comprasManutencao: ComprasManutencao[] = result[nome_tabela];
-    
-    //createCompraManutencaoService.execute({})
+    await fs.promises.unlink(importFilePath);
 
     return comprasManutencao;
+    // return [];
   }
 }
 

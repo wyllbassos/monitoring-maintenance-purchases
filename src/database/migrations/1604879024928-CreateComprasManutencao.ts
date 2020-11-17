@@ -50,22 +50,18 @@ export default class CreateComprasManutencao1604879024928
           {
             name: 'aplicacao',
             type: 'varchar',
-            isNullable: true,
           },
           {
             name: 'observacao',
             type: 'varchar',
-            isNullable: true,
           },   
           {
             name: 'cotacao',
             type: 'varchar',
-            isNullable: true,
           },   
           {
             name: 'pc',
             type: 'varchar',
-            isNullable: true,
           },
           {
             name: 'dt_aprovacao_n1',
@@ -89,9 +85,7 @@ export default class CreateComprasManutencao1604879024928
           },
           {
             name: 'ja_emitiu_fornecedor',
-            type: 'enum',
-            enum: ['S'],
-            isNullable: true,
+            type: 'varchar',
           },
           {
             name: 'valor_total',
@@ -105,9 +99,7 @@ export default class CreateComprasManutencao1604879024928
           },
           {
             name: 'status_pc',
-            type: 'enum',
-            enum: ['B', 'L', 'R'],
-            isNullable: true,
+            type: 'varchar',
           },
           {
             name: 'previsao_entrega',
@@ -116,20 +108,15 @@ export default class CreateComprasManutencao1604879024928
           },
           {
             name: 'pc_eliminado_residuo',
-            type: 'enum',
-            enum: ['S'],
-            isNullable: true,
+            type: 'varchar',
           },
           {
             name: 'motivo_eliminado_residuo',
             type: 'varchar',
-            isNullable: true,
           },
           {
             name: 'sc_eliminado_residuo',
-            type: 'enum',
-            enum: ['S'],
-            isNullable: true,
+            type: 'varchar',
           },
           {
             name: 'data_pc',
@@ -139,12 +126,10 @@ export default class CreateComprasManutencao1604879024928
           {
             name: 'conta_pc',
             type: 'varchar',
-            isNullable: true,
           },
           {
             name: 'centro_custo_pc',
             type: 'varchar',
-            isNullable: true,
           }, 
           {
             name: 'solicitante_id',
@@ -153,12 +138,10 @@ export default class CreateComprasManutencao1604879024928
           {
             name: 'requisitante',
             type: 'varchar',
-            isNullable: true,
           },
           {
             name: 'fornecedor',
             type: 'varchar',
-            isNullable: true,
           },
           {
             name: 'tipo_pagamento_id',

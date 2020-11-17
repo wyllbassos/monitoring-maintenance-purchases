@@ -15,13 +15,11 @@ class CreateCompraManutencaoService {
   private solicitantesRepository = getRepository(Solicitantes);
 
   public async execute(request: Request): Promise<Solicitantes> {
+    const { usuario } = request;
+
     this.checkFiels(request);
 
-    let solicitante = await this.solicitantesRepository.findOne({
-      where: {
-        usuario: request.usuario
-      }
-    })
+    let solicitante = await this.solicitantesRepository.findOne({ where: { usuario } })
 
     if(solicitante){
       if(solicitante.area === request.area){
@@ -32,7 +30,7 @@ class CreateCompraManutencaoService {
 
       solicitante.area = request.area;
       
-      await this.solicitantesRepository.save(solicitante);
+      await this.solicitantesRepository.save(solicitante); 
 
       const createHistoricoAlteracoesService = new CreateHistoricoAlteracoesService();
       createHistoricoAlteracoesService.execute({
@@ -48,7 +46,20 @@ class CreateCompraManutencaoService {
 
     solicitante = this.solicitantesRepository.create(request);
 
-    await this.solicitantesRepository.save(solicitante);
+    try {
+      await this.solicitantesRepository.save(solicitante);
+    } catch (error) {
+      if (error.message.search("duplicate key value violates unique constraint") >= 0 ){
+        solicitante = await this.solicitantesRepository.findOne({ where: { usuario } })
+        if(solicitante){
+          if(solicitante.area === request.area){
+            return solicitante;
+          }
+      } else {
+          throw new AppError("Error to include Solicitante");
+        }
+      }
+    }
 
     return solicitante;
   }
@@ -59,7 +70,7 @@ class CreateCompraManutencaoService {
     if(!request.usuario){
       throw new AppError(`The usuario field cannot be null`);
     }
-    if(request.area !== null && request.area !== "PCM" && request.area !== "ALMOX" && request.area !== "PRODUCAO" && request.area !== "PROJETOS"){
+    if(['OUTROS', 'PCM', 'ALMOX', 'PRODUCAO', 'PROJETOS'].indexOf(request.area) < 0) {
       throw new AppError(`The area field must be 'PCM' or 'ALMOX' or 'PRODUCAO' or 'PROJETOS'`);
     }
   }

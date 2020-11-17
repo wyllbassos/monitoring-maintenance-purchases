@@ -47,19 +47,19 @@ class ComprasManutencao extends BaseColumnSchemaPart{
   pc: string;
 
   @Column('date')
-  dt_aprovacao_n1: Date;
+  dt_aprovacao_n1: Date | null;
 
   @Column('date')
-  dt_aprovacao_n2: Date;
+  dt_aprovacao_n2: Date | null;
 
   @Column('date')
-  dt_aprovacao_n3: Date;
+  dt_aprovacao_n3: Date | null;
 
   @Column('decimal')
   quantidade_ja_entregue: number;
 
-  @Column('enum')
-  ja_emitiu_fornecedor: 'S' | null;
+  @Column()
+  ja_emitiu_fornecedor: string;
 
   @Column('decimal')
   valor_total: number;
@@ -67,23 +67,23 @@ class ComprasManutencao extends BaseColumnSchemaPart{
   @Column('enum')
   status_sc: 'B' | 'L' | 'R';
 
-  @Column('enum')
-  status_pc: 'B' | 'L' | 'R' | null;
+  @Column()
+  status_pc: string;
 
   @Column('date')
-  previsao_entrega: Date;
+  previsao_entrega: Date | null;
 
-  @Column('enum')
-  pc_eliminado_residuo: 'S' | null;
+  @Column()
+  pc_eliminado_residuo: string;
 
   @Column()
   motivo_eliminado_residuo: string;
 
-  @Column('enum')
-  sc_eliminado_residuo: 'S' | null;
+  @Column()
+  sc_eliminado_residuo: string;
 
   @Column('date')
-  data_pc: Date;
+  data_pc: Date | null;
 
   @Column()
   conta_pc: string;
@@ -100,8 +100,8 @@ class ComprasManutencao extends BaseColumnSchemaPart{
   @Column()
   solicitante_id: string;
 
-  @Column()
-  tipo_pagamento_id: string;
+  @Column('uuid')
+  tipo_pagamento_id: string | null;
 
   @ManyToOne(() => Solicitante)
   @JoinColumn({ name: 'solicitante_id' })
@@ -109,7 +109,7 @@ class ComprasManutencao extends BaseColumnSchemaPart{
 
   @ManyToOne(() => TipoPagamento)
   @JoinColumn({ name: 'tipo_pagamento_id' })
-  tipo_pagamento: TipoPagamento;
+  tipo_pagamento: TipoPagamento | null;
 
   @OneToMany(Tipe => HistoricoAlteracoes, HistoricoAlteracoes => HistoricoAlteracoes)
   @JoinColumn({ referencedColumnName: 'tabela_alterada_id' })
