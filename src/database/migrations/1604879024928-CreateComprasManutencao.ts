@@ -45,7 +45,7 @@ export default class CreateComprasManutencao1604879024928
           },
           {
             name: 'emissao',
-            type: 'date',
+            type: 'timestamp',
           },
           {
             name: 'aplicacao',
@@ -65,17 +65,17 @@ export default class CreateComprasManutencao1604879024928
           },
           {
             name: 'dt_aprovacao_n1',
-            type: 'date',
+            type: 'timestamp',
             isNullable: true,
           },
           {
             name: 'dt_aprovacao_n2',
-            type: 'date',
+            type: 'timestamp',
             isNullable: true,
           },
           {
             name: 'dt_aprovacao_n3',
-            type: 'date',
+            type: 'timestamp',
             isNullable: true,
           },
           {
@@ -103,7 +103,7 @@ export default class CreateComprasManutencao1604879024928
           },
           {
             name: 'previsao_entrega',
-            type: 'date',
+            type: 'timestamp',
             isNullable: true,
           },
           {
@@ -120,7 +120,7 @@ export default class CreateComprasManutencao1604879024928
           },
           {
             name: 'data_pc',
-            type: 'date',
+            type: 'timestamp',
             isNullable: true,
           },
           {

@@ -19,11 +19,11 @@ class HistoricoAlteracoes extends BaseColumnSchemaPart {
   @Column()
   campo: string;
 
-  @Column()
-  valor_antigo: string;
+  @Column('text')
+  valor_antigo: string | null;
 
-  @Column()
-  valor_novo: string;
+  @Column('text')
+  valor_novo: string | null;
 
   @ManyToOne(() => ComprasManutencao)
   @JoinColumn({ name: 'tabela_alterada_id' })

@@ -21,7 +21,7 @@ class ImportCompraManutencaoService {
 
     const importFilePath = path.join(uploadConfig.directory, importFilename);
     
-    let result: {[key:string]:any} = []
+    let result: { [key:string]:any } = []
 
 
     const splitImportFilename = importFilename.split('.');
@@ -32,7 +32,7 @@ class ImportCompraManutencaoService {
     }
 
     try {
-      result = excelToJson({
+        result = excelToJson({
         source: fs.readFileSync(importFilePath), // fs.readFileSync return a Buffer
         columnToKey: {
             '*': '{{columnHeader}}'
@@ -42,13 +42,16 @@ class ImportCompraManutencaoService {
         await fs.promises.unlink(importFilePath);
         throw new AppError('Erro Conversão Excel Para Json');
     }
-    
+
     if(!result[nome_tabela]){
       throw new AppError(`Tabela ${nome_tabela} não existe no arquivo Excel`);
     }
 
+    //const importCreateComprasManutencao_v2 = checkFieldsCompra();
+
     let importCreateComprasManutencao:CreateCompraManutencao[] = result[nome_tabela];
     importCreateComprasManutencao.splice(0, 1);
+
     const promises = importCreateComprasManutencao.map(async createCompraManutencao => {
       try {
         const compraManutencao = await createCompraManutencaoService.execute(createCompraManutencao)

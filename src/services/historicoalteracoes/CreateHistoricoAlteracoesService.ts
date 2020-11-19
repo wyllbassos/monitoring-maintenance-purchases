@@ -4,7 +4,7 @@ import AppError from '../../errors/AppError';
 
 import HistoricoAlteracoes from '../../models/HistoricoAlteracoes';
 
-interface Request {
+export interface CreateHistoricoAlteracoes {
   tabela_alterada_id: string;
   tabela: string;
   campo: string;
@@ -15,7 +15,7 @@ interface Request {
 class CreateHistoricoAlteracoesService {
   private historicoAlteracoesRepository = getRepository(HistoricoAlteracoes);
 
-  public async execute(request: Request): Promise<HistoricoAlteracoes> {
+  public async execute(request: CreateHistoricoAlteracoes): Promise<HistoricoAlteracoes> {
     this.checkFiels(request);
 
     const historicoAlteracoes = this.historicoAlteracoesRepository.create(request);
@@ -24,7 +24,7 @@ class CreateHistoricoAlteracoesService {
 
     return historicoAlteracoes;
   }
-  private checkFiels = (request: Request) => {
+  private checkFiels = (request: CreateHistoricoAlteracoes) => {
     if(!request.tabela_alterada_id){
       throw new AppError(`The tabela_alterada_id field cannot be null`);
     }

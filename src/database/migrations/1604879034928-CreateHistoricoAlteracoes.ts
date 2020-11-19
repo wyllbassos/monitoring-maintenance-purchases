@@ -35,10 +35,12 @@ export default class  CreateHistoricoAlteracoes1604879034928
           {
             name: 'valor_antigo',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'valor_novo',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'created_at',

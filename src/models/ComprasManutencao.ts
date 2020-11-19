@@ -31,7 +31,7 @@ class ComprasManutencao extends BaseColumnSchemaPart{
   @Column('decimal')
   quantidade: number;
 
-  @Column('date')
+  @Column('timestamp')
   emissao: Date;
 
   @Column()
@@ -46,13 +46,13 @@ class ComprasManutencao extends BaseColumnSchemaPart{
   @Column()
   pc: string;
 
-  @Column('date')
+  @Column('timestamp')
   dt_aprovacao_n1: Date | null;
 
-  @Column('date')
+  @Column('timestamp')
   dt_aprovacao_n2: Date | null;
 
-  @Column('date')
+  @Column('timestamp')
   dt_aprovacao_n3: Date | null;
 
   @Column('decimal')
@@ -70,7 +70,7 @@ class ComprasManutencao extends BaseColumnSchemaPart{
   @Column()
   status_pc: string;
 
-  @Column('date')
+  @Column('timestamp')
   previsao_entrega: Date | null;
 
   @Column()
@@ -82,7 +82,7 @@ class ComprasManutencao extends BaseColumnSchemaPart{
   @Column()
   sc_eliminado_residuo: string;
 
-  @Column('date')
+  @Column('timestamp')
   data_pc: Date | null;
 
   @Column()
