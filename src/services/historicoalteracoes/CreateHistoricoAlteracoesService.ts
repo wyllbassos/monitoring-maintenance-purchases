@@ -15,15 +15,28 @@ export interface CreateHistoricoAlteracoes {
 class CreateHistoricoAlteracoesService {
   private historicoAlteracoesRepository = getRepository(HistoricoAlteracoes);
 
-  public async execute(request: CreateHistoricoAlteracoes): Promise<HistoricoAlteracoes> {
-    this.checkFiels(request);
+  public async execute(request: CreateHistoricoAlteracoes[]): Promise<HistoricoAlteracoes | HistoricoAlteracoes[]> {
+    if (!(request instanceof Array)){
+      this.checkFiels(request);
 
-    const historicoAlteracoes = this.historicoAlteracoesRepository.create(request);
+      const historicoAlteracoes = this.historicoAlteracoesRepository.create(request);
 
-    await this.historicoAlteracoesRepository.save(historicoAlteracoes);
+      await this.historicoAlteracoesRepository.save(historicoAlteracoes);
 
-    return historicoAlteracoes;
+      return historicoAlteracoes;
+    } else {
+      const historicoAlteracoes = request.map(historicoAlteracoes => {
+        this.checkFiels(historicoAlteracoes);
+
+        return this.historicoAlteracoesRepository.create(historicoAlteracoes);
+      })
+      
+      await this.historicoAlteracoesRepository.save(historicoAlteracoes);
+
+      return historicoAlteracoes;
+    }
   }
+
   private checkFiels = (request: CreateHistoricoAlteracoes) => {
     if(!request.tabela_alterada_id){
       throw new AppError(`The tabela_alterada_id field cannot be null`);

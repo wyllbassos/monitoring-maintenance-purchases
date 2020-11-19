@@ -387,15 +387,14 @@ async function updateCompraManutencao (
     }
     if(arrAlteracoes.length > 0){
       const createHistoricoAlteracoesService = new CreateHistoricoAlteracoesService();
-      const promisses = arrAlteracoes.map(alteracao => (
-        createHistoricoAlteracoesService.execute({
+      const arrAlteracoesTratado = arrAlteracoes.map(alteracao => ({
         ...alteracao,
         valor_antigo: alteracao.valor_antigo ? alteracao.valor_antigo : '',
         valor_novo: alteracao.valor_novo ? alteracao.valor_novo : '',
         tabela: "compras_manutencao",
         tabela_alterada_id: compraManutencao.id,
-      })))
-      await Promise.all(promisses);
+      }))
+      createHistoricoAlteracoesService.execute(arrAlteracoesTratado)
     }
 }
 

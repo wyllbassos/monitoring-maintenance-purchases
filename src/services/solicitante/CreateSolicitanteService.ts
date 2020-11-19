@@ -33,13 +33,13 @@ class CreateCompraManutencaoService {
       await this.solicitantesRepository.save(solicitante); 
 
       const createHistoricoAlteracoesService = new CreateHistoricoAlteracoesService();
-      createHistoricoAlteracoesService.execute({
+      createHistoricoAlteracoesService.execute([{
         tabela_alterada_id: solicitante.id,
         campo: "area",
         tabela: "solicitantes",
         valor_antigo,
         valor_novo,
-      })
+      }])
 
       return solicitante
     }
