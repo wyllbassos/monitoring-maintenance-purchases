@@ -62,7 +62,7 @@ class ImportCompraManutencaoService {
       }
     })
 
-    const comprasManutencao = Promise.all(promises);
+    const comprasManutencao = await Promise.all(promises);
 
     await fs.promises.unlink(importFilePath);
 
