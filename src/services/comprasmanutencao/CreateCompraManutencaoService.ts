@@ -395,9 +395,7 @@ async function updateCompraManutencao (
         tabela: "compras_manutencao",
         tabela_alterada_id: compraManutencao.id,
       })))
-      const historicoAlteracoes = await Promise.all(promisses);
-      
-      console.log(historicoAlteracoes)
+      await Promise.all(promisses);
     }
 }
 

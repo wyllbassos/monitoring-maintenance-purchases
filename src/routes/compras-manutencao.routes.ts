@@ -33,7 +33,21 @@ comprasManutencaoRouter.post('/', async (request: Request, response: Response) =
 
   const createCompraManutencao = new CreateCompraManutencaoService();
 
-  const compraManutencao = await createCompraManutencao.execute(insertCompraManutencao);
+  const dt_aprovacao_n1 = !!insertCompraManutencao.dt_aprovacao_n1 ? new Date(insertCompraManutencao.dt_aprovacao_n1) : null
+  const dt_aprovacao_n2 = !!insertCompraManutencao.dt_aprovacao_n2 ? new Date(insertCompraManutencao.dt_aprovacao_n2) : null
+  const dt_aprovacao_n3 = !!insertCompraManutencao.dt_aprovacao_n3 ? new Date(insertCompraManutencao.dt_aprovacao_n3) : null
+  const previsao_entrega = !!insertCompraManutencao.previsao_entrega ? new Date(insertCompraManutencao.previsao_entrega) : null
+  const data_pc = !!insertCompraManutencao.data_pc ? new Date(insertCompraManutencao.data_pc) : null
+
+  const compraManutencao = await createCompraManutencao.execute({
+    ...insertCompraManutencao,
+    emissao: new Date(insertCompraManutencao.emissao),
+    dt_aprovacao_n1,
+    dt_aprovacao_n2,
+    dt_aprovacao_n3,
+    previsao_entrega,
+    data_pc
+  });
 
   return response.json(compraManutencao);
 });
