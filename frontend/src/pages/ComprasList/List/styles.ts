@@ -1,23 +1,55 @@
 import styled from 'styled-components';
 
-interface CardProps {
-  total?: boolean;
-}
+export const List = styled.ul`
+    li {
+        & + li {
+            margin-top: 20px;
+        }
+    }
 
-export const Container = styled.div`
-  width: 100%;
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 40px 20px;
-  @media (max-width: 1000px) {
-    padding: 10px 10px;
-  }
-`;
+    li {
+        background-color: #343a40;
+    }
+`
 
-export const Title = styled.h1`
-  font-size: 48px;
-  color: #3a3a3a;
-`;
+export const Item = styled.li`
+    list-style-type: none;
+    display: flex;
+    border-radius: 8px;
+    
+    div {
+        margin: 15px;
+
+        &:first-child,
+        &:first-child + div {
+            width: 200px;
+        }
+        
+        &:last-child{
+            flex: 1;
+        }
+    }
+
+    div + div {
+        margin-left: 20px;
+    }
+
+    h1, strong, h2, span, p {
+        color: #FFF;
+        font-size: 14px;
+        font-weight: normal;
+    }
+
+    h2, strong {
+        margin: 15px 0;
+    }
+
+    span, strong {
+        display: block;
+    }
+`
+
+
 
 export const TableContainer = styled.section`
   margin-top: 64px;

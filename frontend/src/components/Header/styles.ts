@@ -7,6 +7,9 @@ interface ContainerProps {
 export const Container = styled.div<ContainerProps>`
   background: #343a40;
   padding: 0;
+  position: fixed;
+  width: 100vw;
+  z-index: 10;
   @media (max-width: 1000px) {
     padding: 15px 0;
   }

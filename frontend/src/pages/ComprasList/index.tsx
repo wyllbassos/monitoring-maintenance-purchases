@@ -6,21 +6,25 @@ import Header from '../../components/Header';
 
 import { Container } from './styles';
 
-import Table from './Table';
+import List from './List';
 
 export interface Compra {
   status: string;
   sc: string;
   item: string;
+  produto: string;
+  quantidade: number;
+  emissao: string;
   descricao: string;
   aplicacao: string;
   observacao: string;
   pc: string;
+  data_pc: string;
   previsao_entrega: string;
   valor_total: Date;
 }
 
-const Dashboard: React.FC = () => {
+const ComprasList: React.FC = () => {
   const [compras, setCompras] = useState<Compra[]>([]);
 
   useEffect(() => {
@@ -37,10 +41,10 @@ const Dashboard: React.FC = () => {
     <>
       <Header size="small" selected="/" />
       <Container>
-        <Table compras={compras} />
+        <List compras={compras} />
       </Container>
     </>
   );
 };
 
-export default Dashboard;
+export default ComprasList;
