@@ -18,6 +18,24 @@ export const Container = styled.div`
   }
 `;
 
+export const ContainerFiltros = styled.section`
+  position: fixed;
+  width: 100%;
+  height: 60px;
+  top: 60px;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  background-color: #343a40;
+  border-top: 1px solid #fff;
+
+  select {
+    height: 30px;
+  }
+`
+
 export const Title = styled.h1`
   font-size: 48px;
   color: #3a3a3a;
