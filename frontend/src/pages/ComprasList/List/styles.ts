@@ -1,117 +1,61 @@
 import styled from 'styled-components';
 
-export const List = styled.ul`
+export const Container = styled.ul`
+    margin-top: 80px;
     li {
         & + li {
-            margin-top: 20px;
+            margin-top: 16px;
         }
     }
 
     li {
         background-color: #343a40;
+        padding: 16px;
+        box-shadow: black 8px 8px 16px;
     }
 `
 
 export const Item = styled.li`
     list-style-type: none;
     display: flex;
+    flex-direction: column;
     border-radius: 8px;
     
-    div {
-        margin: 15px;
+    span {
+      display: block;
+      color: #FFF;
+      font-size: 16px;
+      font-weight: normal;
 
-        &:first-child,
-        &:first-child + div {
-            width: 200px;
-        }
-        
-        &:last-child{
-            flex: 1;
-        }
+      @media (max-width: 1000px) {
+        font-size: 12px;
+      }
     }
 
-    div + div {
-        margin-left: 20px;
-    }
+    section {
+      display: flex;
 
-    h1, strong, h2, span, p {
-        color: #FFF;
-        font-size: 14px;
-        font-weight: normal;
-    }
-
-    h2, strong {
-        margin: 15px 0;
-    }
-
-    span, strong {
-        display: block;
+      &:first-child {
+        border-bottom: 1px dashed #FFF;
+        padding-bottom: 8px;
+      }
     }
 `
 
+export const ContainerDados = styled.div`
+  display: grid;
+  flex: 1;
+  grid-template-columns: 1fr 1.7fr 1fr 1.7fr;
+  grid-template-rows: repeat(2, 1fr);
 
-
-export const TableContainer = styled.section`
-  margin-top: 64px;
   @media (max-width: 1000px) {
-    margin-top: 0px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 1fr);
   }
-  table {
-    width: 100%;
-    border-spacing: 0 8px;
+`;
 
-    th {
-      color: #343a40;
-      font-weight: normal;
-      padding: 20px;
-      text-align: left;
-      font-size: 16px;
-      line-height: 24px;
-      @media (max-width: 1000px) {
-        &:first-child {
-          padding-left: 15px;
-        }
-        padding: 5px 0px;
-        font-size: 10px;
-      }
-    }
-
-    td {
-      padding: 20px;
-      border: 0;
-      background: #fff;
-      font-size: 16px;
-      font-weight: normal;
-      color: #343a40;
-
-      @media (max-width: 1000px) {
-        &:first-child {
-          padding-left: 15px;
-        }
-        padding: 5px 0px;
-        font-size: 10px;
-        line-height: 30px;
-      }
-
-      &.title {
-        color: #363f5f;
-      }
-
-      &.income {
-        color: #12a454;
-      }
-
-      &.outcome {
-        color: #e83f5b;
-      }
-    }
-
-    td:first-child {
-      border-radius: 8px 0 0 8px;
-    }
-
-    td:last-child {
-      border-radius: 0 8px 8px 0;
-    }
+export const ContainerDescricoes = styled.div`
+  span {
+    margin-top: 8px;
   }
 `;

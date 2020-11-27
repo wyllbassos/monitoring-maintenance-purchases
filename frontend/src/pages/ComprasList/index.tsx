@@ -21,17 +21,17 @@ export interface Compra {
   pc: string;
   data_pc: string;
   previsao_entrega: string;
-  valor_total: Date;
+  valor_total: number;
 }
 
 const ComprasList: React.FC = () => {
-  const [compras, setCompras] = useState<Compra[]>([]);
+  const [compras, setCompras] = useState<Compra[] | null>(null);
 
   useEffect(() => {
     async function loadCompras(): Promise<void> {
       const response = await api.get<Compra[]>('/compras-manutencao');
-      console.log(response.data.slice(0, 10))
-      setCompras(response.data.slice(0, 10));
+      //setCompras(response.data.slice(0, 10));
+      setCompras(response.data.slice(0, 5));
     }
 
     loadCompras();
@@ -41,7 +41,10 @@ const ComprasList: React.FC = () => {
     <>
       <Header size="small" selected="/" />
       <Container>
-        <List compras={compras} />
+        {compras !== null ? 
+          <List compras={compras} /> :
+          <ul><li>Carregando</li></ul>
+        }
       </Container>
     </>
   );

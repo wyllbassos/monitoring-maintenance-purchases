@@ -3,127 +3,67 @@ import React from 'react';
 
 import formatValue from '../../../utils/formatValue';
 
-import { TableContainer, List, Item } from './styles';
+import { Container, Item, ContainerDados, ContainerDescricoes } from './styles';
 
 import { Compra } from '../index';
 
-interface TableProps {
+interface ListProps {
   compras: Compra[];
 }
 
-const Table: React.FC<TableProps> = (props: TableProps) => {
+const List: React.FC<ListProps> = (props: ListProps) => {
   const { compras } = props;
 
   return (
-      <>
-    <Item className='cabecalho'>
-    <div>
-        <h1>SC - Item</h1>
-        <strong>Status</strong>
-        <h2>Emissão SC</h2>
-        <span>Quantidade</span>
-    </div>
-    <div>
-        <h1>PC</h1>
-        <strong>Valor Total</strong>
-        <h2>Emissão PC</h2>
-        <span>Previsão Entrega</span>
-    </div>
-    <div>
-        <h1>Produto</h1>
-        <strong>Aplicação</strong>
-        <p>Observação</p>
-    </div>
-    </Item>
-    <List>
+    <>
+      <Container>
         {compras.map(compra => {
-            const {
-                status,
-                sc,
-                item,
-                produto,
-                emissao,
-                quantidade,
-                descricao,
-                pc,
-                aplicacao,
-                observacao,
-                previsao_entrega,
-                valor_total,
-                data_pc
-              } = compra;
-              return (
-                <Item>
-                    <div>
-                        <h1>{`${sc} - ${item}`}</h1>
-                        <strong>{status}</strong>
-                        <h2>{emissao}</h2>
-                        <span>{quantidade}</span>
-                    </div>
-                    <div>
-                        <h1>{pc}</h1>
-                        <strong>{valor_total}</strong>
-                        <h2>{data_pc}</h2>
-                        <span>{previsao_entrega}</span>
-                    </div>
-                    <div>
-                        <h1>{`${produto} - ${descricao}`}</h1>
-                        <strong>{aplicacao}</strong>
-                        <p>{observacao}</p>
-                    </div>
-                </Item>
-              )
+          const {
+            status,
+            sc,
+            item,
+            produto,
+            emissao,
+            quantidade,
+            descricao,
+            pc,
+            aplicacao,
+            observacao,
+            previsao_entrega,
+            valor_total,
+            data_pc
+          } = compra;
+          const emissaoFormated = new Date(emissao).toLocaleDateString();
+          const data_pcFormated = new Date(data_pc).toLocaleDateString();
+          const previsao_entregaFormated = new Date(previsao_entrega).toLocaleDateString();
+          const valor_totalFormated = formatValue(valor_total);
+          return (
+            <Item key={`${sc} - ${item}`}>
+              <section>
+                <ContainerDados>
+                  <span>{`SC: ${sc} - ${item}`}</span>
+                  <span>{`STATUS: ${status}`}</span>
+                  <span>{`PC: ${pc}`}</span>
+                  <span>{`QUANTIDADE: ${quantidade}`}</span>
+                  <span>{`DATA SC: ${emissaoFormated}`}</span>
+                  <span>{`VALOR TOTAL: ${valor_totalFormated}`}</span>
+                  <span>{`DATA PC: ${data_pcFormated}`}</span>
+                  <span>{`PREVISÃO DE ENTREGA: ${previsao_entregaFormated}`}</span>
+                </ContainerDados>
+              </section>
+              <section>
+                <ContainerDescricoes>
+                  <span>{`PRODUTO: ${produto} - ${descricao}`}</span>
+                  <span>{`APLICAÇÃO: ${aplicacao}`}</span>
+                  <span>{`OBSERVAÇÃO: ${observacao}`}</span>
+                </ContainerDescricoes>
+              </section>
+            </Item>
+          )
         })}
-    </List>
+      </Container>
     </>
   )
-    /*<TableContainer>
-      <table>
-        <thead>
-          <tr>
-            <th>Status</th>
-            <th>SC</th>
-            <th>Item</th>
-            <th>Descrição</th>
-            <th>Aplicação</th>
-            <th>Observação</th>
-            <th>PC</th>
-            <th>Total</th>
-            <th>Previsao de Entrega</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {compras.map(compra => {
-            const {
-              status,
-              sc,
-              item,
-              descricao,
-              pc,
-              aplicacao,
-              observacao,
-              previsao_entrega,
-              valor_total
-            } = compra;
-            const formatedPrevisaoEntrega = new Date(previsao_entrega).toLocaleDateString();
-            return (
-              <tr key={sc+item}>
-                <td className="title">{status}</td>
-                <td>{sc}</td>
-                <td>{item}</td>
-                <td>{descricao}</td>
-                <td>{aplicacao}</td>
-                <td>{observacao}</td>
-                <td>{pc}</td>
-                <td>{valor_total}</td>
-                <td>{formatedPrevisaoEntrega}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-        </TableContainer>*/
 };
 
-export default Table;
+export default List;

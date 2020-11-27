@@ -10,6 +10,7 @@ export const Container = styled.div<ContainerProps>`
   position: fixed;
   width: 100vw;
   z-index: 10;
+  top: 0px;
   @media (max-width: 1000px) {
     padding: 15px 0;
   }

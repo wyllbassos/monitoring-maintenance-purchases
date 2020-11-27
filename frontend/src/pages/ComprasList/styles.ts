@@ -7,12 +7,14 @@ interface CardProps {
 export const Container = styled.div`
   width: 100%;
   max-width: 1120px;
+  position: absolute;
+  top: 60px;
   margin: 0 auto;
   padding: 0 20px 10px 20px;
-  position: relative;
+  
   top: 60px;
   @media (max-width: 1000px) {
-    padding: 10px 10px;
+    padding: 20px 20px;
   }
 `;
 
