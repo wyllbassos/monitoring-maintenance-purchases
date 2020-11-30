@@ -8,13 +8,13 @@ export const Container = styled.div`
   width: 100%;
   max-width: 1120px;
   position: absolute;
-  top: 60px;
+  top: 0px;
   margin: 0 auto;
   padding: 0 20px 10px 20px;
   
-  top: 60px;
   @media (max-width: 1000px) {
-    padding: 20px 20px;
+    padding: 0px 20px;
+    top: 0px;
   }
 `;
 
@@ -22,17 +22,28 @@ export const ContainerFiltros = styled.section`
   position: fixed;
   width: 100%;
   height: 60px;
-  top: 60px;
+  bottom: 0px;
   display: flex;
   flex: 1;
   justify-content: center;
   align-items: center;
   z-index: 10;
   background-color: #343a40;
-  border-top: 1px solid #fff;
+  box-shadow: black 0px -4px 8px;
+
+  label {
+    color: #fff;
+    margin-right: 16px;
+  }
 
   select {
+    margin-left: 8px;
     height: 30px;
+  }
+
+  button {
+    width: 32px;
+    margin-right: 8px;
   }
 `
 

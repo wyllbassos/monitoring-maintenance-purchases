@@ -12,21 +12,26 @@ export const Container = styled.div<ContainerProps>`
   height: 60px;
   z-index: 10;
   top: 0px;
+  box-shadow: black 0px 8px 16px;
+  display: flex;
+  align-items: center;
+  
   @media (max-width: 1000px) {
-    padding: 15px 0;
+    padding: 0px 16px;
   }
 
   header {
-    max-width: 1120px;
+    max-width: 1120px;  
     margin: 0 auto;
     padding: ${({ size }) => (size === 'small' ? '0 20px ' : '0 20px 150px ')};
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex: 1;
 
     @media (max-width: 1000px) {
       padding: 0 10px;
-      flex-direction: column;
+      
     }
 
     div {
@@ -36,31 +41,43 @@ export const Container = styled.div<ContainerProps>`
 
       img {
         height: 48px;
-        margin: 0 10px 0 0;
+        margin: 0 8px 0 0;
+        @media (max-width: 1000px) {
+          height: 24px;
+        }
       }
 
       strong {
         color: #02AA4D;
         font-size: 35px;
         font-weight: 100;
+        @media (max-width: 1000px) {
+          font-size: 16px;
+          font-weight: 100;
+        }
       }
     }
 
 
 
     nav {
-      @media (max-width: 1000px) {
-        margin-top: 20px;
-      }
       a {
         color: #02AA4D;
         text-decoration: none;
         font-size: 16px;
         transition: opacity 0.2s;
-        padding-bottom: 10px;
+        padding-bottom: 8px;
+
+        @media (max-width: 1000px) {
+          font-size: 12px;
+        }
 
         & + a {
           margin-left: 32px;
+
+          @media (max-width: 1000px) {
+            margin-left: 8px;
+          }
         }
 
         &:hover {

@@ -19,13 +19,17 @@ function isComprasManutencao(object: any): object is string {
 }
 const keys = ['id', 'sc']
 comprasManutencaoRouter.get('/', async (request: Request, response: Response) => {
+  const { limit, skip } = request.query;
   const comprasManutencaoRepository = getRepository(ComprasManutencao)
 
-  const comprasManutencao = await comprasManutencaoRepository.find({
-    relations: ['tipo_pagamento', 'solicitante']
+  const [comprasManutencao, total] = await comprasManutencaoRepository.findAndCount({
+    relations: ['tipo_pagamento', 'solicitante'],
+    order: {sc: "ASC", item: "ASC"},
+    take: !Number.isNaN(Number(limit)) ? Number(limit) : 10,
+    skip: !Number.isNaN(Number(skip)) ? Number(skip) : 0,
   });
 
-  return response.json(comprasManutencao);
+  return response.json({comprasManutencao, total});
 });
 
 comprasManutencaoRouter.post('/', async (request: Request, response: Response) => {
