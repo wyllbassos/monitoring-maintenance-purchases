@@ -31,11 +31,12 @@ const ComprasList: React.FC = () => {
   const [pagina, setPagina] = useState(1);
   const [skip, setSkip] = useState(0);
   const [totalPaginas, setTotalPaginas] = useState(1);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     async function loadCompras(): Promise<void> {
       const { data } = await api.get<{comprasManutencao: Compra[], total: number}>(
-        '/compras-manutencao', {params: { limit, skip }}
+        '/compras-manutencao', {params: { limit, skip, search }}
       );
       
       const { comprasManutencao, total } = data;
@@ -45,7 +46,7 @@ const ComprasList: React.FC = () => {
     }
 
     loadCompras();
-  }, [limit, skip]);
+  }, [limit, skip, search]);
 
   const handleNextPage = useCallback(() => {
     const newPage = pagina + 1;
@@ -76,6 +77,10 @@ const ComprasList: React.FC = () => {
     <>
       <Header size="small" selected="/" />
       <Container>
+        <div>
+          <input type="text" value={search} onChange={e => setSearch(e.target.value)} />
+          <button>Pesquisa</button>
+        </div>
         {compras !== null ? 
           <List compras={compras} /> :
           <ul><li>Carregando</li></ul>

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const Container = styled.ul`
-    margin-top: 80px;
     li {
         & + li {
             margin-top: 16px;

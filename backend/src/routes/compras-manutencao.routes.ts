@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+import { FindOperator, getRepository } from 'typeorm';
 import multer from 'multer';
 
 import ComprasManutencao from '../models/ComprasManutencao'
@@ -19,7 +19,8 @@ function isComprasManutencao(object: any): object is string {
 }
 const keys = ['id', 'sc']
 comprasManutencaoRouter.get('/', async (request: Request, response: Response) => {
-  const { limit, skip } = request.query;
+  const now = new Date().getTime();
+  const { limit, skip, search } = request.query;
   const comprasManutencaoRepository = getRepository(ComprasManutencao)
 
   const [comprasManutencao, total] = await comprasManutencaoRepository.findAndCount({
@@ -27,8 +28,10 @@ comprasManutencaoRouter.get('/', async (request: Request, response: Response) =>
     order: {sc: "ASC", item: "ASC"},
     take: !Number.isNaN(Number(limit)) ? Number(limit) : 10,
     skip: !Number.isNaN(Number(skip)) ? Number(skip) : 0,
+    where: search ? {sc: search} : {},
   });
 
+  console.log(`GET RESPONSE ${limit} Registers in ${((new Date().getTime()) - now)/1000}s`)
   return response.json({comprasManutencao, total});
 });
 

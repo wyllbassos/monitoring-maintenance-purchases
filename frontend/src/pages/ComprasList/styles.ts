@@ -8,10 +8,19 @@ export const Container = styled.div`
   width: 100%;
   max-width: 1120px;
   position: absolute;
-  top: 0px;
+  top: 80px;
   margin: 0 auto;
   padding: 0 20px 10px 20px;
+  display: flex;
+  flex-direction: column;
   
+  div {
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
   @media (max-width: 1000px) {
     padding: 0px 20px;
     top: 0px;
