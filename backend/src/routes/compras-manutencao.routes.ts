@@ -55,7 +55,7 @@ comprasManutencaoRouter.get('/', async (request: Request, response: Response) =>
 
   const [comprasManutencao, total] = await comprasManutencaoRepository.findAndCount({
     relations: ['tipo_pagamento', 'solicitante'],
-    order: {sc: "ASC", item: "ASC"},
+    order: {sc: "DESC", item: "ASC"},
     take: !Number.isNaN(Number(limit)) ? Number(limit) : 10,
     skip: !Number.isNaN(Number(skip)) ? Number(skip) : 0,
     where: search ? filtroGeralDinamico(search, field) : {},
