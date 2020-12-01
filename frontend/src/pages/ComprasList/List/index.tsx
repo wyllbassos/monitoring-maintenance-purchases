@@ -34,9 +34,9 @@ const List: React.FC<ListProps> = (props: ListProps) => {
             data_pc
           } = compra;
           const emissaoFormated = new Date(emissao).toLocaleDateString();
-          const data_pcFormated = new Date(data_pc).toLocaleDateString();
-          const previsao_entregaFormated = new Date(previsao_entrega).toLocaleDateString();
-          const valor_totalFormated = formatValue(valor_total);
+          const data_pcFormated = !!data_pc ? new Date(data_pc).toLocaleDateString(): "";
+          const previsao_entregaFormated = !!previsao_entrega ? new Date(previsao_entrega).toLocaleDateString() : "";
+          const valor_totalFormated = valor_total > 0 ? formatValue(valor_total) : "";
           return (
             <Item key={`${sc} - ${item}`}>
               <section>
