@@ -28,7 +28,9 @@ const Import: React.FC = () => {
       try {
         const data = new FormData();
         data.append('file', uploadedFile.file);
-        await api.post('/transactions/import', data);
+        data.append('nome_tabela', 'Listagem do Browse');
+        console.log(data)
+        await api.post('/compras-manutencao/import', data);
       } catch (err) {
         console.log(err.response.error);
       }

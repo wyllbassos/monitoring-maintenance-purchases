@@ -167,6 +167,9 @@ function checkFiels(request: CreateCompraManutencao) {
   if(request.data_pc === ''){
     request.data_pc = null;
   }
+  if(request.requisitante === null){
+    request.requisitante = '';
+  }
 }
 
 async function updateCompraManutencao (

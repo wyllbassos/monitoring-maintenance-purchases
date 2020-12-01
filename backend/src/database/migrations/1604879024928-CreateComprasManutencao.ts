@@ -138,6 +138,7 @@ export default class CreateComprasManutencao1604879024928
           {
             name: 'requisitante',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'fornecedor',
