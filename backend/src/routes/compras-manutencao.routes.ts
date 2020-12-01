@@ -34,7 +34,6 @@ function filtroGeralDinamico(search: string, field: string): IFiltro {
   
   const ret:IFiltro = {[field]: Like(`%${newSearch}%`)};
 
-  console.log(ret);
   return ret;
 }
 
