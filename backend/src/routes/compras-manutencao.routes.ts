@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { FindOperator, getRepository } from 'typeorm';
+import { FindOperator, getRepository, Like, Raw } from 'typeorm';
 import multer from 'multer';
 
 import ComprasManutencao from '../models/ComprasManutencao'
@@ -17,21 +17,51 @@ const upload = multer(uploadConfig);
 function isComprasManutencao(object: any): object is string {
   return 'id' === object;
 }
-const keys = ['id', 'sc']
+
+interface IFiltro {
+  sc?: FindOperator<string>[];
+  pc?: FindOperator<string>[];
+  produto?: FindOperator<string>[];
+  descricao?: FindOperator<string>[];
+  aplicacao?: FindOperator<string>[];
+  observacao?: FindOperator<string>[];
+}
+
+function filtroGeralDinamico(search: string, field: string): IFiltro {
+  const newSearch = search.split(" ").join('%');
+  const arrCampos = ['sc', 'pc', 'produto', 'descricao', 'aplicacao', 'observacao'];
+  //console.log(arrSearch)
+  
+  const ret:IFiltro = {[field]: Like(`%${newSearch}%`)};
+
+  console.log(ret);
+  return ret;
+}
+
+function filter(alias: string | undefined): string {
+
+}
+
+function montFilterString(filed, search){
+
+}
+
 comprasManutencaoRouter.get('/', async (request: Request, response: Response) => {
-  const now = new Date().getTime();
-  const { limit, skip, search } = request.query;
+  // const now = new Date().getTime();
+  const { limit, skip, search, field } = request.query;
   const comprasManutencaoRepository = getRepository(ComprasManutencao)
+
+  
 
   const [comprasManutencao, total] = await comprasManutencaoRepository.findAndCount({
     relations: ['tipo_pagamento', 'solicitante'],
     order: {sc: "ASC", item: "ASC"},
     take: !Number.isNaN(Number(limit)) ? Number(limit) : 10,
     skip: !Number.isNaN(Number(skip)) ? Number(skip) : 0,
-    where: search ? {sc: search} : {},
+    where: search ? filtroGeralDinamico(search, field) : {},
   });
 
-  console.log(`GET RESPONSE ${limit} Registers in ${((new Date().getTime()) - now)/1000}s`)
+  // console.log(`GET RESPONSE ${limit} Registers in ${((new Date().getTime()) - now)/1000}s`)
   return response.json({comprasManutencao, total});
 });
 

@@ -4,7 +4,7 @@ import api from '../../services/api';
 
 import Header from '../../components/Header';
 
-import { Container, ContainerFiltros } from './styles';
+import { Container, Paginacao, Filtros } from './styles';
 
 import List from './List';
 
@@ -32,11 +32,12 @@ const ComprasList: React.FC = () => {
   const [skip, setSkip] = useState(0);
   const [totalPaginas, setTotalPaginas] = useState(1);
   const [search, setSearch] = useState('');
+  const [field, setField] = useState('sc');
 
   useEffect(() => {
     async function loadCompras(): Promise<void> {
       const { data } = await api.get<{comprasManutencao: Compra[], total: number}>(
-        '/compras-manutencao', {params: { limit, skip, search }}
+        '/compras-manutencao', {params: { limit, skip, search, field }}
       );
       
       const { comprasManutencao, total } = data;
@@ -46,7 +47,7 @@ const ComprasList: React.FC = () => {
     }
 
     loadCompras();
-  }, [limit, skip, search]);
+  }, [limit, skip, search, field]);
 
   const handleNextPage = useCallback(() => {
     const newPage = pagina + 1;
@@ -76,17 +77,25 @@ const ComprasList: React.FC = () => {
   return (
     <>
       <Header size="small" selected="/" />
+      <Filtros>
+          <label>Pesquisar</label>
+          <select value={field} onChange={e => setField(e.target.value)}>
+            <option value="sc">sc</option>
+            <option value="pc">pc</option>
+            <option value="produto">produto</option>
+            <option value="descricao">descricao</option>
+            <option value="observacao">observacao</option>
+            <option value="aplicacao">aplicacao</option>
+          </select>
+          <input type="text" value={search} onChange={e => setSearch(e.target.value.toLocaleUpperCase())} />
+        </Filtros>
       <Container>
-        <div>
-          <input type="text" value={search} onChange={e => setSearch(e.target.value)} />
-          <button>Pesquisa</button>
-        </div>
         {compras !== null ? 
           <List compras={compras} /> :
           <ul><li>Carregando</li></ul>
         }
       </Container>
-      <ContainerFiltros>
+      <Paginacao>
         <label>{`Total: ${totalRegistros}`}</label>
         <label>
           Mostrar:
@@ -103,7 +112,7 @@ const ComprasList: React.FC = () => {
         <button onClick={e => handlePreviusPage()}>{'<'}</button>
         <label>{`Pagina: ${pagina} de ${totalPaginas}`}</label>
         <button onClick={e => handleNextPage()}>{'>'}</button>
-      </ContainerFiltros>
+      </Paginacao>
     </>
   );
 };

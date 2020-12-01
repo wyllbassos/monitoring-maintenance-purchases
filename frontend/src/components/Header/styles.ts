@@ -7,12 +7,11 @@ interface ContainerProps {
 export const Container = styled.div<ContainerProps>`
   background: #343a40;
   padding: 0;
-  position: fixed;
+  /* position: fixed; */
   width: 100vw;
   height: 60px;
-  z-index: 10;
-  top: 0px;
-  box-shadow: black 0px 8px 16px;
+  /* top: 0px; */
+  z-index: 20;
   display: flex;
   align-items: center;
   
