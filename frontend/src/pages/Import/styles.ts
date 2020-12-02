@@ -6,6 +6,7 @@ export const Container = styled.div`
   max-width: 736px;
   margin: 0 auto;
   padding: 40px 20px;
+  flex: 1;
 `;
 
 export const Title = styled.h1`
@@ -13,7 +14,7 @@ export const Title = styled.h1`
   font-size: 36px;
   line-height: 54px;
   color: #363f5f;
-  text-align: center;
+  text-align: left;
 `;
 
 export const ImportFileContainer = styled.section`

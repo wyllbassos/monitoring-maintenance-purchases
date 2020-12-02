@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-syntax */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import filesize from 'filesize';
@@ -21,16 +21,29 @@ interface FileProps {
 
 const Import: React.FC = () => {
   const [uploadedFiles, setUploadedFiles] = useState<FileProps[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [timeLoading, setTimeLoading] = useState(0);
   const history = useHistory();
 
-  async function handleUpload(): Promise<void> {
-    for await (const uploadedFile of uploadedFiles) {
+  useEffect(() =>{
+    if(loading)
+      setTimeout(()=>setTimeLoading(timeLoading + 1), 1000);
+    else if(timeLoading !== 0)
+      setTimeout(()=>setTimeLoading(0), 1000);
+  },[timeLoading, loading])
+
+  function handleUpload(): void {
+    for (const uploadedFile of uploadedFiles) {
       try {
         const data = new FormData();
         data.append('file', uploadedFile.file);
         data.append('nome_tabela', 'Listagem do Browse');
-        console.log(data)
-        await api.post('/compras-manutencao/import', data);
+        console.log(data);
+        setLoading(true);
+        api.post('/compras-manutencao/import', data).then(response => {
+          setLoading(false);
+          setTimeLoading(0);
+        });
       } catch (err) {
         console.log(err.response.error);
       }
@@ -50,21 +63,25 @@ const Import: React.FC = () => {
     <>
       <Header size="small" selected="/import" />
       <Container>
-        <Title>Importar uma transação</Title>
-        <ImportFileContainer>
-          <Upload onUpload={submitFile} />
-          {!!uploadedFiles.length && <FileList files={uploadedFiles} />}
 
-          <Footer>
-            <p>
-              <img src={alert} alt="Alert" />
-              Permitido apenas arquivos CSV
-            </p>
-            <button onClick={handleUpload} type="button">
-              Enviar
-            </button>
-          </Footer>
-        </ImportFileContainer>
+        <Title>{!loading ? "Importar uma transação" : `Carregando: ${timeLoading}s`}</Title>
+        {!loading ?
+          <ImportFileContainer>
+            <Upload onUpload={submitFile} />
+            {!!uploadedFiles.length && <FileList files={uploadedFiles} />}
+
+            <Footer>
+              <p>
+                <img src={alert} alt="Alert" />
+                Permitido apenas arquivos CSV
+              </p>
+              <button onClick={handleUpload} type="button">
+                Enviar
+              </button>
+            </Footer>
+          </ImportFileContainer> : 
+          <></>
+        }
       </Container>
     </>
   );

@@ -52,16 +52,35 @@ const ComprasList: React.FC = () => {
   const handleNextPage = useCallback(() => {
     const newPage = pagina + 1;
     if(newPage > totalPaginas) return;
-    setSkip( pagina * limit)
     setPagina(newPage);
+    setSkip( pagina * limit);
   }, [pagina, limit, totalPaginas]);
 
   const handlePreviusPage = useCallback(() => {
     const newPage = pagina - 1;
     if(newPage <= 0) return;
-    setSkip((newPage-1) * limit );
     setPagina(newPage);
+    setSkip((newPage-1) * limit );
   }, [pagina, limit]);
+
+
+  const handleChangePage = useCallback((newPage: number) => {
+    if(newPage <= 0){
+      setPagina(1);
+      setSkip(0);
+    }
+    else if(newPage >= totalPaginas){
+      setPagina(totalPaginas);
+      setSkip(totalPaginas * limit);
+    }
+    else {
+      setPagina(newPage);
+      setSkip((newPage-1) * limit);
+    }
+
+  }, [totalPaginas, limit]);
+
+
 
   const handleSetLimit = useCallback(e => {
     const newLimit = Number(e.target.value);
@@ -69,7 +88,7 @@ const ComprasList: React.FC = () => {
       const newPage = (limit * pagina) / newLimit;
       //console.log(newPage)
       //if (newPage <= 1)
-        setPagina(Math.ceil(newPage));
+      setPagina(Math.ceil(newPage));
     }
     setLimit(newLimit);
   }, [limit, pagina]);
@@ -82,12 +101,13 @@ const ComprasList: React.FC = () => {
           <select value={field} onChange={e => setField(e.target.value)}>
             <option value="sc">sc</option>
             <option value="pc">pc</option>
+            <option value="status">status</option>
             <option value="produto">produto</option>
             <option value="descricao">descricao</option>
             <option value="observacao">observacao</option>
             <option value="aplicacao">aplicacao</option>
           </select>
-          <input type="text" value={search} onChange={e => setSearch(e.target.value.toLocaleUpperCase())} />
+          <input type="text" value={search} onChange={e => {handleChangePage(1); setSearch(e.target.value.toLocaleUpperCase())}} />
         </Filtros>
       <Container>
         {compras !== null ? 
@@ -109,9 +129,15 @@ const ComprasList: React.FC = () => {
             <option value="1000">1000</option>
           </select>
         </label>
-        <button onClick={e => handlePreviusPage()}>{'<'}</button>
-        <label>{`Pagina: ${pagina} de ${totalPaginas}`}</label>
+        {/*
+          <button onClick={e => handlePreviusPage()}>{'<'}</button>
+        */}
+        <label>{`Pagina: `}</label>
+        <input type="number" value={pagina} onChange={e => handleChangePage(Number(e.target.value))} />
+        <label>{` de ${totalPaginas}`}</label>
+        {/*
         <button onClick={e => handleNextPage()}>{'>'}</button>
+        */}
       </Paginacao>
     </>
   );

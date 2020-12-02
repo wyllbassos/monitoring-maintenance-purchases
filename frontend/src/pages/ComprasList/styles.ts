@@ -69,6 +69,11 @@ export const Paginacao = styled.section`
     height: 30px;
   }
 
+  input {
+    width: 100px;
+    margin-right: 8px;
+  }
+
   button {
     width: 32px;
     margin-right: 8px;
