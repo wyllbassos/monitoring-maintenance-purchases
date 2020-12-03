@@ -53,10 +53,27 @@ class ImportCompraManutencaoService {
     importCreateComprasManutencao.splice(0, 1);
 
     const promises = importCreateComprasManutencao.map(async createCompraManutencao => {
+      const {
+        descricao,
+        aplicacao,
+        observacao,
+        motivo_eliminado_residuo,
+        requisitante,
+        fornecedor,
+      } = createCompraManutencao;
       try {
-        const compraManutencao = await createCompraManutencaoService.execute(createCompraManutencao)
+        const compraManutencao = await createCompraManutencaoService.execute({
+          ...createCompraManutencao,
+          descricao: descricao.toUpperCase(),
+          aplicacao: aplicacao.toUpperCase(),
+          observacao: observacao.toUpperCase(),
+          motivo_eliminado_residuo: motivo_eliminado_residuo.toUpperCase(),
+          requisitante: requisitante.toUpperCase(),
+          fornecedor: fornecedor.toUpperCase(),
+        })
         return compraManutencao 
       } catch (error) {
+        console.log(error)
         //await fs.promises.unlink(importFilePath);
         throw new AppError(error);
       }

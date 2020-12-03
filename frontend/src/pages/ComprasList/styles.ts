@@ -29,19 +29,23 @@ export const Filtros = styled.div`
     height: 40px;
     box-shadow: black 0px 8px 16px;
     z-index: 10;
-
+    padding: 0 25%;
     label {
       color: #02AA4D;
     }
 
-    select {
+    select, button {
       height: 30px;
       margin-left: 10px;
     }
 
+    button {
+      padding: 0 8px;
+    }
+
     input {
       height: 30px;
-      width: 40%;
+      flex: 1;
       margin-left: 10px;
     }
 `

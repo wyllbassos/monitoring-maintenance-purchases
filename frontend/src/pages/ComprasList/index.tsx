@@ -24,6 +24,11 @@ export interface Compra {
   valor_total: number;
 }
 
+interface Filter {
+  search: string;
+  field: string;
+}
+
 const ComprasList: React.FC = () => {
   const [compras, setCompras] = useState<Compra[] | null>(null);
   const [limit, setLimit] = useState(3);
@@ -32,12 +37,13 @@ const ComprasList: React.FC = () => {
   const [skip, setSkip] = useState(0);
   const [totalPaginas, setTotalPaginas] = useState(1);
   const [search, setSearch] = useState('');
-  const [field, setField] = useState('sc');
+  //const [field, setField] = useState('sc');
+  const [filters, setFilters] = useState<Filter[]>([{ field: 'sc', search: '' }]);
 
   useEffect(() => {
     async function loadCompras(): Promise<void> {
       const { data } = await api.get<{comprasManutencao: Compra[], total: number}>(
-        '/compras-manutencao', {params: { limit, skip, search, field }}
+        '/compras-manutencao', {params: { limit, skip, filters }}
       );
       
       const { comprasManutencao, total } = data;
@@ -47,7 +53,7 @@ const ComprasList: React.FC = () => {
     }
 
     loadCompras();
-  }, [limit, skip, search, field]);
+  }, [limit, skip, search, filters]);
 
   const handleNextPage = useCallback(() => {
     const newPage = pagina + 1;
@@ -71,7 +77,7 @@ const ComprasList: React.FC = () => {
     }
     else if(newPage >= totalPaginas){
       setPagina(totalPaginas);
-      setSkip(totalPaginas * limit);
+      setSkip((totalPaginas-1) * limit);
     }
     else {
       setPagina(newPage);
@@ -93,21 +99,42 @@ const ComprasList: React.FC = () => {
     setLimit(newLimit);
   }, [limit, pagina]);
 
+  const handleChangeField = useCallback(e => {
+    const newFilters = [...filters];
+    newFilters[filters.length - 1].field = e.target.value
+    setFilters(newFilters);
+  }, [filters]);
+
+  const handleChangeSearch = useCallback(e => {
+    handleChangePage(0);
+    const newFilters = [...filters];
+    newFilters[filters.length - 1].search = e.target.value.toLocaleUpperCase()
+    setFilters(newFilters);
+  }, [handleChangePage, filters]);
+
+  const handleAddFilter = useCallback(e => {
+    //const newFilters = [...filters];
+    //newFilters.push({ field: 'sc', search: '' });
+    //setFilters(newFilters);
+  }, [filters]);
+
   return (
     <>
       <Header size="small" selected="/" />
       <Filtros>
           <label>Pesquisar</label>
-          <select value={field} onChange={e => setField(e.target.value)}>
-            <option value="sc">sc</option>
-            <option value="pc">pc</option>
-            <option value="status">status</option>
-            <option value="produto">produto</option>
-            <option value="descricao">descricao</option>
-            <option value="observacao">observacao</option>
-            <option value="aplicacao">aplicacao</option>
+          <select value={ filters[filters.length - 1].field } onChange={handleChangeField}>
+            <option value="sc">SC</option>
+            <option value="pc">PC</option>
+            <option value="status">STATUS</option>
+            <option value="emissao">DATA SC</option>
+            <option value="produto">PRODUTO</option>
+            <option value="descricao">DESCRIÇÃO</option>
+            <option value="aplicacao">APLICAÇÃO</option>
+            <option value="observacao">OBSERVAÇÃO</option>
           </select>
-          <input type="text" value={search} onChange={e => {handleChangePage(1); setSearch(e.target.value.toLocaleUpperCase())}} />
+          <input type="text" value={ filters[filters.length - 1].search } onChange={handleChangeSearch} />
+          <button onClick={handleAddFilter}>Aplicar</button>
         </Filtros>
       <Container>
         {compras !== null ? 

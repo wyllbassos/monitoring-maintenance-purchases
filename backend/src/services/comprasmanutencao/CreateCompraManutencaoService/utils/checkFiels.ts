@@ -14,7 +14,7 @@ export default function checkFiels(request: CreateCompraManutencao): void {
     if(!request.descricao){
       throw new AppError(`The descricao field cannot be null`);
     }
-    if(!request.quantidade){
+    if(request.quantidade !== 0 && !request.quantidade){
       throw new AppError(`The quantidade field cannot be null`);
     }
     if(!request.emissao){
@@ -24,6 +24,7 @@ export default function checkFiels(request: CreateCompraManutencao): void {
       throw new AppError(`The status_sc field cannot be null`);
     }
     if(['B', 'L', 'R'].indexOf(request.status_sc) < 0){
+      //console.log(request)
       throw new AppError(`The status_sc field must be 'B', 'L', 'R'`);
     }
     if(request.status_pc === null){

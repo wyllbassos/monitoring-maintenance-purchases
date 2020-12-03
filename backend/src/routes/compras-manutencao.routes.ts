@@ -10,6 +10,8 @@ import ImportCompraManutencaoService from '../services/comprasmanutencao/ImportC
 
 import uploadConfig from '../config/upload';
 import AppError from '../errors/AppError';
+import { ParamsDictionary } from 'express-serve-static-core';
+import { Alias } from 'typeorm/query-builder/Alias';
 
 const comprasManutencaoRouter = Router();
 const upload = multer(uploadConfig);
@@ -21,6 +23,8 @@ function isComprasManutencao(object: any): object is string {
 interface IFiltro {
   sc?: FindOperator<string>[];
   pc?: FindOperator<string>[];
+  status?: FindOperator<string>[];
+  emissao?: FindOperator<string>[];
   produto?: FindOperator<string>[];
   descricao?: FindOperator<string>[];
   aplicacao?: FindOperator<string>[];
@@ -32,7 +36,7 @@ function filtroGeralDinamico(search: string, field: string): IFiltro {
   const arrCampos = ['sc', 'pc', 'produto', 'descricao', 'aplicacao', 'observacao'];
   //console.log(arrSearch)
   
-  const ret:IFiltro = {[field]: Like(`%${newSearch}%`)};
+  const ret: IFiltro = {[field]: Like(`%${newSearch}%`)};
 
   return ret;
 }
@@ -45,21 +49,41 @@ function montFilterString(filed, search){
 
 }
 
+interface QueryFilter {
+  limit: string;
+  skip: string;
+  filters: string[];
+}
+
+interface Filters {
+  search: string;
+  field: string;
+}
+
 comprasManutencaoRouter.get('/', async (request: Request, response: Response) => {
   // const now = new Date().getTime();
-  const { limit, skip, search, field } = request.query;
   const comprasManutencaoRepository = getRepository(ComprasManutencao)
 
+  const { limit, skip, filters }: QueryFilter = request.query as any;
+  const { field, search } = JSON.parse(filters[0]) as Filters;
+  const { field: field1, search: search1 } = filters[1] ? JSON.parse(filters[1]) as Filters : {} as any;
+
+  const iFiltro = [filters ? filtroGeralDinamico(search, field) : {}];
   
+  if(filters[1])
+    iFiltro.push(filtroGeralDinamico(search1, field1));
+
+    //console.log(Raw('compras_manutencao.sc = `516020`'))
 
   const [comprasManutencao, total] = await comprasManutencaoRepository.findAndCount({
     relations: ['tipo_pagamento', 'solicitante'],
     order: {sc: "DESC", item: "ASC"},
     take: !Number.isNaN(Number(limit)) ? Number(limit) : 10,
     skip: !Number.isNaN(Number(skip)) ? Number(skip) : 0,
-    where: search ? filtroGeralDinamico(search, field) : {},
+    where: iFiltro[0],
   });
-
+  //comprasManutencaoRepository.createQueryBuilder('compras_manutencao')
+  //  .where('')
   // console.log(`GET RESPONSE ${limit} Registers in ${((new Date().getTime()) - now)/1000}s`)
   return response.json({comprasManutencao, total});
 });
