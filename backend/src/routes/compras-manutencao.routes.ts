@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { FindOperator, getRepository, Like, Raw } from 'typeorm';
+import { FindOperator, getRepository, Like, Raw, In } from 'typeorm';
 import multer from 'multer';
 
 import ComprasManutencao from '../models/ComprasManutencao'
@@ -12,6 +12,7 @@ import uploadConfig from '../config/upload';
 import AppError from '../errors/AppError';
 import { ParamsDictionary } from 'express-serve-static-core';
 import { Alias } from 'typeorm/query-builder/Alias';
+import Solicitantes from '../models/Solicitantes';
 
 const comprasManutencaoRouter = Router();
 const upload = multer(uploadConfig);
@@ -21,32 +22,69 @@ function isComprasManutencao(object: any): object is string {
 }
 
 interface IFiltro {
-  sc?: FindOperator<string>[];
-  pc?: FindOperator<string>[];
-  status?: FindOperator<string>[];
-  emissao?: FindOperator<string>[];
-  produto?: FindOperator<string>[];
-  descricao?: FindOperator<string>[];
-  aplicacao?: FindOperator<string>[];
-  observacao?: FindOperator<string>[];
+  sc?: FindOperator<string>;
+  pc?: FindOperator<string>;
+  status?: FindOperator<string>;
+  // emissao?: FindOperator<string>;
+  produto?: FindOperator<string>;
+  descricao?: FindOperator<string>;
+  aplicacao?: FindOperator<string>;
+  observacao?: FindOperator<string>;
+  solicitante?: FindOperator<string>;
+  requisitante?: FindOperator<string>;
+  solicitante_id?: FindOperator<string>;
 }
 
-function filtroGeralDinamico(search: string, field: string): IFiltro {
-  const newSearch = search.split(" ").join('%');
-  const arrCampos = ['sc', 'pc', 'produto', 'descricao', 'aplicacao', 'observacao'];
-  //console.log(arrSearch)
+// const fieldsFilter = ['sc', 'pc', 'status', 'produto', 'descricao', 'aplicacao', 'observacao', 'solicitante', 'requisitante']
+
+async function filtroGeralDinamico(arrayStringFilter: string[]): Promise<IFiltro> {
+  // const newSearch = search.split(" ").join('%');
+  // const arrCampos = ['sc', 'pc', 'produto', 'descricao', 'aplicacao', 'observacao'];
+  // console.log(arrSearch)
   
-  const ret: IFiltro = {[field]: Like(`%${newSearch}%`)};
+  const iFilterReturn = {} as IFiltro;
+  
+  const arrayFilters: Filters[] = arrayStringFilter.map(tringFilter => {
+    return JSON.parse(tringFilter) as Filters;
+  })
 
-  return ret;
-}
+  arrayFilters.forEach(filter => {
+    const { field, search } = filter;
+    if (
+      field === 'sc' ||
+      field === 'pc' ||
+      field === 'status' ||
+      field === 'produto' ||
+      field === 'descricao' ||
+      field === 'aplicacao' ||
+      field === 'observacao' ||
+      field === 'requisitante'
+    ) {
+      const newSearch = search.split(" ").join('%');
+      iFilterReturn[field] = Like(`%${newSearch.toUpperCase()}%`);
 
-function filter(alias: string | undefined): string {
+    }
+  })
+  const indexSolicitante = arrayFilters.findIndex(filter => filter.field === 'solicitante')
+  if ( indexSolicitante >= 0 ) {
+    const { field, search } = arrayFilters[indexSolicitante];
+    if (field === 'solicitante') {
+      const solicitanteRepository = getRepository(Solicitantes);
+      const solicitantes = await solicitanteRepository.find({ 
+        where: { 
+          usuario: Like(`%${search.toLocaleLowerCase()}%`)
+        }
+      })
+      if (solicitantes.length > 0) {
+        const arrSolicitanteId = solicitantes.map(solicitante => {
+          return solicitante.id;
+        })
+        iFilterReturn.solicitante_id = In(arrSolicitanteId);
+      }
+    }
+  }
 
-}
-
-function montFilterString(filed, search){
-
+  return iFilterReturn;
 }
 
 interface QueryFilter {
@@ -65,22 +103,21 @@ comprasManutencaoRouter.get('/', async (request: Request, response: Response) =>
   const comprasManutencaoRepository = getRepository(ComprasManutencao)
 
   const { limit, skip, filters }: QueryFilter = request.query as any;
-  const { field, search } = JSON.parse(filters[0]) as Filters;
+  //const { field, search } = JSON.parse(filters[0]) as Filters;
   const { field: field1, search: search1 } = filters[1] ? JSON.parse(filters[1]) as Filters : {} as any;
 
-  const iFiltro = [filters ? filtroGeralDinamico(search, field) : {}];
+  const iFiltro = filters ? await filtroGeralDinamico(filters) : {};
   
-  if(filters[1])
-    iFiltro.push(filtroGeralDinamico(search1, field1));
+  //if(filters[1])
+  //  iFiltro.push(await filtroGeralDinamico(search1, field1));
 
-    //console.log(Raw('compras_manutencao.sc = `516020`'))
-
+  //console.log(iFiltro[0])
   const [comprasManutencao, total] = await comprasManutencaoRepository.findAndCount({
     relations: ['tipo_pagamento', 'solicitante'],
     order: {sc: "DESC", item: "ASC"},
     take: !Number.isNaN(Number(limit)) ? Number(limit) : 10,
     skip: !Number.isNaN(Number(skip)) ? Number(skip) : 0,
-    where: iFiltro[0],
+    where: iFiltro,
   });
   //comprasManutencaoRepository.createQueryBuilder('compras_manutencao')
   //  .where('')
