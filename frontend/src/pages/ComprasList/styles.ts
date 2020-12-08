@@ -5,12 +5,12 @@ interface CardProps {
 }
 
 export const Container = styled.div`
-  width: 100%;
-  max-width: 1120px;
+  /* width: 100%;
+  max-width: 1120px; */
   /* position: absolute; */
   /* top: 80px; */
   
-  padding: 24px;
+  /* padding: 24px;
   display: flex;
   overflow-y: auto;
   flex: 1;
@@ -18,8 +18,23 @@ export const Container = styled.div`
   
   @media (max-width: 1000px) {
     
+  } */
+  display: grid;
+  grid-template-columns: 1fr 1120px 1fr;
+  width: 100%;
+  flex: 1;
+  max-height: calc(100vh - 160px);
+  @media (max-width: 1120px) {
+    grid-template-columns: 0 100% 0;
+  }
+  > div {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
   }
 `;
+
+export const ContainerList = styled.ul``
 
 export const Filtros = styled.div`
     display: flex;

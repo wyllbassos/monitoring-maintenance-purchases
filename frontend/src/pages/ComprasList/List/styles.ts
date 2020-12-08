@@ -1,6 +1,22 @@
 import styled from 'styled-components';
 
 export const Container = styled.ul`
+  width: 100%;
+  max-width: 1120px;
+  /* position: absolute; */
+  /* top: 80px; */
+  
+  padding: 24px;
+  display: flex;
+  overflow-y: auto;
+  flex: 1;
+  flex-direction: column;
+  max-height: calc(100vh - 160px);
+  
+  @media (max-width: 1000px) {
+    
+  }
+
     li {
         & + li {
             margin-top: 16px;

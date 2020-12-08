@@ -4,7 +4,7 @@ import api from '../../services/api';
 
 import Header from '../../components/Header';
 
-import { Container, Paginacao, Filtros } from './styles';
+import { Container, Paginacao, Filtros, ContainerList } from './styles';
 
 import List from './List';
 
@@ -49,7 +49,7 @@ const ComprasList: React.FC = () => {
   useEffect(() => {
     async function loadCompras(): Promise<void> {
       const { data } = await api.get<{comprasManutencao: Compra[], total: number}>(
-        '/compras-manutencao', {params: { limit, skip, filters }}
+        '/compras-manutencao', {params: { limit, skip, filters: [...filters, {search, field}] }}
       );
       
       const { comprasManutencao, total } = data;
@@ -60,7 +60,7 @@ const ComprasList: React.FC = () => {
 
     loadCompras();
     // console.log(filters)
-  }, [limit, skip, filters]);
+  }, [limit, skip, filters, search, field]);
 
   const handleNextPage = useCallback(() => {
     const newPage = pagina + 1;
@@ -107,23 +107,28 @@ const ComprasList: React.FC = () => {
   }, [limit, pagina]);
 
   const handleChangeField = useCallback(e => {
-    const newField = e.target.value;
-    const newFilters = [...filters];
+    const newField = e.target.value as string;
+    // const newFilters = [...filters];
     const indexFilter = filters.findIndex(filter => filter.field === newField);
-    setSearch(newFilters[indexFilter].search);
+    if(filters[indexFilter].search !== "")
+      setSearch(filters[indexFilter].search);
+    // setField(newField);
+    // setFilters(newFilters);
     setField(newField);
-    setFilters(newFilters);
-  }, [filters, setFilters, setField]);
+  }, [filters, setSearch, setField]);
 
   const handleChangeSearch = useCallback(e => {
+    // const newSearch = e.target.value;
+    // const newFilters = [...filters];
+    // const indexFilter = filters.findIndex(filter => filter.field === field)
+    // newFilters[indexFilter].search = newSearch.toLocaleUpperCase()
+    // handleChangePage(0);
+    // setSearch(newSearch.toLocaleUpperCase());
+    // setFilters(newFilters);]
     const newSearch = e.target.value;
-    const newFilters = [...filters];
-    const indexFilter = filters.findIndex(filter => filter.field === field)
-    newFilters[indexFilter].search = newSearch.toLocaleUpperCase()
     handleChangePage(0);
     setSearch(newSearch.toLocaleUpperCase());
-    setFilters(newFilters);
-  }, [handleChangePage, filters, setSearch, setFilters]);
+  }, [handleChangePage, setSearch]);
 
   const handleClearFilter = useCallback(e => {
     const newFilters = fieldsFilter.map(fieldFilter => {
@@ -134,29 +139,44 @@ const ComprasList: React.FC = () => {
     setFilters(newFilters);
   }, [setField, setSearch, setFilters]);
 
+  const handleSaveFilter = useCallback(e => {
+    const newFilters = [...filters];
+    const indexFilter = filters.findIndex(filter => filter.field === field)
+    newFilters[indexFilter].search = search.toLocaleUpperCase();
+    setFilters(newFilters);
+  }, [filters, field, search, setFilters]);
+
 
 
   return (
     <>
       <Header size="small" selected="/" />
       <Filtros>
-          <label>Pesquisar</label>
-          <select value={ field } onChange={handleChangeField}>
-            {fieldsFilter.map(fieldFilter => (
-              <option value={fieldFilter}>{
-                fieldFilter === "produto" ? "CODIGO" : fieldFilter.toUpperCase()
-              }</option>
-            ))}
-          </select>
-          <input type="text" value={ search } onChange={handleChangeSearch} />
-          <button onClick={handleClearFilter}>Limpar</button>
-        </Filtros>
+        <label>Pesquisar</label>
+        <select value={ field } onChange={handleChangeField}>
+          {fieldsFilter.map(fieldFilter => (
+            <option key={fieldFilter} value={fieldFilter}>{
+              fieldFilter === "produto" ? "CODIGO" : fieldFilter.toUpperCase()
+            }</option>
+          ))}
+        </select>
+        <input type="text" value={ search } onChange={handleChangeSearch} />
+        <button onClick={handleSaveFilter}>Salvar</button>
+        <button onClick={handleClearFilter}>Limpar</button>
+      </Filtros>
+      
       <Container>
+        <div>
+          {filters.map(filter => (
+            filter.search !== "" ? <label>{`${filter.field} contém ${filter.search}`}</label> : <></>
+          ))}
+        </div>
         {compras !== null ? 
           <List compras={compras} /> :
           <ul><li>Carregando</li></ul>
         }
       </Container>
+      
       <Paginacao>
         <label>{`Total: ${totalRegistros}`}</label>
         <label>

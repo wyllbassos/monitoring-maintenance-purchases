@@ -38,7 +38,7 @@ const List: React.FC<ListProps> = (props: ListProps) => {
           const previsao_entregaFormated = !!previsao_entrega ? new Date(previsao_entrega).toLocaleDateString() : "";
           const valor_totalFormated = valor_total > 0 ? formatValue(valor_total) : "";
           return (
-            <Item key={`${sc} - ${item}`}>
+            <Item key={`${sc} - ${item}`} onClick={e => {console.log(compra)}}>
               <section>
                 <ContainerDados>
                   <span>{`SC: ${sc} - ${item}`}</span>
