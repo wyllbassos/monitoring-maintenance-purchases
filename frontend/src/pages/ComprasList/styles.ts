@@ -9,15 +9,15 @@ export const Container = styled.div`
   max-width: 1120px; */
   /* position: absolute; */
   /* top: 80px; */
-  
+
   /* padding: 24px;
   display: flex;
   overflow-y: auto;
   flex: 1;
   flex-direction: column;
-  
+
   @media (max-width: 1000px) {
-    
+
   } */
   display: grid;
   grid-template-columns: 1fr 1120px 1fr;
@@ -34,36 +34,37 @@ export const Container = styled.div`
   }
 `;
 
-export const ContainerList = styled.ul``
+export const ContainerList = styled.ul``;
 
 export const Filtros = styled.div`
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    background: #343a40;
-    height: 40px;
-    box-shadow: black 0px 8px 16px;
-    z-index: 10;
-    padding: 0 25%;
-    label {
-      color: #02AA4D;
-    }
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background: #343a40;
+  height: 40px;
+  box-shadow: black 0px 8px 16px;
+  z-index: 10;
+  padding: 0 25%;
+  span {
+    color: #02aa4d;
+  }
 
-    select, button {
-      height: 30px;
-      margin-left: 10px;
-    }
+  select,
+  button {
+    height: 30px;
+    margin-left: 10px;
+  }
 
-    button {
-      padding: 0 8px;
-    }
+  button {
+    padding: 0 8px;
+  }
 
-    input {
-      height: 30px;
-      flex: 1;
-      margin-left: 10px;
-    }
-`
+  input {
+    height: 30px;
+    flex: 1;
+    margin-left: 10px;
+  }
+`;
 
 export const Paginacao = styled.section`
   /* position: fixed; */
@@ -78,7 +79,7 @@ export const Paginacao = styled.section`
   background-color: #343a40;
   box-shadow: black 0px -4px 8px;
 
-  label {
+  span {
     color: #fff;
     margin-right: 16px;
   }
@@ -97,7 +98,7 @@ export const Paginacao = styled.section`
     width: 32px;
     margin-right: 8px;
   }
-`
+`;
 
 export const Title = styled.h1`
   font-size: 48px;

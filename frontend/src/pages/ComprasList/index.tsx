@@ -29,7 +29,17 @@ interface Filter {
   field: string;
 }
 
-const fieldsFilter = ['sc', 'pc', 'status', 'produto', 'descricao', 'aplicacao', 'observacao', 'solicitante', 'requisitante']
+const fieldsFilter = [
+  'sc',
+  'pc',
+  'status',
+  'produto',
+  'descricao',
+  'aplicacao',
+  'observacao',
+  'solicitante',
+  'requisitante',
+];
 
 const ComprasList: React.FC = () => {
   const [compras, setCompras] = useState<Compra[] | null>(null);
@@ -42,16 +52,19 @@ const ComprasList: React.FC = () => {
   const [field, setField] = useState('sc');
   const [filters, setFilters] = useState<Filter[]>(
     fieldsFilter.map(fieldFilter => {
-      return { field: fieldFilter, search: '' }
-    })
+      return { field: fieldFilter, search: '' };
+    }),
   );
 
   useEffect(() => {
     async function loadCompras(): Promise<void> {
-      const { data } = await api.get<{comprasManutencao: Compra[], total: number}>(
-        '/compras-manutencao', {params: { limit, skip, filters: [...filters, {search, field}] }}
-      );
-      
+      const { data } = await api.get<{
+        comprasManutencao: Compra[];
+        total: number;
+      }>('/compras-manutencao', {
+        params: { limit, skip, filters },
+      });
+
       const { comprasManutencao, total } = data;
       setTotalRegistros(total);
       setTotalPaginas(Math.ceil(total / limit));
@@ -64,123 +77,150 @@ const ComprasList: React.FC = () => {
 
   const handleNextPage = useCallback(() => {
     const newPage = pagina + 1;
-    if(newPage > totalPaginas) return;
+    if (newPage > totalPaginas) return;
     setPagina(newPage);
-    setSkip( pagina * limit);
+    setSkip(pagina * limit);
   }, [pagina, limit, totalPaginas]);
 
   const handlePreviusPage = useCallback(() => {
     const newPage = pagina - 1;
-    if(newPage <= 0) return;
+    if (newPage <= 0) return;
     setPagina(newPage);
-    setSkip((newPage-1) * limit );
+    setSkip((newPage - 1) * limit);
   }, [pagina, limit]);
 
+  const handleChangePage = useCallback(
+    (newPage: number) => {
+      if (newPage <= 0) {
+        setPagina(1);
+        setSkip(0);
+      } else if (newPage >= totalPaginas) {
+        setPagina(totalPaginas);
+        setSkip((totalPaginas - 1) * limit);
+      } else {
+        setPagina(newPage);
+        setSkip((newPage - 1) * limit);
+      }
+    },
+    [totalPaginas, limit],
+  );
 
-  const handleChangePage = useCallback((newPage: number) => {
-    if(newPage <= 0){
-      setPagina(1);
-      setSkip(0);
-    }
-    else if(newPage >= totalPaginas){
-      setPagina(totalPaginas);
-      setSkip((totalPaginas-1) * limit);
-    }
-    else {
-      setPagina(newPage);
-      setSkip((newPage-1) * limit);
-    }
+  const handleSetLimit = useCallback(
+    e => {
+      const newLimit = Number(e.target.value);
+      if (!(pagina === 1)) {
+        const newPage = (limit * pagina) / newLimit;
+        // console.log(newPage)
+        // if (newPage <= 1)
+        setPagina(Math.ceil(newPage));
+      }
+      setLimit(newLimit);
+    },
+    [limit, pagina],
+  );
 
-  }, [totalPaginas, limit]);
-
-
-
-  const handleSetLimit = useCallback(e => {
-    const newLimit = Number(e.target.value);
-    if (!(pagina === 1)){
-      const newPage = (limit * pagina) / newLimit;
-      //console.log(newPage)
-      //if (newPage <= 1)
-      setPagina(Math.ceil(newPage));
-    }
-    setLimit(newLimit);
-  }, [limit, pagina]);
-
-  const handleChangeField = useCallback(e => {
-    const newField = e.target.value as string;
-    // const newFilters = [...filters];
-    const indexFilter = filters.findIndex(filter => filter.field === newField);
-    if(filters[indexFilter].search !== "")
+  const handleChangeField = useCallback(
+    e => {
+      const newField = e.target.value as string;
+      // const newFilters = [...filters];
+      const indexFilter = filters.findIndex(
+        filter => filter.field === newField,
+      );
+      // if (filters[indexFilter].search !== '')
+      //   setSearch(filters[indexFilter].search);
+      // setField(newField);
+      // setFilters(newFilters);
+      // newFilters[indexFilter].
+      setField(newField);
       setSearch(filters[indexFilter].search);
-    // setField(newField);
-    // setFilters(newFilters);
-    setField(newField);
-  }, [filters, setSearch, setField]);
+    },
+    [filters, setSearch, setField],
+  );
 
-  const handleChangeSearch = useCallback(e => {
-    // const newSearch = e.target.value;
-    // const newFilters = [...filters];
-    // const indexFilter = filters.findIndex(filter => filter.field === field)
-    // newFilters[indexFilter].search = newSearch.toLocaleUpperCase()
-    // handleChangePage(0);
-    // setSearch(newSearch.toLocaleUpperCase());
-    // setFilters(newFilters);]
-    const newSearch = e.target.value;
-    handleChangePage(0);
-    setSearch(newSearch.toLocaleUpperCase());
-  }, [handleChangePage, setSearch]);
+  const handleChangeSearch = useCallback(
+    e => {
+      const newSearch = e.target.value.toLocaleUpperCase();
+      const newFilters = [...filters];
+      const indexFilter = filters.findIndex(filter => filter.field === field);
+      newFilters[indexFilter].search = newSearch;
+      // handleChangePage(0);
+      // setSearch(newSearch.toLocaleUpperCase());
+      // setFilters(newFilters);]
+      // const newSearch = e.target.value;
+      handleChangePage(0);
+      setFilters(newFilters);
+      setSearch(newSearch.toLocaleUpperCase());
+    },
+    [handleChangePage, setSearch, field, filters],
+  );
 
-  const handleClearFilter = useCallback(e => {
-    const newFilters = fieldsFilter.map(fieldFilter => {
-      return { field: fieldFilter, search: '' }
-    });
-    setField('sc');
-    setSearch('');
-    setFilters(newFilters);
-  }, [setField, setSearch, setFilters]);
+  const handleClearFilter = useCallback(
+    e => {
+      const newFilters = fieldsFilter.map(fieldFilter => {
+        return { field: fieldFilter, search: '' };
+      });
+      setField('sc');
+      setSearch('');
+      setFilters(newFilters);
+    },
+    [setField, setSearch, setFilters],
+  );
 
-  const handleSaveFilter = useCallback(e => {
-    const newFilters = [...filters];
-    const indexFilter = filters.findIndex(filter => filter.field === field)
-    newFilters[indexFilter].search = search.toLocaleUpperCase();
-    setFilters(newFilters);
-  }, [filters, field, search, setFilters]);
-
-
+  const handleSaveFilter = useCallback(
+    e => {
+      const newFilters = [...filters];
+      const indexFilter = filters.findIndex(filter => filter.field === field);
+      newFilters[indexFilter].search = search.toLocaleUpperCase();
+      setFilters(newFilters);
+    },
+    [filters, field, search, setFilters],
+  );
 
   return (
     <>
       <Header size="small" selected="/" />
       <Filtros>
-        <label>Pesquisar</label>
-        <select value={ field } onChange={handleChangeField}>
+        <span>Pesquisar</span>
+        <select value={field} onChange={handleChangeField}>
           {fieldsFilter.map(fieldFilter => (
-            <option key={fieldFilter} value={fieldFilter}>{
-              fieldFilter === "produto" ? "CODIGO" : fieldFilter.toUpperCase()
-            }</option>
+            <option key={fieldFilter} value={fieldFilter}>
+              {fieldFilter === 'produto' ? 'CODIGO' : fieldFilter.toUpperCase()}
+            </option>
           ))}
         </select>
-        <input type="text" value={ search } onChange={handleChangeSearch} />
-        <button onClick={handleSaveFilter}>Salvar</button>
-        <button onClick={handleClearFilter}>Limpar</button>
+        <input type="text" value={search} onChange={handleChangeSearch} />
+        <button onClick={handleClearFilter} type="button">
+          Limpar
+        </button>
       </Filtros>
-      
+
       <Container>
         <div>
-          {filters.map(filter => (
-            filter.search !== "" ? <label>{`${filter.field} contém ${filter.search}`}</label> : <></>
-          ))}
+          <span>Filtros:</span>
+          {filters.map(filter =>
+            filter.search === '' ? (
+              ''
+            ) : (
+              <div key={`${filter.field} ${filter.search}`}>
+                <span>{`${filter.field}: `}</span>
+                <span>{`${filter.search}`}</span>
+              </div>
+            ),
+          )}
         </div>
-        {compras !== null ? 
-          <List compras={compras} /> :
-          <ul><li>Carregando</li></ul>
-        }
+        {compras !== null ? (
+          <List compras={compras} />
+        ) : (
+          <ul>
+            <li>Carregando</li>
+          </ul>
+        )}
       </Container>
-      
+
       <Paginacao>
-        <label>{`Total: ${totalRegistros}`}</label>
-        <label>
-          Mostrar:
+        <span>{`Total: ${totalRegistros}`}</span>
+        <div>
+          <span>Mostrar:</span>
           <select value={limit} onChange={handleSetLimit}>
             <option value="3">3</option>
             <option value="10">10</option>
@@ -190,13 +230,17 @@ const ComprasList: React.FC = () => {
             <option value="500">500</option>
             <option value="1000">1000</option>
           </select>
-        </label>
+        </div>
         {/*
           <button onClick={e => handlePreviusPage()}>{'<'}</button>
         */}
-        <label>{`Pagina: `}</label>
-        <input type="number" value={pagina} onChange={e => handleChangePage(Number(e.target.value))} />
-        <label>{` de ${totalPaginas}`}</label>
+        <span>{`Pagina: `}</span>
+        <input
+          type="number"
+          value={pagina}
+          onChange={e => handleChangePage(Number(e.target.value))}
+        />
+        <span>{` de ${totalPaginas}`}</span>
         {/*
         <button onClick={e => handleNextPage()}>{'>'}</button>
         */}

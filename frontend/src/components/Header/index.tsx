@@ -21,11 +21,23 @@ const Header: React.FC<HeaderProps> = ({
     <header>
       <div>
         <img src={Logo} alt="PCMFibraplac" />
-        <strong>fibraplac PCM</strong> 
+        <strong>fibraplac PCM</strong>
       </div>
       <nav>
         <Link to="/" className={selected === '/' ? 'headerNavLinkSelect' : ''}>
-          Compras
+          Lista
+        </Link>
+        <Link
+          to="/nivel-1"
+          className={selected === '/nivel-1' ? 'headerNavLinkSelect' : ''}
+        >
+          Nível 1
+        </Link>
+        <Link
+          to="/nivel-2"
+          className={selected === '/nivel-2' ? 'headerNavLinkSelect' : ''}
+        >
+          Nível 2
         </Link>
         <Link
           to="/import"

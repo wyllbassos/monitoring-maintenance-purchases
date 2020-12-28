@@ -16,7 +16,8 @@
         "typescript": "~3.7.2"
     },
     "scripts": {
-        "start": "react-app-rewired start",
+        "start": "set PORT=3001 && react-app-rewired start",
+        "start:front_compras": "set PORT=3001 && react-app-rewired start",
         "build": "react-app-rewired build",
         "test": "react-app-rewired test",
         "eject": "react-scripts eject"
