@@ -1,16 +1,20 @@
 import path from 'path';
-import excelToJson from 'convert-excel-to-json';
+// import excelToJson from 'convert-excel-to-json';
 import fs from 'fs';
 // import csvParse from 'csv-parse';
 
-import uploadConfig from '../../config/upload';
-import AppError from '../../errors/AppError';
+import uploadConfig from '../../../config/upload';
+import AppError from '../../../errors/AppError';
 
-import ComprasManutencao from '../../models/ComprasManutencao';
+import ComprasManutencao from '../../../models/ComprasManutencao';
+
+// import csvToCreateCompraManutencao from './utils/csvToCreateCompraManutencao';
 
 import CreateCompraManutencaoService, {
   CreateCompraManutencao,
-} from './CreateCompraManutencaoService';
+} from '../CreateCompraManutencaoService';
+import loadCSV from '../../../utils/loadCSV';
+import parseToCreateComprasManutencao from './utils/parseToCreateComprasManutencao';
 
 interface Request {
   importFilename: string;
@@ -26,36 +30,44 @@ class ImportCompraManutencaoService {
 
     const importFilePath = path.join(uploadConfig.directory, importFilename);
 
-    let result: { [key: string]: any } = [];
+    // let result: { [key: string]: any } = [];
 
     const splitImportFilename = importFilename.split('.');
     const extension = splitImportFilename[splitImportFilename.length - 1];
-    if (['xls', 'xlsx', 'xml'].indexOf(extension.toLocaleLowerCase()) < 0) {
+
+    // if (['xls', 'xlsx', 'xml'].indexOf(extension.toLocaleLowerCase()) < 0) {
+    if (['csv'].indexOf(extension.toLocaleLowerCase()) < 0) {
       await fs.promises.unlink(importFilePath);
-      throw new AppError(`Extenção do arquivo deve ser .xls .xlsx .xml`);
+      // throw new AppError(`Extenção do arquivo deve ser .xls .xlsx .xml`);
+      throw new AppError(`Extenção do arquivo deve ser .csv`);
     }
 
-    try {
-      result = excelToJson({
-        source: fs.readFileSync(importFilePath), // fs.readFileSync return a Buffer
-        columnToKey: {
-          '*': '{{columnHeader}}',
-        },
-      });
-    } catch (error) {
-      await fs.promises.unlink(importFilePath);
-      throw new AppError('Erro Conversão Excel Para Json');
-    }
+    const dataCSV = await loadCSV(importFilePath);
+    // return parseToCreateComprasManutencao(dataCSV);
+    // return dataCSV;
+    // try {
+    //   result = excelToJson({
+    //     source: fs.readFileSync(importFilePath), // fs.readFileSync return a Buffer
+    //     columnToKey: {
+    //       '*': '{{columnHeader}}',
+    //     },
+    //   });
+    // } catch (error) {
+    //   await fs.promises.unlink(importFilePath);
+    //   throw new AppError('Erro Conversão Excel Para Json');
+    // }
 
-    if (!result[nome_tabela]) {
-      throw new AppError(`Tabela ${nome_tabela} não existe no arquivo Excel`);
-    }
+    // if (!result[nome_tabela]) {
+    //   throw new AppError(`Tabela ${nome_tabela} não existe no arquivo Excel`);
+    // }
 
     // const importCreateComprasManutencao_v2 = checkFieldsCompra();
 
-    const importCreateComprasManutencao: CreateCompraManutencao[] =
-      result[nome_tabela];
-    importCreateComprasManutencao.splice(0, 1);
+    const importCreateComprasManutencao: CreateCompraManutencao[] = parseToCreateComprasManutencao(
+      dataCSV,
+    );
+    //   result[nome_tabela];
+    // importCreateComprasManutencao.splice(0, 1);
 
     const promises = importCreateComprasManutencao.map(
       async createCompraManutencao => {

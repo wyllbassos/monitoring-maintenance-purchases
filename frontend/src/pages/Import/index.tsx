@@ -25,29 +25,40 @@ const Import: React.FC = () => {
   const [timeLoading, setTimeLoading] = useState(0);
   const history = useHistory();
 
-  useEffect(() =>{
-    if(loading)
-      setTimeout(()=>setTimeLoading(timeLoading + 1), 1000);
-    else if(timeLoading !== 0)
-      setTimeout(()=>setTimeLoading(0), 1000);
-  },[timeLoading, loading])
+  useEffect(() => {
+    if (loading) setTimeout(() => setTimeLoading(timeLoading + 1), 1000);
+    else if (timeLoading !== 0) setTimeout(() => setTimeLoading(0), 1000);
+  }, [timeLoading, loading]);
 
   function handleUpload(): void {
-    for (const uploadedFile of uploadedFiles) {
-      try {
-        const data = new FormData();
-        data.append('file', uploadedFile.file);
-        data.append('nome_tabela', 'Listagem do Browse');
-        console.log(data);
-        setLoading(true);
-        api.post('/compras-manutencao/import', data).then(response => {
-          setLoading(false);
-          setTimeLoading(0);
-        });
-      } catch (err) {
-        console.log(err.response.error);
-      }
+    try {
+      const data = new FormData();
+      data.append('file', uploadedFiles[0].file);
+      data.append('nome_tabela', 'Listagem do Browse');
+      setLoading(true);
+      api.post('/compras-manutencao/import', data).then(response => {
+        setLoading(false);
+        setTimeLoading(0);
+      });
+    } catch (err) {
+      throw new Error('Erro no envio de arquivo');
     }
+
+    // for (const uploadedFile of uploadedFiles) {
+    //   try {
+    //     const data = new FormData();
+    //     data.append('file', uploadedFile.file);
+    //     data.append('nome_tabela', 'Listagem do Browse');
+    //     console.log(data);
+    //     setLoading(true);
+    //     api.post('/compras-manutencao/import', data).then(response => {
+    //       setLoading(false);
+    //       setTimeLoading(0);
+    //     });
+    //   } catch (err) {
+    //     console.log(err.response.error);
+    //   }
+    // }
   }
 
   function submitFile(files: File[]): void {
@@ -63,9 +74,10 @@ const Import: React.FC = () => {
     <>
       <Header size="small" selected="/import" />
       <Container>
-
-        <Title>{!loading ? "Importar uma transação" : `Carregando: ${timeLoading}s`}</Title>
-        {!loading ?
+        <Title>
+          {!loading ? 'Importar uma transação' : `Carregando: ${timeLoading}s`}
+        </Title>
+        {!loading ? (
           <ImportFileContainer>
             <Upload onUpload={submitFile} />
             {!!uploadedFiles.length && <FileList files={uploadedFiles} />}
@@ -79,9 +91,10 @@ const Import: React.FC = () => {
                 Enviar
               </button>
             </Footer>
-          </ImportFileContainer> : 
+          </ImportFileContainer>
+        ) : (
           <></>
-        }
+        )}
       </Container>
     </>
   );
