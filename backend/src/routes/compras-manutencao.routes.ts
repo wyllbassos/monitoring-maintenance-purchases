@@ -150,9 +150,12 @@ comprasManutencaoRouter.get(
       }
       const [
         comprasManutencao,
-        total,
       ] = await comprasManutencaoRepository.findAndCount({
-        order: { pc: 'ASC', aplicacao: 'ASC', observacao: 'ASC' },
+        order: {
+          status_aprovacao: 'ASC',
+          pc: 'ASC',
+          valor_total: 'DESC',
+        },
         where: { status },
       });
       return response.json(comprasManutencao);

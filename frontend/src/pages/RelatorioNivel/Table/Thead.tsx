@@ -10,7 +10,7 @@ const Thead: React.FC<Props> = ({ header }: Props) => {
     <thead>
       <tr>
         {header.map(item => (
-          <td key={item}>{item}</td>
+          <th key={item}>{item}</th>
         ))}
       </tr>
     </thead>
