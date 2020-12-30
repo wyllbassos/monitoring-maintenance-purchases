@@ -22,6 +22,7 @@ export interface Compra {
   data_pc: string;
   previsao_entrega: string;
   valor_total: number;
+  status_aprovacao: string | null;
 }
 
 interface Filter {

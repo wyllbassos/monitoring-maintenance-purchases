@@ -92,6 +92,9 @@ class ComprasManutencao extends BaseColumnSchemaPart {
   fornecedor: string;
 
   @Column()
+  status_aprovacao?: string;
+
+  @Column()
   solicitante_id: string;
 
   @Column('uuid')

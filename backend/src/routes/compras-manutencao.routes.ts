@@ -13,6 +13,7 @@ import CreateCompraManutencaoService, {
 } from '../services/comprasmanutencao/CreateCompraManutencaoService';
 import DeleteCompraManutencaoService from '../services/comprasmanutencao/DeleteCompraManutencaoService';
 import ImportCompraManutencaoService from '../services/comprasmanutencao/ImportCompraManutencaoService';
+import UpdateStatusAprovacaoComprasManutencao from '../services/comprasmanutencao/UpdateStatusAprovacaoComprasManutencao';
 
 const comprasManutencaoRouter = Router();
 const upload = multer(uploadConfig);
@@ -109,8 +110,8 @@ comprasManutencaoRouter.get(
 
     const { limit, skip, filters }: QueryFilter = request.query as any;
     // const { field, search } = JSON.parse(filters[0]) as Filters;
-    const { field: field1, search: search1 } =
-      filters && filters[1] ? (JSON.parse(filters[1]) as Filters) : ({} as any);
+    // const { field: field1, search: search1 } =
+    //   filters && filters[1] ? (JSON.parse(filters[1]) as Filters) : ({} as any);
 
     const Filtro = filters ? await filtroGeralDinamico(filters) : {};
 
@@ -154,7 +155,7 @@ comprasManutencaoRouter.get(
         order: { pc: 'ASC', aplicacao: 'ASC', observacao: 'ASC' },
         where: { status },
       });
-      return response.json({ comprasManutencao, total });
+      return response.json(comprasManutencao);
     }
     throw new AppError('Erro Parametros');
   },
@@ -167,19 +168,19 @@ comprasManutencaoRouter.post(
 
     const createCompraManutencao = new CreateCompraManutencaoService();
 
-    const dt_aprovacao_n1 = !!insertCompraManutencao.dt_aprovacao_n1
+    const dt_aprovacao_n1 = insertCompraManutencao.dt_aprovacao_n1
       ? new Date(insertCompraManutencao.dt_aprovacao_n1)
       : null;
-    const dt_aprovacao_n2 = !!insertCompraManutencao.dt_aprovacao_n2
+    const dt_aprovacao_n2 = insertCompraManutencao.dt_aprovacao_n2
       ? new Date(insertCompraManutencao.dt_aprovacao_n2)
       : null;
-    const dt_aprovacao_n3 = !!insertCompraManutencao.dt_aprovacao_n3
+    const dt_aprovacao_n3 = insertCompraManutencao.dt_aprovacao_n3
       ? new Date(insertCompraManutencao.dt_aprovacao_n3)
       : null;
-    const previsao_entrega = !!insertCompraManutencao.previsao_entrega
+    const previsao_entrega = insertCompraManutencao.previsao_entrega
       ? new Date(insertCompraManutencao.previsao_entrega)
       : null;
-    const data_pc = !!insertCompraManutencao.data_pc
+    const data_pc = insertCompraManutencao.data_pc
       ? new Date(insertCompraManutencao.data_pc)
       : null;
 
@@ -221,8 +222,23 @@ comprasManutencaoRouter.post(
       importFilename: request.file.filename,
       nome_tabela,
     });
-    console.log((Date.now() - now) / 1000 + 's');
+    console.log(`${(Date.now() - now) / 1000}s`);
     return response.json(comprasManutencao);
+  },
+);
+
+comprasManutencaoRouter.patch(
+  '/update-status-aprovacao/:pc',
+  async (request: Request, response: Response) => {
+    const { status_aprovacao } = request.body;
+    const { pc } = request.params;
+
+    const updateStatusAprovacaoComprasManutencao = new UpdateStatusAprovacaoComprasManutencao();
+    const affected = await updateStatusAprovacaoComprasManutencao.execute({
+      pc,
+      status_aprovacao,
+    });
+    response.json(affected);
   },
 );
 

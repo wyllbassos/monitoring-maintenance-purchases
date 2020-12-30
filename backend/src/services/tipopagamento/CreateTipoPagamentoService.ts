@@ -1,4 +1,4 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository } from 'typeorm';
 
 import AppError from '../../errors/AppError';
 
@@ -16,17 +16,19 @@ class CreateTipoPagamentoService {
     const { codigo } = request;
     this.checkFiels(request);
 
-    let tipoPagamento = await this.tiposPagamentoRepository.findOne({ where: { codigo } })
+    let tipoPagamento = await this.tiposPagamentoRepository.findOne({
+      where: { codigo },
+    });
 
-    if(tipoPagamento){
-      if(tipoPagamento.descricao === request.descricao){
+    if (tipoPagamento) {
+      if (tipoPagamento.descricao === request.descricao) {
         return tipoPagamento;
       }
       tipoPagamento.descricao = request.descricao;
-      
+
       await this.tiposPagamentoRepository.save(tipoPagamento);
-      
-      return tipoPagamento
+
+      return tipoPagamento;
     }
 
     tipoPagamento = this.tiposPagamentoRepository.create(request);
@@ -34,14 +36,20 @@ class CreateTipoPagamentoService {
     try {
       await this.tiposPagamentoRepository.save(tipoPagamento);
     } catch (error) {
-      if (error.message.search("duplicate key value violates unique constraint") >= 0 ){
-        tipoPagamento = await this.tiposPagamentoRepository.findOne({ where: { codigo } })
-        if(tipoPagamento){
-          if(tipoPagamento.descricao === request.descricao){
+      if (
+        error.message.search(
+          'duplicate key value violates unique constraint',
+        ) >= 0
+      ) {
+        tipoPagamento = await this.tiposPagamentoRepository.findOne({
+          where: { codigo },
+        });
+        if (tipoPagamento) {
+          if (tipoPagamento.descricao === request.descricao) {
             return tipoPagamento;
           }
-      } else {
-          throw new AppError("Error to include Solicitante");
+        } else {
+          throw new AppError('Error to include Solicitante');
         }
       }
     }
@@ -49,17 +57,14 @@ class CreateTipoPagamentoService {
     return tipoPagamento;
   }
 
-
   private checkFiels = (request: Request) => {
-    if(!request.codigo){
+    if (!request.codigo) {
       throw new AppError(`The codigo field cannot be null`);
     }
-    if(!request.descricao){
+    if (!request.descricao) {
       throw new AppError(`The descricao field cannot be null`);
     }
-  }
+  };
 }
-
-
 
 export default CreateTipoPagamentoService;
