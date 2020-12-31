@@ -18,13 +18,6 @@ export const Container = styled.table`
         border: 1px solid #343a40;
         padding: 5px;
 
-        input {
-          width: 147px;
-          background: #02aa4d;
-          border: 0;
-          padding: 0;
-        }
-
         div {
           display: flex;
           width: 100%;
@@ -49,6 +42,10 @@ export const Container = styled.table`
           border: none;
         }
 
+        svg {
+          cursor: pointer;
+        }
+
         .centralizado-column {
           flex-direction: column;
           justify-items: center;
@@ -68,4 +65,28 @@ export const Enfase = styled.em`
   font-weight: bold;
   margin: 0 8px;
   color: #000;
+`;
+
+export const FormControleAprovacao = styled.div`
+  display: grid;
+  grid-template-columns: 100px 2fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  align-items: center;
+
+  div {
+    display: flex;
+    justify-content: center;
+
+    input {
+      width: 147px;
+      background: #ffffff;
+      cursor: pointer;
+      border: 0;
+      padding: 0;
+    }
+
+    svg {
+      cursor: pointer;
+    }
+  }
 `;

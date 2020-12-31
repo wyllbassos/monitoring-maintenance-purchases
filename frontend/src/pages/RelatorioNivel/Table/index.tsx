@@ -4,10 +4,12 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
+// import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import EditTwoTone from '@material-ui/icons/EditTwoTone';
+import DeleteForeverTwoToneIcon from '@material-ui/icons/DeleteForeverTwoTone';
 
-import { Container, Enfase } from './styles';
+import { Container, Enfase, FormControleAprovacao } from './styles';
 
 import api from '../../../services/api';
 import { Compra } from '../../ComprasList/index';
@@ -21,7 +23,7 @@ interface Props {
 
 interface UpdateStatusAaprovacao {
   pc: string;
-  status_aprovacao: string;
+  status_aprovacao: string | null;
 }
 
 const Table: React.FC<Props> = ({ compras, setCompras }: Props) => {
@@ -31,31 +33,33 @@ const Table: React.FC<Props> = ({ compras, setCompras }: Props) => {
     status_aprovacao: '',
   });
 
-  const handleClickDeleteDataEnvioPC = useCallback(
-    ({ pc, status_aprovacao }: UpdateStatusAaprovacao) => {
+  const handleCloseDialog = useCallback(() => {
+    setRemoveDatePC({ pc: '', status_aprovacao: '' });
+    setOpen(false);
+  }, []);
+
+  const handleClickEditStatusAaprovacao = useCallback(
+    (updateStatusAaprovacao: UpdateStatusAaprovacao) => {
+      const { pc, status_aprovacao } = updateStatusAaprovacao;
       setRemoveDatePC({ pc, status_aprovacao });
       setOpen(true);
     },
     [],
   );
 
-  const handleCloseDialog = useCallback(() => {
-    setRemoveDatePC({ pc: '', status_aprovacao: '' });
-    setOpen(false);
-  }, []);
+  const handleUpdateDataEnvio = useCallback(async () => {
+    const { pc, status_aprovacao } = removeDatePC;
 
-  const handleDeleteDataEnvioPC = useCallback(async () => {
-    const { pc } = removeDatePC;
-    const affected = await api.patch<number>(
+    const { data: affected } = await api.patch<number>(
       `/compras-manutencao/update-status-aprovacao/${pc}`,
-      { status_aprovacao: '' },
+      { status_aprovacao },
     );
     if (affected) {
       const newcompras = compras.map(compra => {
         if (compra.pc === pc) {
           return {
             ...compra,
-            status_aprovacao: '',
+            status_aprovacao,
           };
         }
         return compra;
@@ -64,35 +68,13 @@ const Table: React.FC<Props> = ({ compras, setCompras }: Props) => {
     }
     handleCloseDialog();
     // console.log(newcompras);
-  }, [compras, setCompras, removeDatePC]);
-
-  const handleChangeDataEnvioPC = useCallback(
-    async ({ pc, status_aprovacao }: UpdateStatusAaprovacao) => {
-      const affected = await api.patch<number>(
-        `/compras-manutencao/update-status-aprovacao/${pc}`,
-        { status_aprovacao },
-      );
-      if (affected) {
-        const newcompras = compras.map(compra => {
-          if (compra.pc === pc) {
-            return {
-              ...compra,
-              status_aprovacao,
-            };
-          }
-          return compra;
-        });
-        setCompras(newcompras);
-      }
-      // console.log(newcompras);
-    },
-    [compras, setCompras],
-  );
+  }, [compras, setCompras, removeDatePC, handleCloseDialog]);
 
   return (
     <Container>
       <Thead
         header={[
+          '',
           'Data Envio / PCO',
           'PC / Total',
           'Aplicação',
@@ -132,35 +114,17 @@ const Table: React.FC<Props> = ({ compras, setCompras }: Props) => {
               {imprimiPC ? (
                 <>
                   <td rowSpan={comprasPCAtual.length} className="centralizado">
-                    {status_aprovacao ? (
-                      <div>
-                        <button
-                          type="button"
-                          onClick={e => {
-                            handleClickDeleteDataEnvioPC({
-                              pc,
-                              status_aprovacao,
-                            });
-                          }}
-                        >
-                          {status_aprovacao}
-                        </button>
-                      </div>
-                    ) : (
-                      <>
-                        <input
-                          id={`input_pc_${pc}`}
-                          type="date"
-                          value={status_aprovacao || ''}
-                          onChange={e => {
-                            handleChangeDataEnvioPC({
-                              pc,
-                              status_aprovacao: e.target.value,
-                            });
-                          }}
-                        />
-                      </>
-                    )}
+                    <EditTwoTone
+                      onClick={() => {
+                        handleClickEditStatusAaprovacao({
+                          pc,
+                          status_aprovacao,
+                        });
+                      }}
+                    />
+                  </td>
+                  <td rowSpan={comprasPCAtual.length} className="centralizado">
+                    {status_aprovacao}
                   </td>
                   <td rowSpan={comprasPCAtual.length}>
                     <div className="centralizado-column">
@@ -184,26 +148,70 @@ const Table: React.FC<Props> = ({ compras, setCompras }: Props) => {
       <Dialog
         open={open}
         onClose={handleCloseDialog}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby="dialog-title"
+        aria-describedby="dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          Exclusão de Data de Envio
-        </DialogTitle>
+        <DialogTitle id="dialog-title">Controle de Aprovação</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Deseja remover a data de envio
-            <Enfase>{removeDatePC.status_aprovacao}</Enfase>
-            <span>do PC:</span>
+          <FormControleAprovacao>
+            <span>PC:</span>
             <Enfase>{removeDatePC.pc}</Enfase>
-          </DialogContentText>
+
+            <span>Data Envio: </span>
+            <div>
+              <input
+                type="date"
+                value={removeDatePC.status_aprovacao || ''}
+                onChange={e => {
+                  setRemoveDatePC({
+                    pc: removeDatePC.pc,
+                    status_aprovacao: e.target.value,
+                  });
+                }}
+              />
+              <DeleteForeverTwoToneIcon
+                onClick={() => {
+                  setRemoveDatePC({
+                    pc: removeDatePC.pc,
+                    status_aprovacao: '',
+                  });
+                }}
+              />
+            </div>
+
+            <span>PCO: </span>
+            <input
+              type="checkbox"
+              value={removeDatePC.status_aprovacao === 'PCO' ? 1 : 0}
+              checked={removeDatePC.status_aprovacao === 'PCO'}
+              onChange={e => {
+                setRemoveDatePC({
+                  pc: removeDatePC.pc,
+                  status_aprovacao: e.target.checked ? 'PCO' : '',
+                });
+              }}
+            />
+
+            <span>Aprovado: </span>
+            <input
+              type="checkbox"
+              value={removeDatePC.status_aprovacao === 'APROVADO' ? 1 : 0}
+              checked={removeDatePC.status_aprovacao === 'APROVADO'}
+              onChange={e => {
+                setRemoveDatePC({
+                  pc: removeDatePC.pc,
+                  status_aprovacao: e.target.checked ? `APROVADO` : '',
+                });
+              }}
+            />
+          </FormControleAprovacao>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary" autoFocus>
-            Não
+          <Button onClick={handleCloseDialog} color="primary">
+            Cancelar
           </Button>
-          <Button onClick={handleDeleteDataEnvioPC} color="primary">
-            Sim
+          <Button onClick={handleUpdateDataEnvio} color="primary">
+            Confirmar
           </Button>
         </DialogActions>
       </Dialog>
