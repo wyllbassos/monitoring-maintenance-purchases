@@ -4,6 +4,7 @@ import BaseColumnSchemaPart from './BaseColumnSchemaPart';
 import TipoPagamento from './TiposPagamento';
 import Solicitante from './Solicitantes';
 import HistoricoAlteracoes from './HistoricoAlteracoes';
+import ColumnNumericTransformer from './utils/ColumnNumericTransformer';
 
 @Entity('compras_manutencao')
 class ComprasManutencao extends BaseColumnSchemaPart {
@@ -22,7 +23,11 @@ class ComprasManutencao extends BaseColumnSchemaPart {
   @Column()
   descricao: string;
 
-  @Column('decimal')
+  @Column('numeric', {
+    precision: 7,
+    scale: 2,
+    transformer: new ColumnNumericTransformer(),
+  })
   quantidade: number;
 
   @Column('timestamp')
@@ -49,13 +54,21 @@ class ComprasManutencao extends BaseColumnSchemaPart {
   @Column('timestamp')
   dt_aprovacao_n3: Date | null;
 
-  @Column('decimal')
+  @Column('numeric', {
+    precision: 7,
+    scale: 2,
+    transformer: new ColumnNumericTransformer(),
+  })
   quantidade_ja_entregue: number;
 
   @Column()
   ja_emitiu_fornecedor: string;
 
-  @Column('decimal')
+  @Column('numeric', {
+    precision: 7,
+    scale: 2,
+    transformer: new ColumnNumericTransformer(),
+  })
   valor_total: number;
 
   @Column('enum')
@@ -109,7 +122,7 @@ class ComprasManutencao extends BaseColumnSchemaPart {
   tipo_pagamento: TipoPagamento | null;
 
   @OneToMany(
-    Tipe => HistoricoAlteracoes,
+    Type => HistoricoAlteracoes,
     HistoricoAlteracoes => HistoricoAlteracoes,
   )
   @JoinColumn({ referencedColumnName: 'tabela_alterada_id' })
