@@ -105,9 +105,6 @@ class ComprasManutencao extends BaseColumnSchemaPart {
   fornecedor: string;
 
   @Column()
-  status_aprovacao?: string;
-
-  @Column()
   solicitante_id: string;
 
   @Column('uuid')
@@ -120,6 +117,12 @@ class ComprasManutencao extends BaseColumnSchemaPart {
   @ManyToOne(() => TipoPagamento)
   @JoinColumn({ name: 'tipo_pagamento_id' })
   tipo_pagamento: TipoPagamento | null;
+
+  @Column()
+  status_aprovacao?: string;
+
+  @Column()
+  prioridade?: string;
 
   @OneToMany(
     Type => HistoricoAlteracoes,

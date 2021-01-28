@@ -4,7 +4,8 @@ import { Switch, Route } from 'react-router-dom';
 
 import Dashboard from '../pages/ComprasList';
 import Import from '../pages/Import';
-import Insert from '../pages/Insert';
+import Custos from '../pages/Custos';
+import Prioridades from '../pages/Prioridades';
 import RelatorioNivel from '../pages/RelatorioNivel';
 
 const Routes: React.FC = () => (
@@ -21,6 +22,8 @@ const Routes: React.FC = () => (
       exact
       component={() => <RelatorioNivel Nivel="nivel-2" />}
     />
+    <Route path="/custos" exact component={Custos} />
+    <Route path="/prioridades" exact component={Prioridades} />
     <Route path="/import" exact component={Import} />
   </Switch>
 );

@@ -12,16 +12,26 @@ export const Container = styled.div<ContainerProps>`
   height: 60px;
   /* top: 0px; */
   z-index: 20;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1120px 1fr;
   align-items: center;
-  
+
   @media (max-width: 1000px) {
     padding: 0px 16px;
   }
 
+  small {
+    color: #02aa4d;
+    margin-left: 24px;
+
+    span {
+      margin-right: 8px;
+    }
+  }
+
   header {
-    max-width: 1120px;  
-    margin: 0 auto;
+    max-width: 1120px;
+    margin: 0;
     padding: ${({ size }) => (size === 'small' ? '0 20px ' : '0 20px 150px ')};
     display: flex;
     align-items: center;
@@ -30,7 +40,6 @@ export const Container = styled.div<ContainerProps>`
 
     @media (max-width: 1000px) {
       padding: 0 10px;
-      
     }
 
     div {
@@ -47,7 +56,7 @@ export const Container = styled.div<ContainerProps>`
       }
 
       strong {
-        color: #02AA4D;
+        color: #02aa4d;
         font-size: 35px;
         font-weight: 100;
         @media (max-width: 1000px) {
@@ -57,11 +66,9 @@ export const Container = styled.div<ContainerProps>`
       }
     }
 
-
-
     nav {
       a {
-        color: #02AA4D;
+        color: #02aa4d;
         text-decoration: none;
         font-size: 16px;
         transition: opacity 0.2s;

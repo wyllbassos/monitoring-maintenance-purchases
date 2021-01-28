@@ -204,6 +204,19 @@ const Table: React.FC<Props> = ({ compras, setCompras }: Props) => {
                 });
               }}
             />
+
+            <span>Eliminar: </span>
+            <input
+              type="checkbox"
+              value={removeDatePC.status_aprovacao === 'ELIMINAR' ? 1 : 0}
+              checked={removeDatePC.status_aprovacao === 'ELIMINAR'}
+              onChange={e => {
+                setRemoveDatePC({
+                  pc: removeDatePC.pc,
+                  status_aprovacao: e.target.checked ? `ELIMINAR` : '',
+                });
+              }}
+            />
           </FormControleAprovacao>
         </DialogContent>
         <DialogActions>

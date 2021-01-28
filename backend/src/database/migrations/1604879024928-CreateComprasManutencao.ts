@@ -54,11 +54,11 @@ export default class CreateComprasManutencao1604879024928
           {
             name: 'observacao',
             type: 'varchar',
-          },   
+          },
           {
             name: 'cotacao',
             type: 'varchar',
-          },   
+          },
           {
             name: 'pc',
             type: 'varchar',
@@ -130,7 +130,7 @@ export default class CreateComprasManutencao1604879024928
           {
             name: 'centro_custo_pc',
             type: 'varchar',
-          }, 
+          },
           {
             name: 'solicitante_id',
             type: 'uuid',
@@ -162,22 +162,28 @@ export default class CreateComprasManutencao1604879024928
         ],
       }),
     );
-    await queryRunner.createForeignKey('compras_manutencao', new TableForeignKey({
-      name: 'compras_manutencao_solicitante',
-      columnNames: ['solicitante_id'],
-      referencedTableName: 'solicitantes',
-      referencedColumnNames: ['id'],
-      onDelete: 'SET NULL',
-      onUpdate: 'CASCADE',
-    }));
-    await queryRunner.createForeignKey('compras_manutencao', new TableForeignKey({
-      name: 'compras_manutencao_tipos_pagamento',
-      columnNames: ['tipo_pagamento_id'],
-      referencedTableName: 'tipos_pagamento',
-      referencedColumnNames: ['id'],
-      onDelete: 'SET NULL',
-      onUpdate: 'CASCADE',
-    }));
+    await queryRunner.createForeignKey(
+      'compras_manutencao',
+      new TableForeignKey({
+        name: 'compras_manutencao_solicitante',
+        columnNames: ['solicitante_id'],
+        referencedTableName: 'solicitantes',
+        referencedColumnNames: ['id'],
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
+      }),
+    );
+    await queryRunner.createForeignKey(
+      'compras_manutencao',
+      new TableForeignKey({
+        name: 'compras_manutencao_tipos_pagamento',
+        columnNames: ['tipo_pagamento_id'],
+        referencedTableName: 'tipos_pagamento',
+        referencedColumnNames: ['id'],
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
+      }),
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

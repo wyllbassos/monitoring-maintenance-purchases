@@ -40,6 +40,7 @@ const fieldsFilter = [
   'observacao',
   'solicitante',
   'requisitante',
+  'prioridade',
 ];
 
 const ComprasList: React.FC = () => {
@@ -51,6 +52,7 @@ const ComprasList: React.FC = () => {
   const [totalPaginas, setTotalPaginas] = useState(1);
   const [search, setSearch] = useState('');
   const [field, setField] = useState('sc');
+  const [updateAt, setUpdateAt] = useState<Date | undefined>(undefined);
   const [filters, setFilters] = useState<Filter[]>(
     fieldsFilter.map(fieldFilter => {
       return { field: fieldFilter, search: '' };
@@ -62,11 +64,13 @@ const ComprasList: React.FC = () => {
       const { data } = await api.get<{
         comprasManutencao: Compra[];
         total: number;
+        lastUpdate: Date | undefined;
       }>('/compras-manutencao', {
         params: { limit, skip, filters },
       });
 
-      const { comprasManutencao, total } = data;
+      const { comprasManutencao, total, lastUpdate } = data;
+      setUpdateAt(lastUpdate);
       setTotalRegistros(total);
       setTotalPaginas(Math.ceil(total / limit));
       setCompras(comprasManutencao);
@@ -179,7 +183,7 @@ const ComprasList: React.FC = () => {
 
   return (
     <>
-      <Header size="small" selected="/" />
+      <Header size="small" selected="/" updateAt={updateAt} />
       <Filtros>
         <span>Pesquisar</span>
         <select value={field} onChange={handleChangeField}>

@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { FindOperator, getRepository, Like, In } from 'typeorm';
+import { FindOperator, getRepository, Like, In, Equal } from 'typeorm';
 import multer from 'multer';
 
 import AppError from '../errors/AppError';
@@ -33,6 +33,7 @@ interface Filtro {
   observacao?: FindOperator<string>;
   solicitante?: FindOperator<string>;
   requisitante?: FindOperator<string>;
+  prioridade?: FindOperator<string>;
   solicitante_id?: FindOperator<string>;
 }
 
@@ -53,6 +54,7 @@ async function filtroGeralDinamico(
 
   arrayFilters.forEach(filter => {
     const { field, search } = filter;
+
     if (
       field === 'sc' ||
       field === 'pc' ||
@@ -61,12 +63,25 @@ async function filtroGeralDinamico(
       field === 'descricao' ||
       field === 'aplicacao' ||
       field === 'observacao' ||
-      field === 'requisitante'
+      field === 'requisitante' ||
+      field === 'prioridade'
     ) {
       const newSearch = search.split(' ').join('%');
       iFilterReturn[field] = Like(`%${newSearch.toUpperCase()}%`);
     }
   });
+
+  const indexPrioridade = arrayFilters.findIndex(
+    filter => filter.field === 'prioridade',
+  );
+  if (indexPrioridade >= 0) {
+    if (arrayFilters[indexPrioridade].search !== '') {
+      iFilterReturn.prioridade = Equal(arrayFilters[indexPrioridade].search);
+    } else {
+      delete iFilterReturn.prioridade;
+    }
+  }
+
   const indexSolicitante = arrayFilters.findIndex(
     filter => filter.field === 'solicitante',
   );
@@ -129,10 +144,20 @@ comprasManutencaoRouter.get(
       skip: !Number.isNaN(Number(skip)) ? Number(skip) : 0,
       where: Filtro,
     });
+
+    const lastUpdate = (
+      await comprasManutencaoRepository.findOne({
+        select: ['updated_at'],
+        order: {
+          updated_at: 'DESC',
+        },
+      })
+    )?.updated_at;
+
     // comprasManutencaoRepository.createQueryBuilder('compras_manutencao')
     //   .where('')
     //  console.log(`GET RESPONSE ${limit} Registers in ${((new Date().getTime()) - now)/1000}s`)
-    return response.json({ comprasManutencao, total });
+    return response.json({ comprasManutencao, total, lastUpdate });
   },
 );
 

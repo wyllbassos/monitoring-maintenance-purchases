@@ -31,14 +31,24 @@ const List: React.FC<ListProps> = (props: ListProps) => {
             observacao,
             previsao_entrega,
             valor_total,
-            data_pc
+            data_pc,
           } = compra;
           const emissaoFormated = new Date(emissao).toLocaleDateString();
-          const data_pcFormated = !!data_pc ? new Date(data_pc).toLocaleDateString(): "";
-          const previsao_entregaFormated = !!previsao_entrega ? new Date(previsao_entrega).toLocaleDateString() : "";
-          const valor_totalFormated = valor_total > 0 ? formatValue(valor_total) : "";
+          const data_pcFormated = !!data_pc
+            ? new Date(data_pc).toLocaleDateString()
+            : '';
+          const previsao_entregaFormated = !!previsao_entrega
+            ? new Date(previsao_entrega).toLocaleDateString()
+            : '';
+          const valor_totalFormated =
+            valor_total > 0 ? formatValue(valor_total) : '';
           return (
-            <Item key={`${sc} - ${item}`} onClick={e => {console.log(compra)}}>
+            <Item
+              key={`${sc} - ${item}`}
+              onClick={e => {
+                console.log(compra);
+              }}
+            >
               <section>
                 <ContainerDados>
                   <span>{`SC: ${sc} - ${item}`}</span>
@@ -59,11 +69,11 @@ const List: React.FC<ListProps> = (props: ListProps) => {
                 </ContainerDescricoes>
               </section>
             </Item>
-          )
+          );
         })}
       </Container>
     </>
-  )
+  );
 };
 
 export default List;

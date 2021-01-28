@@ -1,11 +1,6 @@
-import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
-  TableForeignKey,
-} from 'typeorm';
+import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export default class  CreateHistoricoAlteracoes1604879034928
+export default class CreateHistoricoAlteracoes1604879034928
   implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
