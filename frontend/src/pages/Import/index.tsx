@@ -23,6 +23,7 @@ const Import: React.FC = () => {
   const [uploadedFiles, setUploadedFiles] = useState<FileProps[]>([]);
   const [loading, setLoading] = useState(false);
   const [timeLoading, setTimeLoading] = useState(0);
+  const [password, setPassword] = useState('');
   const history = useHistory();
 
   useEffect(() => {
@@ -30,20 +31,19 @@ const Import: React.FC = () => {
     else if (timeLoading !== 0) setTimeout(() => setTimeLoading(0), 1000);
   }, [timeLoading, loading]);
 
-  function handleUpload(): void {
+  async function handleUpload(): Promise<void> {
     try {
       const data = new FormData();
       data.append('file', uploadedFiles[0].file);
       data.append('nome_tabela', 'Listagem do Browse');
+      data.append('password', password);
       setLoading(true);
-      api.post('/compras-manutencao/import', data).then(response => {
-        setLoading(false);
-        setTimeLoading(0);
-      });
+      await api.post('/compras-manutencao/import', data);
     } catch (err) {
-      throw new Error('Erro no envio de arquivo');
+      window.alert('Erro no envio do arquivo');
     }
-
+    setLoading(false);
+    setTimeLoading(0);
     // for (const uploadedFile of uploadedFiles) {
     //   try {
     //     const data = new FormData();
@@ -78,20 +78,27 @@ const Import: React.FC = () => {
           {!loading ? 'Importar uma transação' : `Carregando: ${timeLoading}s`}
         </Title>
         {!loading ? (
-          <ImportFileContainer>
-            <Upload onUpload={submitFile} />
-            {!!uploadedFiles.length && <FileList files={uploadedFiles} />}
+          <>
+            <ImportFileContainer>
+              <Upload onUpload={submitFile} />
+              {!!uploadedFiles.length && <FileList files={uploadedFiles} />}
 
-            <Footer>
-              <p>
-                <img src={alert} alt="Alert" />
-                Permitido apenas arquivos CSV
-              </p>
-              <button onClick={handleUpload} type="button">
-                Enviar
-              </button>
-            </Footer>
-          </ImportFileContainer>
+              <Footer>
+                <p>
+                  <img src={alert} alt="Alert" />
+                  Permitido apenas arquivos CSV
+                </p>
+                <button onClick={handleUpload} type="button">
+                  Enviar
+                </button>
+              </Footer>
+            </ImportFileContainer>
+            <input
+              type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+            />
+          </>
         ) : (
           <></>
         )}
