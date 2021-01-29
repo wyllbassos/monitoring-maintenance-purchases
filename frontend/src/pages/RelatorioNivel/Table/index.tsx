@@ -51,8 +51,8 @@ const Table: React.FC<Props> = ({ compras, setCompras }: Props) => {
     const { pc, status_aprovacao } = removeDatePC;
 
     const { data: affected } = await api.patch<number>(
-      `/compras-manutencao/update-status-aprovacao/${pc}`,
-      { status_aprovacao },
+      `/compras-manutencao/pc/${pc}`,
+      { field: 'status_aprovacao', value: status_aprovacao },
     );
     if (affected) {
       const newcompras = compras.map(compra => {

@@ -65,7 +65,7 @@ const ComprasList: React.FC = () => {
         comprasManutencao: Compra[];
         total: number;
         lastUpdate: Date | undefined;
-      }>('/compras-manutencao', {
+      }>('/compras-manutencao/filter', {
         params: { limit, skip, filters },
       });
 

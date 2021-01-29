@@ -24,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({
   <Container size={size}>
     <small>
       <span>Atualizado:</span>
-      {updateAt ? format(new Date(updateAt), 'dd/MM/yy hh:mm') : ''}
+      {updateAt ? format(new Date(updateAt), 'dd/MM/yy HH:mm') : ''}
     </small>
     <header>
       <div>

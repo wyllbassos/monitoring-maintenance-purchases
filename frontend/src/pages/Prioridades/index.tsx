@@ -59,7 +59,7 @@ const Prioridades: React.FC = () => {
       const { data } = await api.get<{
         comprasManutencao: Compra[];
         total: number;
-      }>('/compras-manutencao', {
+      }>('/compras-manutencao/filter', {
         params: { limit: 20, skip: 0, filters },
       });
 
