@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import AppError from '../errors/AppError';
 import UpdateFieldComprasManutencaoService from '../services/comprasmanutencao/UpdateFieldComprasManutencaoService';
 
 class ComprasManutencaoUpdateField {
@@ -7,17 +6,14 @@ class ComprasManutencaoUpdateField {
     const { field, value } = request.body;
     const { fieldFilter, valueFilter } = request.params;
 
-    if (fieldFilter === 'pc') {
-      const updateFieldComprasManutencaoService = new UpdateFieldComprasManutencaoService();
-      const affected = await updateFieldComprasManutencaoService.execute({
-        field,
-        value,
-        fieldFilter,
-        valueFilter,
-      });
-      return response.json(affected);
-    }
-    throw new AppError('Erro Parametros');
+    const updateFieldComprasManutencaoService = new UpdateFieldComprasManutencaoService();
+    const affected = await updateFieldComprasManutencaoService.execute({
+      field,
+      value,
+      fieldFilter,
+      valueFilter,
+    });
+    return response.json(affected);
   }
 }
 
