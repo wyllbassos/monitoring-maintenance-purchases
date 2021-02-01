@@ -7,6 +7,7 @@ import Import from '../pages/Import';
 import Custos from '../pages/Custos';
 import Prioridades from '../pages/Prioridades';
 import RelatorioNivel from '../pages/RelatorioNivel';
+import RelatorioNivelV2 from '../pages/RelatorioNivelV2';
 
 const Routes: React.FC = () => (
   <Switch>
@@ -22,6 +23,13 @@ const Routes: React.FC = () => (
       exact
       component={() => <RelatorioNivel Nivel="nivel-2" />}
     />
+
+    <Route
+      path="/nivel_v2"
+      exact
+      component={() => <RelatorioNivelV2 Nivel="nivel-1" />}
+    />
+
     <Route path="/custos" exact component={Custos} />
     <Route path="/prioridades" exact component={Prioridades} />
     <Route path="/import" exact component={Import} />
