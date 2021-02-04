@@ -6,8 +6,8 @@ import Header from '../../components/Header';
 import { Container, ContainerTable } from './styles';
 
 import api from '../../services/api';
-import { Compra } from '../ComprasList/index';
 import Table from './Table';
+import { Compra } from '../../pages/Prioridades/index';
 
 interface Props {
   Nivel: string;
@@ -21,6 +21,7 @@ interface UpdateStatusAaprovacao {
 export interface RelatorioPC {
   pc: string;
   valor_total: number;
+  status_aprovacao: string | null;
   itens: Compra[];
 }
 
@@ -38,10 +39,11 @@ const RelatorioNivelV2: React.FC<Props> = ({ Nivel }: Props) => {
           newCompra => newCompra.pc === compra.pc,
         );
 
-        if (indexNewCompra == -1) {
+        if (indexNewCompra === -1) {
           newComprasRelatorioV2.push({
             pc: compra.pc,
             valor_total: compra.valor_total,
+            status_aprovacao: compra.status_aprovacao,
             itens: [compra],
           });
         } else {

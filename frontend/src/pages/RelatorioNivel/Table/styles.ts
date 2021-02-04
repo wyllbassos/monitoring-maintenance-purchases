@@ -3,6 +3,8 @@ import styled from 'styled-components';
 export const Container = styled.table`
   border-spacing: 0;
   border: 1px solid #343a40;
+  background-color: #fff;
+  color: #000;
   thead {
     tr {
       th {

@@ -83,9 +83,22 @@ const Table: React.FC<Props> = ({ relatorioPC, setRelatorioPC }: Props) => {
             <thead>
               <tr>
                 <th colSpan={5}>
-                  {`PC - ${detalhePC.pc} - R$ ${formatValue(
-                    detalhePC.valor_total,
-                  )}`}
+                  <div>
+                    <EditTwoTone
+                      onClick={() => {
+                        handleClickEditStatusAaprovacao({
+                          pc: detalhePC.pc,
+                          status_aprovacao: detalhePC.status_aprovacao,
+                        });
+                      }}
+                    />
+                    <span>PC:</span>
+                    <strong>{detalhePC.pc}</strong>
+                    <span>Total:</span>
+                    <strong>{formatValue(detalhePC.valor_total)}</strong>
+                    <span>Status Aprovação:</span>
+                    <strong>{detalhePC.status_aprovacao}</strong>
+                  </div>
                 </th>
               </tr>
             </thead>

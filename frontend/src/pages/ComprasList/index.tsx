@@ -23,6 +23,11 @@ export interface Compra {
   previsao_entrega: string;
   valor_total: number;
   status_aprovacao: string | null;
+  conta_pc: string;
+  centro_custo_pc: string;
+  solicitante: {
+    usuario: string;
+  };
 }
 
 interface Filter {

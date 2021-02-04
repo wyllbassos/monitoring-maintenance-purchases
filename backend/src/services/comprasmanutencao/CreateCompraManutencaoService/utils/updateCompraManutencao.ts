@@ -112,6 +112,9 @@ export default async function updateCompraManutencao({
       valor_antigo: compraManutencao.dt_aprovacao_n1?.toISOString(),
       valor_novo: request.dt_aprovacao_n1?.toISOString(),
     });
+    if (!compraManutencao.dt_aprovacao_n1) {
+      newCompraManutencao.status_aprovacao = undefined;
+    }
     newCompraManutencao.dt_aprovacao_n1 = request.dt_aprovacao_n1;
   }
   request.dt_aprovacao_n2 =
