@@ -3,54 +3,78 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
 import { Container, Content } from './styles';
 
+import {
+  fCalcValueByCC,
+  fImportData,
+} from './utils/functionsTransformDataImport';
+
+export interface DataPCO {
+  id: string;
+  Periodo: string;
+  Conta: string;
+  'C.Custo': string;
+  Documento: string;
+  Total: string;
+  Orcado: string;
+  Pedido: string;
+  'Entr.NF': string;
+}
+
+export interface DataCalcByCC {
+  Periodo: string;
+  itens: Array<{
+    Conta: string;
+    itens: Array<{
+      CCusto: string;
+      totalPC: number;
+      Orcado: number;
+      totalEmpenhadoPC: number;
+      totalEmpenhadoNF: number;
+      disponivel: number;
+      itens: DataPCO[];
+    }>;
+  }>;
+}
+
 const RelatorioPCO: React.FC = () => {
   const [textAreaInput, setTextAreaInput] = useState('');
-  // const [tableHeader, setTableHeader] = useState<string[]>([]);
-  const [tableData, setTableData] = useState<string[][]>([]);
-  const [data, setData] = useState<{ [x: string]: string }[]>([]);
+  const [data, setData] = useState<DataPCO[]>([]);
+  const [dataCalcByCC, setDataCalcByCC] = useState<DataCalcByCC[]>([]);
 
-  const importaDadosPCO = useCallback(() => {
-    const lines = textAreaInput.split('\n');
+  const importData = useCallback(
+    () => fImportData({ textAreaInput, setData }),
+    [textAreaInput, setData],
+  );
 
-    const table = lines.map(line => {
-      return line.split('\t');
-    });
-
-    const header = table.splice(0, 1)[0];
-    // setTableHeader(header);
-    setTableData(table);
-    const dataReturn = table.map((line, i) => {
-      const ret: { [x: string]: string } = {};
-      ret.id = String(i);
-      header.forEach((key, index) => {
-        ret[key] = line[index];
-      });
-      return ret;
-    });
-    setData(dataReturn);
-  }, [textAreaInput]);
+  const calcValueByCC = useCallback(() => {
+    fCalcValueByCC({ data, setDataCalcByCC });
+  }, [data, setDataCalcByCC]);
 
   return (
     <Container>
       <Content>
         <div>
-          {!tableData.length ? (
-            <button type="button" onClick={importaDadosPCO}>
+          {!data.length ? (
+            <button type="button" onClick={importData}>
               Importar
             </button>
           ) : (
-            <button
-              type="button"
-              onClick={() => {
-                setTableData([]);
-                // setTableHeader([]);
-              }}
-            >
-              Voltar
-            </button>
+            <div>
+              <button
+                type="button"
+                onClick={() => {
+                  setData([]);
+                }}
+              >
+                Voltar
+              </button>
+              <button type="button" onClick={calcValueByCC}>
+                Calcular Verba Por CC
+              </button>
+            </div>
           )}
         </div>
-        {!tableData.length ? (
+        {!data.length ? (
           <textarea
             name=""
             id=""
