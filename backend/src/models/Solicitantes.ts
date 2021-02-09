@@ -1,9 +1,4 @@
-import {
-  Entity,
-  Column,
-  JoinColumn,
-  OneToMany,
-} from 'typeorm';
+import { Entity, Column, JoinColumn, OneToMany } from 'typeorm';
 // import Category from './Category';
 import ComprasManutencao from './ComprasManutencao';
 import BaseColumnSchemaPart from './BaseColumnSchemaPart';
@@ -16,7 +11,10 @@ class Solicitantes extends BaseColumnSchemaPart {
   @Column('enum')
   area: 'PCM' | 'ALMOX' | 'PRODUCAO' | 'PROJETOS' | 'OUTROS';
 
-  @OneToMany(Tipe => ComprasManutencao, ComprasManutencao => ComprasManutencao.solicitante)
+  @OneToMany(
+    _ => ComprasManutencao,
+    comprasManutencao => comprasManutencao.solicitante,
+  )
   @JoinColumn({ referencedColumnName: 'solicitante_id' })
   compras_manutencao: ComprasManutencao[];
 }
