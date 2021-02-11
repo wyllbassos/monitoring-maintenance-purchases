@@ -15,7 +15,7 @@ export const Content = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 1120px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 36px 0;
   flex: 1;
@@ -38,5 +38,7 @@ export const Content = styled.div`
   table thead tr th,
   table tbody tr td {
     padding: 16px;
+    background-color: #fff;
+    color: #000;
   }
 `;

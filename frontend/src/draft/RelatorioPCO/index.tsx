@@ -5,9 +5,11 @@ import React, { useState, useCallback } from 'react';
 import { Container, Content } from './styles';
 
 import {
-  fCalcValueByCC,
+  groupDataByCC,
   fImportData,
 } from './utils/functionsTransformDataImport';
+
+import formatValue from './../../utils/formatValue';
 
 export interface DataPCO {
   id: string;
@@ -27,31 +29,42 @@ export interface DataPCO {
   'Vlr.Unit': string;
 }
 
-export interface DataCalcByCC {
+export interface DataPCOValuesNumber {
+  id: string;
   Periodo: string;
-  totalItens: number;
-  itens: Array<{
-    Conta: string;
-    totalItens: number;
-    itens: Array<{
-      Periodo: string;
-      Conta: string;
-      totalItens: number;
-      CCusto: string;
-      totalPC: number;
-      totalOrcado: number;
-      totalEmpenhadoPC: number;
-      totalEmpenhadoNF: number;
-      disponivel: number;
-      itens: DataPCO[];
-    }>;
-  }>;
+  Conta: string;
+  'C.Custo': string;
+  Documento: string;
+  Item: string;
+  Produto: string;
+  Qtd: number;
+  Total: number;
+  Orcado: number;
+  Pedido: number;
+  'Entr.NF': number;
+  Tipo: 'PC' | 'SC' | 'SO';
+  Contin: number;
+  'Vlr.Unit': number;
 }
 
-const TableImportPCO: React.FC<{ data: DataPCO[] }> = (props: {
-  data: DataPCO[];
+export interface DataGoupByCC {
+  id: string;
+  Periodo: string;
+  Conta: string;
+  CCusto: string;
+  totalPCBloqueado: number;
+  totalOrcado: number;
+  totalEmpenhadoPC: number;
+  totalEmpenhadoNF: number;
+  disponivelSistema: number;
+  itens: DataPCOValuesNumber[];
+}
+
+const TableImportPCO: React.FC<{ dataPCO: DataPCO[] }> = ({
+  dataPCO,
+}: {
+  dataPCO: DataPCO[];
 }) => {
-  const { data } = props;
   return (
     <table>
       <thead>
@@ -67,7 +80,7 @@ const TableImportPCO: React.FC<{ data: DataPCO[] }> = (props: {
         </tr>
       </thead>
       <tbody>
-        {data.map(custoPCO => (
+        {dataPCO.map(custoPCO => (
           <tr key={custoPCO.id}>
             <td>{custoPCO.Periodo}</td>
             <td>{custoPCO.Conta}</td>
@@ -84,10 +97,63 @@ const TableImportPCO: React.FC<{ data: DataPCO[] }> = (props: {
   );
 };
 
-const TableCousyByCC: React.FC<{ data: DataCalcByCC[] }> = (props: {
-  data: DataCalcByCC[];
+const TableCousyByCC: React.FC<{ dataGoupByCC: DataGoupByCC[] }> = ({
+  dataGoupByCC,
+}: {
+  dataGoupByCC: DataGoupByCC[];
 }) => {
-  const { data } = props;
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th>PC's</th>
+          <th>Periodo</th>
+          <th>Conta</th>
+          <th>C.Custo</th>
+          <th>PC Bloqueado</th>
+          <th>Orçado</th>
+          <th>Empenhado PC</th>
+          <th>Empenhado NF</th>
+          <th>Disponivel Sistema</th>
+        </tr>
+      </thead>
+      <tbody>
+        {dataGoupByCC.map(dataGoupByCCItem => {
+          const {
+            id,
+            CCusto,
+            Periodo,
+            Conta,
+            totalPCBloqueado,
+            totalOrcado,
+            totalEmpenhadoPC,
+            totalEmpenhadoNF,
+            disponivelSistema,
+          } = dataGoupByCCItem;
+          return (
+            <tr key={id}>
+              <td>Detalhe</td>
+              <td>{Periodo}</td>
+              <td>{Conta}</td>
+              <td>{CCusto}</td>
+              <td>{formatValue(totalPCBloqueado)}</td>
+              <td>{formatValue(totalOrcado)}</td>
+              <td>{formatValue(totalEmpenhadoPC)}</td>
+              <td>{formatValue(totalEmpenhadoNF)}</td>
+              <td>{formatValue(disponivelSistema)}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+};
+
+const TableListItensCC: React.FC<{ listItensCC: DataPCOValuesNumber[] }> = ({
+  listItensCC,
+}: {
+  listItensCC: DataPCOValuesNumber[];
+}) => {
   return (
     <table>
       <thead>
@@ -95,38 +161,26 @@ const TableCousyByCC: React.FC<{ data: DataCalcByCC[] }> = (props: {
           <th>Periodo</th>
           <th>Conta</th>
           <th>C.Custo</th>
-          <th>Total PC</th>
-          <th>Orçado</th>
-          <th>Total Empenhado PC</th>
-          <th>Total Empenhado NF</th>
+          <th>Documento</th>
+          <th>Total</th>
+          <th>Orcado</th>
+          <th>Pedido</th>
+          <th>Entr.NF</th>
         </tr>
       </thead>
       <tbody>
-        {/* {data.map(periodoPCO => {
-          const { Periodo } = periodoPCO;
-          periodoPCO.itens.map(contaPCO => {
-                const { Conta } = contaPCO;
-                return (
-
-
-                    {contaPCO.itens.map(ccPCO => (
-                      <tr key={periodoPCO.Periodo}></tr>
-                        {Periodo !== periodoPCO.Periodo && (
-                          <th rowSpan={periodoPCO.totalItens}>{periodoPCO.Periodo}</th>
-                        )}
-                        <th rowSpan={contaPCO.totalItens}>{contaPCO.Conta}</th>
-                        <td>{ccPCO.CCusto}</td>
-                        <td>{ccPCO.totalPC}</td>
-                        <td>{ccPCO.totalOrcado}</td>
-                        <td>{ccPCO.totalEmpenhadoPC}</td>
-                        <td>{ccPCO.totalEmpenhadoNF}</td>
-                        </tr>
-                    ))}
-                );
-              })}
-
-          );
-        })} */}
+        {listItensCC.map(itenCC => (
+          <tr key={itenCC.id}>
+            <td>{itenCC.Periodo}</td>
+            <td>{itenCC.Conta}</td>
+            <td>{itenCC['C.Custo']}</td>
+            <td>{itenCC.Documento}</td>
+            <td>{itenCC.Total}</td>
+            <td>{itenCC.Orcado}</td>
+            <td>{itenCC.Pedido}</td>
+            <td>{itenCC['Entr.NF']}</td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );
@@ -134,34 +188,46 @@ const TableCousyByCC: React.FC<{ data: DataCalcByCC[] }> = (props: {
 
 const RelatorioPCO: React.FC = () => {
   const [textAreaInput, setTextAreaInput] = useState('');
-  const [data, setData] = useState<DataPCO[]>([]);
-  const [dataCalcByCC, setDataCalcByCC] = useState<DataCalcByCC[]>([]);
+  const [dataPCO, setDataPCO] = useState<DataPCO[]>([]);
+  const [dataGoupByCC, setDataGoupByCC] = useState<DataGoupByCC[]>([]);
+  const [listItensCC, setListItensCC] = useState<DataPCOValuesNumber[]>([]);
 
-  if (dataCalcByCC[0]) console.log(dataCalcByCC[0].itens[0]);
-
-  const importData = useCallback(
-    () => fImportData({ textAreaInput, setData }),
-    [textAreaInput, setData],
-  );
+  const importData = useCallback(() => {
+    setDataPCO(fImportData({ text: textAreaInput }));
+  }, [textAreaInput]);
 
   const calcValueByCC = useCallback(() => {
-    fCalcValueByCC({ data, setDataCalcByCC });
-  }, [data, setDataCalcByCC]);
+    setDataGoupByCC(groupDataByCC({ dataPCO }));
+  }, [dataPCO]);
+
+  const gerarTabelaTotaisCC = useCallback(() => {
+    const newDataPCO = fImportData({ text: textAreaInput });
+    const newDataGoupByCC = groupDataByCC({ dataPCO: newDataPCO });
+    setDataGoupByCC(newDataGoupByCC);
+    setDataPCO(newDataPCO);
+  }, [textAreaInput]);
 
   return (
     <Container>
       <Content>
         <div>
-          {!data.length ? (
-            <button type="button" onClick={importData}>
-              Importar
-            </button>
+          {!dataPCO.length ? (
+            <div>
+              <button type="button" onClick={gerarTabelaTotaisCC}>
+                Gerar Tabela Totais
+              </button>
+              <button type="button" onClick={importData}>
+                Importar Lista
+              </button>
+            </div>
           ) : (
             <div>
               <button
                 type="button"
                 onClick={() => {
-                  setData([]);
+                  setDataPCO([]);
+                  setDataGoupByCC([]);
+                  setListItensCC([]);
                 }}
               >
                 Voltar
@@ -172,17 +238,19 @@ const RelatorioPCO: React.FC = () => {
             </div>
           )}
         </div>
-        {!data.length ? (
+        {!dataPCO.length ? (
           <textarea
             name=""
             id=""
             value={textAreaInput}
             onChange={e => setTextAreaInput(e.target.value)}
           />
-        ) : !dataCalcByCC.length ? (
-          <TableImportPCO data={data} />
+        ) : !dataGoupByCC.length ? (
+          <TableImportPCO dataPCO={dataPCO} />
+        ) : !listItensCC.length ? (
+          <TableCousyByCC dataGoupByCC={dataGoupByCC} />
         ) : (
-          <TableCousyByCC data={dataCalcByCC} />
+          <TableListItensCC listItensCC={listItensCC} />
         )}
       </Content>
     </Container>

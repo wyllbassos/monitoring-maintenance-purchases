@@ -1,17 +1,15 @@
-import { DataPCO, DataCalcByCC } from '..';
+import { DataPCO, DataGoupByCC } from '..';
 
 interface ImportDataDTO {
-  textAreaInput: string;
-  setData: React.Dispatch<React.SetStateAction<DataPCO[]>>;
+  text: string;
 }
 
 interface CalcValueCC {
-  data: DataPCO[];
-  setDataCalcByCC: React.Dispatch<React.SetStateAction<DataCalcByCC[]>>;
+  dataPCO: DataPCO[];
 }
 
-export function fImportData({ textAreaInput, setData }: ImportDataDTO): void {
-  const lines = textAreaInput.split('\n');
+export function fImportData({ text }: ImportDataDTO): DataPCO[] {
+  const lines = text.split('\n');
 
   const arrayData = lines.map(line => {
     return line.split('\t');
@@ -26,15 +24,15 @@ export function fImportData({ textAreaInput, setData }: ImportDataDTO): void {
     });
     return ret;
   }) as DataPCO[];
-  setData(dataReturn);
+  return dataReturn;
 }
 
-export function fCalcValueByCC({ setDataCalcByCC, data }: CalcValueCC): void {
-  let objCalc: any = {};
+export function groupDataByCC({ dataPCO }: CalcValueCC): DataGoupByCC[] {
+  const dataGoupByCC: DataGoupByCC[] = [];
 
-  const retCalc: any[] = [];
+  dataPCO.forEach(item => {
+    const { 'C.Custo': CCusto, Conta, Periodo } = item;
 
-  const dataChangeFormatValueToNumber = data.map(item => {
     const Total = Number(
       item.Total.replace('.', '').replace(',', '.').replace(' -   ', '0'),
     );
@@ -56,7 +54,16 @@ export function fCalcValueByCC({ setDataCalcByCC, data }: CalcValueCC): void {
     const Qtd = Number(
       item.Qtd.replace('.', '').replace(',', '.').replace(' -   ', '0'),
     );
-    return {
+
+    const findIndex = dataGoupByCC.findIndex(dataGoupByCCItem => {
+      return (
+        dataGoupByCCItem.CCusto === CCusto &&
+        dataGoupByCCItem.Conta === Conta &&
+        dataGoupByCCItem.Periodo === Periodo
+      );
+    });
+
+    const newItem = {
       ...item,
       Total,
       Orcado,
@@ -66,84 +73,41 @@ export function fCalcValueByCC({ setDataCalcByCC, data }: CalcValueCC): void {
       'Vlr.Unit': VlrUnit,
       Qtd,
     };
-  });
 
-  dataChangeFormatValueToNumber.forEach(iten => {
-    const { 'C.Custo': CCusto, Periodo, Conta } = iten;
-    const objectIten = {
-      [Periodo]: {
-        [Conta]: {
-          [CCusto]: [iten],
-        },
-      },
-    };
-
-    objCalc = {
-      ...objCalc,
-      [Periodo]: objCalc[Periodo]
-        ? {
-            ...objCalc[Periodo],
-            [Conta]: objCalc[Periodo][Conta]
-              ? {
-                  ...objCalc[Periodo][Conta],
-                  [CCusto]: objCalc[Periodo][Conta][CCusto]
-                    ? [...objCalc[Periodo][Conta][CCusto], iten]
-                    : objectIten[Periodo][Conta][CCusto],
-                }
-              : objectIten[Periodo][Conta],
-          }
-        : objectIten[Periodo],
-    };
-  });
-
-  const keysPeriodo = Object.keys(objCalc);
-
-  keysPeriodo.forEach((keyPeriodo, indPerido) => {
-    const keysConta = Object.keys(objCalc[keyPeriodo]);
-
-    retCalc.push({
-      Periodo: keyPeriodo,
-      totalItens: 0,
-      itens: [],
-    });
-
-    keysConta.forEach((keyConta, indConta) => {
-      const keysCC = Object.keys(objCalc[keyPeriodo][keyConta]);
-
-      retCalc[indPerido].itens.push({
-        Conta: keyConta,
-        itens: [],
+    if (findIndex === -1) {
+      dataGoupByCC.push({
+        CCusto,
+        Conta,
+        Periodo,
+        id: Periodo + Conta + CCusto,
+        itens: [newItem],
+        totalPCBloqueado: Total - Pedido,
+        totalOrcado: Orcado,
+        totalEmpenhadoPC: Pedido,
+        totalEmpenhadoNF: EntrNF,
+        disponivelSistema: Orcado + Pedido + EntrNF,
       });
-
-      keysCC.forEach(keyCC => {
-        const itens = objCalc[keyPeriodo][keyConta][keyCC] as DataPCO[];
-
-        const totais = itens.reduce((acc, item) => {
-          return {
-            ...acc,
-            Total: acc.Total + item.Total,
-            Orcado: acc.Orcado + item.Orcado,
-            Pedido: acc.Pedido + item.Pedido,
-            'Entr.NF': acc['Entr.NF'] + item['Entr.NF'],
-          };
-        });
-
-        retCalc[indPerido].totalItens += itens.length;
-
-        retCalc[indPerido].itens[indConta].itens.push({
-          Periodo: keyPeriodo,
-          Conta: keyConta,
-          CCusto: keyCC,
-          totalPC: totais.Total,
-          totalOrcado: totais.Orcado,
-          totalEmpenhadoPC: totais.Pedido,
-          totalEmpenhadoNF: totais['Entr.NF'],
-          disponivel: 0,
-          itens,
-        });
-      });
-    });
+    } else {
+      dataGoupByCC[findIndex].totalPCBloqueado += Total - Pedido;
+      dataGoupByCC[findIndex].totalOrcado += Orcado;
+      dataGoupByCC[findIndex].totalEmpenhadoPC += Pedido;
+      dataGoupByCC[findIndex].totalEmpenhadoNF += EntrNF;
+      dataGoupByCC[findIndex].disponivelSistema += Orcado + Pedido + EntrNF;
+      dataGoupByCC[findIndex].itens.push(newItem);
+    }
   });
 
-  setDataCalcByCC(retCalc);
+  const ordenedDataGoupByCC = dataGoupByCC.sort((a, b) => {
+    if (a.disponivelSistema > b.disponivelSistema) {
+      return 1;
+    }
+
+    if (a.disponivelSistema < b.disponivelSistema) {
+      return -1;
+    }
+
+    return 0;
+  });
+
+  return ordenedDataGoupByCC;
 }
