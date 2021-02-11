@@ -35,10 +35,6 @@ export interface CustosManutencao {
   };
 }
 
-const oleosProducao = ['85366', '85368'];
-const oleosManutencao = ['89954', '90993', '45217', '12457'];
-const lubrificantes = [...oleosProducao, ...oleosManutencao];
-
 function initCustosManutencao(): CustosManutencao {
   return {
     total: {
@@ -77,15 +73,23 @@ function initCustosManutencao(): CustosManutencao {
 }
 
 function checkIfIsLubrificantes(produto: string): boolean {
+  const oleosProducao = ['85366', '85368'];
+  const oleosManutencao = ['89954', '90993', '45217', '12457'];
+  const lubrificantes = [...oleosProducao, ...oleosManutencao];
+
   const indexProduto = lubrificantes.findIndex(codLub => codLub === produto);
 
   return indexProduto >= 0;
 }
 
-function checkIfIsEstoque(comprasManutencao: ComprasManutencao): boolean {
-  const { area } = comprasManutencao.solicitante;
+function checkIfIsEstoque(produto: string): boolean {
+  // const { area } = comprasManutencao.solicitante;
+  const ccEstoque = ['1101003', '2104012'];
 
-  return area === 'ALMOX';
+  const indexProduto = ccEstoque.findIndex(codEst => codEst === produto);
+
+  return indexProduto >= 0;
+  // return area === 'ALMOX';
 }
 export function makeCustosManutencao(
   comprasManutencao: ComprasManutencao[],
@@ -116,7 +120,7 @@ export function makeCustosManutencao(
     const { valor_total, status, status_pc } = compraManutencao;
 
     const isLubrificante = checkIfIsLubrificantes(compraManutencao.produto);
-    const isEstoque = checkIfIsEstoque(compraManutencao);
+    const isEstoque = checkIfIsEstoque(compraManutencao.centro_custo_pc);
 
     switch (status_pc) {
       case 'L': {

@@ -10,37 +10,6 @@ interface CalcValueCC {
   setDataCalcByCC: React.Dispatch<React.SetStateAction<DataCalcByCC[]>>;
 }
 
-// function checkIfExistInArray(
-//   itenCheck: DataPCO,
-//   dataCalcByCC: DataCalcByCC[],
-//   check: 'Periodo' | 'Conta' | 'C.Custo',
-// ): number {
-//   const { Periodo, Conta, 'C.Custo': cCusto } = itenCheck;
-
-//   const indexPeriodo = dataCalcByCC.findIndex(iten => Periodo === iten.Periodo);
-//   const intenPeriodo: DataCalcByCC | undefined = dataCalcByCC[indexPeriodo];
-
-//   const itenConta = intenPeriodo.itens.filter(iten => Conta === iten.Conta)[0];
-
-//   switch (check) {
-//     case 'Periodo': {
-//       return indexPeriodo;
-//     }
-//     case 'Conta': {
-//       return !!itenConta;
-//     }
-//     case 'C.Custo': {
-//       const itenCC = itenConta.itens.filter(
-//         iten => cCusto === iten['C.Custo'],
-//       )[0];
-//       return !!itenCC;
-//     }
-//     default: {
-//       return true;
-//     }
-//   }
-// }
-
 export function fImportData({ textAreaInput, setData }: ImportDataDTO): void {
   const lines = textAreaInput.split('\n');
 
@@ -65,7 +34,41 @@ export function fCalcValueByCC({ setDataCalcByCC, data }: CalcValueCC): void {
 
   const retCalc: any[] = [];
 
-  data.forEach(iten => {
+  const dataChangeFormatValueToNumber = data.map(item => {
+    const Total = Number(
+      item.Total.replace('.', '').replace(',', '.').replace(' -   ', '0'),
+    );
+    const Orcado = Number(
+      item.Orcado.replace('.', '').replace(',', '.').replace(' -   ', '0'),
+    );
+    const Pedido = Number(
+      item.Pedido.replace('.', '').replace(',', '.').replace(' -   ', '0'),
+    );
+    const EntrNF = Number(
+      item['Entr.NF'].replace('.', '').replace(',', '.').replace(' -   ', '0'),
+    );
+    const Contin = Number(
+      item.Contin.replace('.', '').replace(',', '.').replace(' -   ', '0'),
+    );
+    const VlrUnit = Number(
+      item['Vlr.Unit'].replace('.', '').replace(',', '.').replace(' -   ', '0'),
+    );
+    const Qtd = Number(
+      item.Qtd.replace('.', '').replace(',', '.').replace(' -   ', '0'),
+    );
+    return {
+      ...item,
+      Total,
+      Orcado,
+      Pedido,
+      'Entr.NF': EntrNF,
+      Contin,
+      'Vlr.Unit': VlrUnit,
+      Qtd,
+    };
+  });
+
+  dataChangeFormatValueToNumber.forEach(iten => {
     const { 'C.Custo': CCusto, Periodo, Conta } = iten;
     const objectIten = {
       [Periodo]: {
@@ -113,16 +116,28 @@ export function fCalcValueByCC({ setDataCalcByCC, data }: CalcValueCC): void {
       });
 
       keysCC.forEach(keyCC => {
-        const itens = objCalc[keyPeriodo][keyConta][keyCC];
+        const itens = objCalc[keyPeriodo][keyConta][keyCC] as DataPCO[];
+
+        const totais = itens.reduce((acc, item) => {
+          return {
+            ...acc,
+            Total: acc.Total + item.Total,
+            Orcado: acc.Orcado + item.Orcado,
+            Pedido: acc.Pedido + item.Pedido,
+            'Entr.NF': acc['Entr.NF'] + item['Entr.NF'],
+          };
+        });
 
         retCalc[indPerido].totalItens += itens.length;
 
         retCalc[indPerido].itens[indConta].itens.push({
+          Periodo: keyPeriodo,
+          Conta: keyConta,
           CCusto: keyCC,
-          totalPC: 0,
-          Orcado: 0,
-          totalEmpenhadoPC: 0,
-          totalEmpenhadoNF: 0,
+          totalPC: totais.Total,
+          totalOrcado: totais.Orcado,
+          totalEmpenhadoPC: totais.Pedido,
+          totalEmpenhadoNF: totais['Entr.NF'],
           disponivel: 0,
           itens,
         });
@@ -130,5 +145,5 @@ export function fCalcValueByCC({ setDataCalcByCC, data }: CalcValueCC): void {
     });
   });
 
-  console.log(retCalc);
+  setDataCalcByCC(retCalc);
 }
