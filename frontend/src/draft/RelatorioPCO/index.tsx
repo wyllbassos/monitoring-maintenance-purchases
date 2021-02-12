@@ -9,7 +9,7 @@ import {
   fImportData,
 } from './utils/functionsTransformDataImport';
 
-import formatValue from './../../utils/formatValue';
+import formatValue from '../../utils/formatValue';
 
 export interface DataPCO {
   id: string;
@@ -60,11 +60,35 @@ export interface DataGoupByCC {
   itens: DataPCOValuesNumber[];
 }
 
-const TableImportPCO: React.FC<{ dataPCO: DataPCO[] }> = ({
-  dataPCO,
-}: {
+interface TableImportPCOProps {
   dataPCO: DataPCO[];
-}) => {
+}
+
+interface TableGroupByCCProps {
+  dataGoupByCC: DataGoupByCC[];
+  setListItensCC: React.Dispatch<React.SetStateAction<DataPCOValuesNumber[]>>;
+}
+
+interface TableListItensCCProps {
+  listItensCC: DataPCOValuesNumber[];
+}
+
+interface ContentDataProps
+  extends TableImportPCOProps,
+    TableGroupByCCProps,
+    TableListItensCCProps {
+  textAreaInput: string;
+  setTextAreaInput: React.Dispatch<React.SetStateAction<string>>;
+  gerarTabelaTotaisCC: () => void;
+  importData: () => void;
+  handleResetData: () => void;
+  calcValueByCC: () => void;
+  handleResetListItensCC: () => void;
+}
+
+const TableImportPCO: React.FC<TableImportPCOProps> = ({
+  dataPCO,
+}: TableImportPCOProps) => {
   return (
     <table>
       <thead>
@@ -97,16 +121,15 @@ const TableImportPCO: React.FC<{ dataPCO: DataPCO[] }> = ({
   );
 };
 
-const TableCousyByCC: React.FC<{ dataGoupByCC: DataGoupByCC[] }> = ({
+const TableGroupByCC: React.FC<TableGroupByCCProps> = ({
   dataGoupByCC,
-}: {
-  dataGoupByCC: DataGoupByCC[];
-}) => {
+  setListItensCC,
+}: TableGroupByCCProps) => {
   return (
     <table>
       <thead>
         <tr>
-          <th>PC's</th>
+          <th>PCs</th>
           <th>Periodo</th>
           <th>Conta</th>
           <th>C.Custo</th>
@@ -129,10 +152,15 @@ const TableCousyByCC: React.FC<{ dataGoupByCC: DataGoupByCC[] }> = ({
             totalEmpenhadoPC,
             totalEmpenhadoNF,
             disponivelSistema,
+            itens,
           } = dataGoupByCCItem;
           return (
             <tr key={id}>
-              <td>Detalhe</td>
+              <td>
+                <button type="button" onClick={() => setListItensCC(itens)}>
+                  Detalhe
+                </button>
+              </td>
               <td>{Periodo}</td>
               <td>{Conta}</td>
               <td>{CCusto}</td>
@@ -149,11 +177,9 @@ const TableCousyByCC: React.FC<{ dataGoupByCC: DataGoupByCC[] }> = ({
   );
 };
 
-const TableListItensCC: React.FC<{ listItensCC: DataPCOValuesNumber[] }> = ({
+const TableListItensCC: React.FC<TableListItensCCProps> = ({
   listItensCC,
-}: {
-  listItensCC: DataPCOValuesNumber[];
-}) => {
+}: TableListItensCCProps) => {
   return (
     <table>
       <thead>
@@ -175,14 +201,93 @@ const TableListItensCC: React.FC<{ listItensCC: DataPCOValuesNumber[] }> = ({
             <td>{itenCC.Conta}</td>
             <td>{itenCC['C.Custo']}</td>
             <td>{itenCC.Documento}</td>
-            <td>{itenCC.Total}</td>
-            <td>{itenCC.Orcado}</td>
-            <td>{itenCC.Pedido}</td>
-            <td>{itenCC['Entr.NF']}</td>
+            <td>{formatValue(itenCC.Total)}</td>
+            <td>{formatValue(itenCC.Orcado)}</td>
+            <td>{formatValue(itenCC.Pedido)}</td>
+            <td>{formatValue(itenCC['Entr.NF'])}</td>
           </tr>
         ))}
       </tbody>
     </table>
+  );
+};
+
+const ContentData: React.FC<ContentDataProps> = ({
+  dataPCO,
+  dataGoupByCC,
+  listItensCC,
+  setListItensCC,
+  textAreaInput,
+  setTextAreaInput,
+  gerarTabelaTotaisCC,
+  importData,
+  handleResetData,
+  calcValueByCC,
+  handleResetListItensCC,
+}: ContentDataProps) => {
+  if (!dataPCO.length) {
+    return (
+      <>
+        <div>
+          <button type="button" onClick={gerarTabelaTotaisCC}>
+            Gerar Tabela de Totais
+          </button>
+
+          <button type="button" onClick={importData}>
+            Gerar Tabela de Registros
+          </button>
+        </div>
+        <textarea
+          name=""
+          id=""
+          value={textAreaInput}
+          onChange={e => setTextAreaInput(e.target.value)}
+        />
+      </>
+    );
+  }
+
+  if (!dataGoupByCC.length) {
+    return (
+      <>
+        <div>
+          <button type="button" onClick={handleResetData}>
+            Voltar
+          </button>
+          <button type="button" onClick={calcValueByCC}>
+            Calcular Verba Por CC
+          </button>
+        </div>
+        <TableImportPCO dataPCO={dataPCO} />
+      </>
+    );
+  }
+
+  if (!listItensCC.length) {
+    return (
+      <>
+        <div>
+          <button type="button" onClick={handleResetData}>
+            Voltar
+          </button>
+        </div>
+        <TableGroupByCC
+          dataGoupByCC={dataGoupByCC}
+          setListItensCC={setListItensCC}
+        />
+      </>
+    );
+  }
+
+  return (
+    <>
+      <div>
+        <button type="button" onClick={handleResetListItensCC}>
+          Voltar
+        </button>
+      </div>
+      <TableListItensCC listItensCC={listItensCC} />
+    </>
   );
 };
 
@@ -207,51 +312,32 @@ const RelatorioPCO: React.FC = () => {
     setDataPCO(newDataPCO);
   }, [textAreaInput]);
 
+  const handleResetData = useCallback(() => {
+    setDataPCO([]);
+    setDataGoupByCC([]);
+    setListItensCC([]);
+  }, []);
+
+  const handleResetListItensCC = useCallback(() => {
+    setListItensCC([]);
+  }, []);
+
   return (
     <Container>
       <Content>
-        <div>
-          {!dataPCO.length ? (
-            <div>
-              <button type="button" onClick={gerarTabelaTotaisCC}>
-                Gerar Tabela Totais
-              </button>
-              <button type="button" onClick={importData}>
-                Importar Lista
-              </button>
-            </div>
-          ) : (
-            <div>
-              <button
-                type="button"
-                onClick={() => {
-                  setDataPCO([]);
-                  setDataGoupByCC([]);
-                  setListItensCC([]);
-                }}
-              >
-                Voltar
-              </button>
-              <button type="button" onClick={calcValueByCC}>
-                Calcular Verba Por CC
-              </button>
-            </div>
-          )}
-        </div>
-        {!dataPCO.length ? (
-          <textarea
-            name=""
-            id=""
-            value={textAreaInput}
-            onChange={e => setTextAreaInput(e.target.value)}
-          />
-        ) : !dataGoupByCC.length ? (
-          <TableImportPCO dataPCO={dataPCO} />
-        ) : !listItensCC.length ? (
-          <TableCousyByCC dataGoupByCC={dataGoupByCC} />
-        ) : (
-          <TableListItensCC listItensCC={listItensCC} />
-        )}
+        <ContentData
+          dataPCO={dataPCO}
+          dataGoupByCC={dataGoupByCC}
+          setListItensCC={setListItensCC}
+          listItensCC={listItensCC}
+          textAreaInput={textAreaInput}
+          setTextAreaInput={setTextAreaInput}
+          gerarTabelaTotaisCC={gerarTabelaTotaisCC}
+          importData={importData}
+          handleResetData={handleResetData}
+          calcValueByCC={calcValueByCC}
+          handleResetListItensCC={handleResetListItensCC}
+        />
       </Content>
     </Container>
   );

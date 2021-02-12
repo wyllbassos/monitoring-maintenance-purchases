@@ -31,6 +31,10 @@ export function groupDataByCC({ dataPCO }: CalcValueCC): DataGoupByCC[] {
   const dataGoupByCC: DataGoupByCC[] = [];
 
   dataPCO.forEach(item => {
+    if (!item.Periodo) {
+      return;
+    }
+
     const { 'C.Custo': CCusto, Conta, Periodo } = item;
 
     const Total = Number(
