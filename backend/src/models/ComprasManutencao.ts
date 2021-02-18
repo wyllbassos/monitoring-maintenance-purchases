@@ -119,7 +119,7 @@ class ComprasManutencao extends BaseColumnSchemaPart {
   tipo_pagamento: TipoPagamento | null;
 
   @Column()
-  status_aprovacao?: string;
+  status_aprovacao: string;
 
   @Column()
   prioridade?: string;
