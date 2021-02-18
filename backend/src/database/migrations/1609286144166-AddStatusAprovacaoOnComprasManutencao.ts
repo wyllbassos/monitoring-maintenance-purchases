@@ -8,7 +8,6 @@ export default class AddStatusAprovacaoOnComprasManutencao1609286144166
       new TableColumn({
         name: 'status_aprovacao',
         type: 'varchar',
-        isNullable: true,
       }),
     );
   }

@@ -161,7 +161,7 @@ class CreateCompraManutencaoService {
     compraManutencao.solicitante = solicitante;
     compraManutencao.tipo_pagamento =
       tipo_pagamento === undefined ? null : tipo_pagamento;
-
+    compraManutencao.status_aprovacao = '';
     // definir regras de negocio para setar os campos status & pagamento_antecipado & area.
 
     await comprasManutencaoRepository.save(compraManutencao);
