@@ -101,17 +101,29 @@ export function groupDataByCC({ dataPCO }: CalcValueCC): DataGoupByCC[] {
     }
   });
 
-  const ordenedDataGoupByCC = dataGoupByCC.sort((a, b) => {
-    if (a.disponivelSistema > b.disponivelSistema) {
-      return 1;
-    }
+  const ordenedDataGoupByCC = dataGoupByCC
+    .sort((a, b) => {
+      if (a.disponivelSistema > b.disponivelSistema) {
+        return 1;
+      }
 
-    if (a.disponivelSistema < b.disponivelSistema) {
-      return -1;
-    }
+      if (a.disponivelSistema < b.disponivelSistema) {
+        return -1;
+      }
 
-    return 0;
-  });
+      return 0;
+    })
+    .sort((a, b) => {
+      if (a.Periodo > b.Periodo) {
+        return 1;
+      }
+
+      if (a.Periodo < b.Periodo) {
+        return -1;
+      }
+
+      return 0;
+    });
 
   return ordenedDataGoupByCC;
 }
