@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
 import Header from '../../components/Header';
 
@@ -25,91 +25,161 @@ export interface RelatorioPC {
   itens: Compra[];
 }
 
+interface OptionsProps {
+  statusAprovacoes: string[];
+  niveisAprovacoes: string[];
+}
+
+interface StateProps {
+  statusAprovacao: string;
+  nivelAprovacao: string;
+  relatorioPC: RelatorioPC[];
+}
+
+interface SetStateProps {
+  statusAprovacao?: string;
+  nivelAprovacao?: string;
+  relatorioPC?: RelatorioPC[];
+}
+
+const getDataApi = async (nivel: string): Promise<RelatorioPC[]> => {
+  const { data } = await api.get<Compra[]>(`/compras-manutencao/${nivel}`);
+
+  const relatorioPC: RelatorioPC[] = [];
+
+  data.forEach(compra => {
+    const indexNewCompra = relatorioPC.findIndex(
+      newCompra => newCompra.pc === compra.pc,
+    );
+
+    if (indexNewCompra === -1) {
+      relatorioPC.push({
+        pc: compra.pc,
+        valor_total: compra.valor_total,
+        status_aprovacao: compra.status_aprovacao,
+        itens: [compra],
+      });
+    } else {
+      relatorioPC[indexNewCompra].valor_total += compra.valor_total;
+      relatorioPC[indexNewCompra].itens.push(compra);
+    }
+  });
+  return relatorioPC;
+};
+
 const RelatorioNivelV2: React.FC<Props> = ({ Nivel }: Props) => {
-  const [relatorioPC, setRelatorioPC] = useState<RelatorioPC[]>([]);
-  const [statusAprovacao, setStatusAprovacao] = useState<string>('Todos');
-  const [nivelAprovacao, setNivelAprovacao] = useState(0);
-  const [statusAprovacoes, setStatusAprovacoes] = useState<string[]>([
-    'Todos',
-    'Vazios',
-  ]);
+  const [state, setState] = useState<StateProps>({
+    statusAprovacao: 'Todos',
+    nivelAprovacao: 'nivel-1',
+    relatorioPC: [],
+  });
+
+  const options = useMemo<OptionsProps>(() => {
+    const statusAprovacoes: string[] = ['Todos', 'Vazios', 'Enviados'];
+    state.relatorioPC.forEach(compra => {
+      const indexStatusAprovacao = statusAprovacoes.findIndex(
+        statusAprovacaoItem => statusAprovacaoItem === compra.status_aprovacao,
+      );
+      if (indexStatusAprovacao === -1 && compra.status_aprovacao) {
+        // const isDate =
+        //   new Date(compra.status_aprovacao).toDateString() ===
+        //   'Invalid Date';
+        statusAprovacoes.push(compra.status_aprovacao);
+      }
+    });
+
+    return {
+      niveisAprovacoes: ['bloqueados', 'nivel-1', 'nivel-2', 'nivel-3'],
+      statusAprovacoes,
+    };
+  }, [state.relatorioPC]);
 
   useEffect(() => {
-    async function loadCompras(): Promise<void> {
-      const { data } = await api.get<Compra[]>(`/compras-manutencao/${Nivel}`);
-
-      const newComprasRelatorioV2: RelatorioPC[] = [];
-
-      const newStatusAprovacoes: string[] = ['Todos', 'Vazios'];
-
-      data.forEach(compra => {
-        const indexNewCompra = newComprasRelatorioV2.findIndex(
-          newCompra => newCompra.pc === compra.pc,
-        );
-
-        if (indexNewCompra === -1) {
-          newComprasRelatorioV2.push({
-            pc: compra.pc,
-            valor_total: compra.valor_total,
-            status_aprovacao: compra.status_aprovacao,
-            itens: [compra],
-          });
-
-          const indexNewStatusAprovacao = newStatusAprovacoes.findIndex(
-            newStatusAprovacao =>
-              newStatusAprovacao === compra.status_aprovacao,
-          );
-
-          if (indexNewStatusAprovacao === -1 && compra.status_aprovacao) {
-            newStatusAprovacoes.push(compra.status_aprovacao);
-          }
-        } else {
-          newComprasRelatorioV2[indexNewCompra].valor_total +=
-            compra.valor_total;
-          newComprasRelatorioV2[indexNewCompra].itens.push(compra);
-        }
+    getDataApi('nivel-1').then(relatorioPC => {
+      setState(({ nivelAprovacao, statusAprovacao }) => {
+        return {
+          statusAprovacao,
+          nivelAprovacao,
+          relatorioPC,
+        };
       });
-      setStatusAprovacoes(newStatusAprovacoes);
-      setRelatorioPC(newComprasRelatorioV2);
-    }
-    loadCompras();
-  }, [Nivel]);
+    });
+  }, []);
+
+  const handleSetState = useCallback(
+    async (props: SetStateProps) => {
+      const { nivelAprovacao, relatorioPC, statusAprovacao } = props;
+
+      const newState: StateProps = {
+        statusAprovacao: statusAprovacao || state.statusAprovacao,
+        nivelAprovacao: nivelAprovacao || state.nivelAprovacao,
+        relatorioPC: relatorioPC || state.relatorioPC,
+      };
+
+      if (nivelAprovacao) {
+        const newRelatorioPC = await getDataApi(nivelAprovacao);
+        newState.relatorioPC = newRelatorioPC;
+      }
+
+      setState(newState);
+    },
+    [state],
+  );
 
   return (
     <Container>
       <Header size="small" selected={`/${Nivel}`} />
-      {relatorioPC.length > 0 ? (
-        <ContainerTable>
+      <ContainerTable>
+        <div>
           <div>
             <div>
+              <span>{"PC's Bloqueados: "}</span>
               <select
-                value={nivelAprovacao}
-                onChange={e => setNivelAprovacao(Number(e.target.value))}
+                value={state.nivelAprovacao}
+                onChange={e => {
+                  handleSetState({ nivelAprovacao: e.target.value });
+                }}
               >
-                <option value={0}>Todos</option>
-                <option value={1}>Nivel 1</option>
-                <option value={2}>Nivel 2</option>
-                <option value={3}>Nivel 3</option>
+                {options.niveisAprovacoes.map(niveisAprovacoesItem => (
+                  <option
+                    key={niveisAprovacoesItem}
+                    value={niveisAprovacoesItem}
+                  >
+                    {niveisAprovacoesItem}
+                  </option>
+                ))}
               </select>
+            </div>
+            <div>
+              <span>{'Status Aprovação: '}</span>
               <select
-                value={statusAprovacao}
-                onChange={e => setStatusAprovacao(e.target.value)}
+                value={state.statusAprovacao}
+                onChange={e => {
+                  handleSetState({ statusAprovacao: e.target.value });
+                }}
               >
-                {statusAprovacoes.map(statusAprovacaoItem => (
+                {options.statusAprovacoes.map(statusAprovacaoItem => (
                   <option key={statusAprovacaoItem} value={statusAprovacaoItem}>
                     {statusAprovacaoItem}
                   </option>
                 ))}
               </select>
-              <span>{`${relatorioPC.length} PC's`}</span>
+            </div>
+            <div>
+              <span>{`Total: ${state.relatorioPC.length} PC's`}</span>
             </div>
           </div>
-          <Table relatorioPC={relatorioPC} setRelatorioPC={setRelatorioPC} />
-          <div></div>
-        </ContainerTable>
-      ) : (
-        <div>Sem PC</div>
-      )}
+        </div>
+        {state.relatorioPC.length > 0 ? (
+          <Table
+            relatorioPC={state.relatorioPC}
+            setRelatorioPC={relatorioPC => handleSetState({ relatorioPC })}
+          />
+        ) : (
+          <div>Sem PC</div>
+        )}
+        <div> </div>
+      </ContainerTable>
     </Container>
   );
 };

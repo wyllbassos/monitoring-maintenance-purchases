@@ -23,7 +23,7 @@ import { RelatorioPC } from '..';
 
 interface Props {
   relatorioPC: RelatorioPC[];
-  setRelatorioPC: React.Dispatch<React.SetStateAction<RelatorioPC[]>>;
+  setRelatorioPC: (RelatorioPC: RelatorioPC[]) => void;
 }
 
 interface UpdateStatusAaprovacao {
@@ -54,32 +54,38 @@ const Table: React.FC<Props> = ({ relatorioPC, setRelatorioPC }: Props) => {
 
   const handleUpdateDataEnvio = useCallback(async () => {
     const { pc, status_aprovacao } = removeDatePC;
+    const { data: affected } = await api.patch<number>(
+      `/compras-manutencao/pc/${pc}`,
+      { field: 'status_aprovacao', value: status_aprovacao },
+    );
+    if (affected) {
+      const newRelatorioPC = relatorioPC.map(compra => {
+        if (compra.pc === pc) {
+          const itens = compra.itens.map(item => {
+            return {
+              ...item,
+              status_aprovacao,
+            };
+          });
 
-    // const { data: affected } = await api.patch<number>(
-    //   `/compras-manutencao/pc/${pc}`,
-    //   { field: 'status_aprovacao', value: status_aprovacao },
-    // );
-    // if (affected) {
-    //   const newcompras = compras.map(compra => {
-    //     if (compra.pc === pc) {
-    //       return {
-    //         ...compra,
-    //         status_aprovacao,
-    //       };
-    //     }
-    //     return compra;
-    //   });
-    //   setCompras(newcompras);
-    // }
+          return {
+            ...compra,
+            itens,
+          };
+        }
+        return compra;
+      });
+      setRelatorioPC(newRelatorioPC);
+    }
     handleCloseDialog();
     // console.log(newcompras);
-  }, [removeDatePC, handleCloseDialog]);
+  }, [removeDatePC, handleCloseDialog, setRelatorioPC, relatorioPC]);
 
   return (
     <Container>
       {relatorioPC.length ? (
         relatorioPC.map(detalhePC => (
-          <TableStyled>
+          <TableStyled key={detalhePC.pc}>
             <thead>
               <tr>
                 <th colSpan={5}>
@@ -111,7 +117,7 @@ const Table: React.FC<Props> = ({ relatorioPC, setRelatorioPC }: Props) => {
                 <th>Observação</th>
               </tr>
               {detalhePC.itens.map(item => (
-                <tr>
+                <tr key={`${item.sc}-${item.item}`}>
                   <td>{item.quantidade}</td>
                   <td>{formatValue(item.valor_total)}</td>
                   <td>{item.descricao}</td>
