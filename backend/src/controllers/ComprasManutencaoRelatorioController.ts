@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+import { getRepository, Like } from 'typeorm';
 import AppError from '../errors/AppError';
 import ComprasManutencao from '../models/ComprasManutencao';
 
@@ -8,10 +8,21 @@ class ComprasManutencaoRelatorioController {
     const comprasManutencaoRepository = getRepository(ComprasManutencao);
 
     const relatorio = request.params.relatorio as string;
-    if (relatorio === 'nivel-2' || relatorio === 'nivel-1') {
-      let status = '05-PC-BLOQUEADO NVL2';
-      if (relatorio === 'nivel-1') {
-        status = '04-PC-BLOQUEADO NVL1';
+    if (
+      relatorio === 'nivel-2' ||
+      relatorio === 'nivel-1' ||
+      relatorio === 'nivel-3' ||
+      relatorio === 'bloqueados'
+    ) {
+      let status = '04-PC-BLOQUEADO NVL1';
+      if (relatorio === 'nivel-2') {
+        status = '05-PC-BLOQUEADO NVL2';
+      }
+      if (relatorio === 'nivel-3') {
+        status = '06-PC-BLOQUEADO NVL3';
+      }
+      if (relatorio === 'bloqueados') {
+        status = '%PC-BLOQUEADO NVL%';
       }
       const [
         comprasManutencao,
@@ -21,7 +32,7 @@ class ComprasManutencaoRelatorioController {
           pc: 'ASC',
           valor_total: 'DESC',
         },
-        where: { status },
+        where: { status: Like(status) },
       });
       return response.json(comprasManutencao);
     }
