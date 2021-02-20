@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useCallback, useState } from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-// import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import EditTwoTone from '@material-ui/icons/EditTwoTone';
+import { isValid, format } from 'date-fns';
+import {
+  Dialog,
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from '@material-ui/core';
+import { EditTwoTone } from '@material-ui/icons';
 import DeleteForeverTwoToneIcon from '@material-ui/icons/DeleteForeverTwoTone';
 
 import { Container, Enfase, FormControleAprovacao } from './styles';
@@ -51,8 +53,8 @@ const Table: React.FC<Props> = ({ compras, setCompras }: Props) => {
     const { pc, status_aprovacao } = removeDatePC;
 
     const { data: affected } = await api.patch<number>(
-      `/compras-manutencao/update-status-aprovacao/${pc}`,
-      { status_aprovacao },
+      `/compras-manutencao/pc/${pc}`,
+      { field: 'status_aprovacao', value: status_aprovacao },
     );
     if (affected) {
       const newcompras = compras.map(compra => {
@@ -124,7 +126,12 @@ const Table: React.FC<Props> = ({ compras, setCompras }: Props) => {
                     />
                   </td>
                   <td rowSpan={comprasPCAtual.length} className="centralizado">
-                    {status_aprovacao}
+                    {status_aprovacao && isValid(new Date(status_aprovacao))
+                      ? format(
+                          new Date(`${status_aprovacao} 08:00`),
+                          'dd/MM/yyyy',
+                        )
+                      : status_aprovacao}
                   </td>
                   <td rowSpan={comprasPCAtual.length}>
                     <div className="centralizado-column">
@@ -201,6 +208,19 @@ const Table: React.FC<Props> = ({ compras, setCompras }: Props) => {
                 setRemoveDatePC({
                   pc: removeDatePC.pc,
                   status_aprovacao: e.target.checked ? `APROVADO` : '',
+                });
+              }}
+            />
+
+            <span>Eliminar: </span>
+            <input
+              type="checkbox"
+              value={removeDatePC.status_aprovacao === 'ELIMINAR' ? 1 : 0}
+              checked={removeDatePC.status_aprovacao === 'ELIMINAR'}
+              onChange={e => {
+                setRemoveDatePC({
+                  pc: removeDatePC.pc,
+                  status_aprovacao: e.target.checked ? `ELIMINAR` : '',
                 });
               }}
             />

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { format } from 'date-fns';
+
 import { Link } from 'react-router-dom';
 
 import { Container } from './styles';
@@ -11,13 +13,19 @@ import Logo from '../../assets/logo.svg';
 interface HeaderProps {
   size?: 'small' | 'large';
   selected: string;
+  updateAt?: Date;
 }
 
 const Header: React.FC<HeaderProps> = ({
   size = 'large',
   selected,
+  updateAt,
 }: HeaderProps) => (
   <Container size={size}>
+    <small>
+      <span>Atualizado:</span>
+      {updateAt ? format(new Date(updateAt), 'dd/MM/yy HH:mm') : ''}
+    </small>
     <header>
       <div>
         <img src={Logo} alt="PCMFibraplac" />
@@ -40,10 +48,16 @@ const Header: React.FC<HeaderProps> = ({
           Nível 2
         </Link>
         <Link
-          to="/import"
-          className={selected === '/import' ? 'headerNavLinkSelect' : ''}
+          to="/custos"
+          className={selected === '/custos' ? 'headerNavLinkSelect' : ''}
         >
-          Importar
+          Custos
+        </Link>
+        <Link
+          to="/prioridades"
+          className={selected === '/prioridades' ? 'headerNavLinkSelect' : ''}
+        >
+          Prioridades
         </Link>
       </nav>
     </header>

@@ -24,7 +24,15 @@ export default async function updateCompraManutencao({
       valor_novo: request.status,
     });
     newCompraManutencao.status = request.status;
+
+    if (
+      compraManutencao.status === '04-PC-BLOQUEADO NVL1' ||
+      compraManutencao.status === '05-PC-BLOQUEADO NVL2'
+    ) {
+      newCompraManutencao.status_aprovacao = '';
+    }
   }
+
   if (compraManutencao.produto !== request.produto) {
     arrAlteracoes.push({
       campo: 'produto',
@@ -33,6 +41,7 @@ export default async function updateCompraManutencao({
     });
     newCompraManutencao.produto = request.produto;
   }
+
   if (compraManutencao.produto !== request.produto) {
     arrAlteracoes.push({
       campo: 'produto',
@@ -41,6 +50,7 @@ export default async function updateCompraManutencao({
     });
     newCompraManutencao.produto = request.produto;
   }
+
   if (compraManutencao.descricao !== request.descricao) {
     arrAlteracoes.push({
       campo: 'descricao',
@@ -49,6 +59,7 @@ export default async function updateCompraManutencao({
     });
     newCompraManutencao.descricao = request.descricao;
   }
+
   if (
     compraManutencao.quantidade.toString() !== request.quantidade.toString()
   ) {
@@ -59,6 +70,7 @@ export default async function updateCompraManutencao({
     });
     newCompraManutencao.quantidade = request.quantidade;
   }
+
   if (
     compraManutencao.emissao?.toISOString() !== request.emissao?.toISOString()
   ) {
@@ -69,6 +81,7 @@ export default async function updateCompraManutencao({
     });
     newCompraManutencao.emissao = request.emissao;
   }
+
   if (compraManutencao.aplicacao !== request.aplicacao) {
     arrAlteracoes.push({
       campo: 'aplicacao',
@@ -77,6 +90,7 @@ export default async function updateCompraManutencao({
     });
     newCompraManutencao.aplicacao = request.aplicacao;
   }
+
   if (compraManutencao.observacao !== request.observacao) {
     arrAlteracoes.push({
       campo: 'observacao',
@@ -85,6 +99,7 @@ export default async function updateCompraManutencao({
     });
     newCompraManutencao.observacao = request.observacao;
   }
+
   if (compraManutencao.cotacao !== request.cotacao) {
     arrAlteracoes.push({
       campo: 'cotacao',
@@ -93,6 +108,7 @@ export default async function updateCompraManutencao({
     });
     newCompraManutencao.cotacao = request.cotacao;
   }
+
   if (compraManutencao.pc !== request.pc) {
     arrAlteracoes.push({
       campo: 'pc',
@@ -103,6 +119,7 @@ export default async function updateCompraManutencao({
   }
   request.dt_aprovacao_n1 =
     request.dt_aprovacao_n1 === '' ? null : request.dt_aprovacao_n1;
+
   if (
     compraManutencao.dt_aprovacao_n1?.toISOString() !==
     request.dt_aprovacao_n1?.toISOString()
@@ -116,6 +133,7 @@ export default async function updateCompraManutencao({
   }
   request.dt_aprovacao_n2 =
     request.dt_aprovacao_n2 === '' ? null : request.dt_aprovacao_n2;
+
   if (
     compraManutencao.dt_aprovacao_n2?.toISOString() !==
     request.dt_aprovacao_n2?.toISOString()
@@ -129,6 +147,7 @@ export default async function updateCompraManutencao({
   }
   request.dt_aprovacao_n3 =
     request.dt_aprovacao_n3 === '' ? null : request.dt_aprovacao_n3;
+
   if (
     compraManutencao.dt_aprovacao_n3?.toISOString() !==
     request.dt_aprovacao_n3?.toISOString()
@@ -140,6 +159,7 @@ export default async function updateCompraManutencao({
     });
     newCompraManutencao.dt_aprovacao_n3 = request.dt_aprovacao_n3;
   }
+
   if (
     compraManutencao.quantidade_ja_entregue.toString() !==
     request.quantidade_ja_entregue.toString()
@@ -151,6 +171,7 @@ export default async function updateCompraManutencao({
     });
     newCompraManutencao.quantidade_ja_entregue = request.quantidade_ja_entregue;
   }
+
   if (compraManutencao.ja_emitiu_fornecedor !== request.ja_emitiu_fornecedor) {
     arrAlteracoes.push({
       campo: 'ja_emitiu_fornecedor',
@@ -179,6 +200,7 @@ export default async function updateCompraManutencao({
     });
     newCompraManutencao.status_sc = request.status_sc;
   }
+
   if (compraManutencao.status_pc !== request.status_pc) {
     arrAlteracoes.push({
       campo: 'status_pc',
@@ -189,6 +211,7 @@ export default async function updateCompraManutencao({
   }
   request.previsao_entrega =
     request.previsao_entrega === '' ? null : request.previsao_entrega;
+
   if (
     compraManutencao.previsao_entrega?.toISOString() !==
     request.previsao_entrega?.toISOString()
@@ -200,6 +223,7 @@ export default async function updateCompraManutencao({
     });
     newCompraManutencao.previsao_entrega = request.previsao_entrega;
   }
+
   if (compraManutencao.pc_eliminado_residuo !== request.pc_eliminado_residuo) {
     arrAlteracoes.push({
       campo: 'pc_eliminado_residuo',
@@ -208,6 +232,7 @@ export default async function updateCompraManutencao({
     });
     newCompraManutencao.pc_eliminado_residuo = request.pc_eliminado_residuo;
   }
+
   if (
     compraManutencao.motivo_eliminado_residuo !==
     request.motivo_eliminado_residuo
@@ -220,6 +245,7 @@ export default async function updateCompraManutencao({
     newCompraManutencao.motivo_eliminado_residuo =
       request.motivo_eliminado_residuo;
   }
+
   if (compraManutencao.sc_eliminado_residuo !== request.sc_eliminado_residuo) {
     arrAlteracoes.push({
       campo: 'sc_eliminado_residuo',
@@ -229,6 +255,7 @@ export default async function updateCompraManutencao({
     newCompraManutencao.sc_eliminado_residuo = request.sc_eliminado_residuo;
   }
   request.data_pc = request.data_pc === '' ? null : request.data_pc;
+
   if (
     compraManutencao.data_pc?.toISOString() !== request.data_pc?.toISOString()
   ) {
@@ -239,6 +266,7 @@ export default async function updateCompraManutencao({
     });
     newCompraManutencao.data_pc = request.data_pc;
   }
+
   if (compraManutencao.conta_pc !== request.conta_pc) {
     arrAlteracoes.push({
       campo: 'conta_pc',
@@ -247,6 +275,7 @@ export default async function updateCompraManutencao({
     });
     newCompraManutencao.conta_pc = request.conta_pc;
   }
+
   if (compraManutencao.centro_custo_pc !== request.centro_custo_pc) {
     arrAlteracoes.push({
       campo: 'centro_custo_pc',
@@ -255,6 +284,7 @@ export default async function updateCompraManutencao({
     });
     newCompraManutencao.centro_custo_pc = request.centro_custo_pc;
   }
+
   if (compraManutencao.requisitante !== request.requisitante) {
     arrAlteracoes.push({
       campo: 'requisitante',
@@ -263,6 +293,7 @@ export default async function updateCompraManutencao({
     });
     newCompraManutencao.requisitante = request.requisitante;
   }
+
   if (compraManutencao.fornecedor !== request.fornecedor) {
     arrAlteracoes.push({
       campo: 'fornecedor',
@@ -271,6 +302,7 @@ export default async function updateCompraManutencao({
     });
     newCompraManutencao.fornecedor = request.fornecedor;
   }
+
   if (arrAlteracoes.length > 0) {
     const createHistoricoAlteracoesService = new CreateHistoricoAlteracoesService();
     const arrAlteracoesTratado = arrAlteracoes.map(alteracao => ({
