@@ -16,11 +16,6 @@ export interface IDataPCO {
   'Vlr.Unit': number;
 }
 
-export interface IPCO {
-  list: IDataPCO[],
-  groupByCC: IDataPCOGoupByCC[],
-}
-
 export interface IDataPCOGoupByCC {
   id: string;
   Periodo: string;
@@ -64,5 +59,3 @@ export type IKeysOfDataPCOGroupByCC = (
   'disponivelSistema' |
   'itens'
 );
-
-export type TSelectedTable = '' | 'dataList' | 'dataGroupByCC' | 'dataItensCC';

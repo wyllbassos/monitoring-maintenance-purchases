@@ -1,13 +1,20 @@
 import React, {
   createContext,
-  useCallback,
   useContext,
-  useMemo,
   useState,
 } from 'react';
 
-import { IDataPCO, IPCO, TSelectedTable } from '../types';
+import { IDataPCO, IDataPCOGoupByCC } from '../types';
 import { convertTextToPCO } from './utils';
+
+import initialInput from './utils/initialInput'
+
+export type TSelectedTable = '' | 'dataList' | 'dataGroupByCC' | 'dataItensCC';
+
+export interface IPCO {
+  list: IDataPCO[],
+  groupByCC: IDataPCOGoupByCC[],
+}
 
 interface IPcoContextData {
   selectedTable: TSelectedTable;
@@ -16,18 +23,20 @@ interface IPcoContextData {
   handleSetDataPCO: (text: string) => void;
   handleSetSelectedTable: (selectedTable: TSelectedTable) => void;
   handleSetItensCC: (itens: IDataPCO[]) => void;
+  textInput: string;
 }
 
 const PcoContext = createContext<IPcoContextData>({} as IPcoContextData);
 
 export const PcoProvider: React.FC = ({ children }) => {
   const [state, setState] = useState<IPcoContextData>({
+    textInput: initialInput.text,
     selectedTable: '',
-    pco: convertTextToPCO(''),
+    pco: convertTextToPCO(initialInput.text),
     itensCCSelected: [],
     handleSetDataPCO: (text: string) => {
       const pco = convertTextToPCO(text);
-      setState(current => ({ ...current, pco }));
+      setState(current => ({ ...current, pco, textInput: text }));
     },
     handleSetSelectedTable: (selectedTable: TSelectedTable) => {
       setState(current => ({ ...current, selectedTable }));

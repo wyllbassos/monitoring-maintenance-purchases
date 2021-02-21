@@ -1,4 +1,5 @@
-import { IDataPCO, IDataPCOGoupByCC, IPCO } from '../../types';
+import { IDataPCO, IDataPCOGoupByCC } from '../../types';
+import { IPCO } from '../pco';
 
 interface CalcValueCC {
   dataPCO: IDataPCO[];
@@ -10,7 +11,7 @@ function convertToNumber(value: string): number {
   );
 }
 
-function groupDataByCC(dataPCO: IDataPCO[]): IDataPCOGoupByCC[] {
+export function groupDataByCC(dataPCO: IDataPCO[]): IDataPCOGoupByCC[] {
   const dataGoupByCC: IDataPCOGoupByCC[] = [];
 
   dataPCO.forEach(item => {

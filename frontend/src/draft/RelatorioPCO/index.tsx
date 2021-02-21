@@ -8,6 +8,7 @@ import { IDataPCO, IDataPCOGoupByCC } from './types';
 import { usePco } from './hooks/pco';
 import TablePCODataList from './components/TablePCODataList';
 import TablePCOGroupByCC from './components/TablePCOGroupByCC';
+import TableListPCsForTransfer from './components/TableListPCsForTransfer';
 
 export interface ITableGroupByCC {
   dataGoupByCC: IDataPCOGoupByCC[];
@@ -15,8 +16,6 @@ export interface ITableGroupByCC {
 }
 
 const RelatorioPCO: React.FC = () => {
-  const [textAreaInput, setTextAreaInput] = useState('');
-
   const {
     pco,
     handleSetDataPCO,
@@ -24,6 +23,7 @@ const RelatorioPCO: React.FC = () => {
     handleSetSelectedTable,
     handleSetItensCC,
     itensCCSelected,
+    textInput,
   } = usePco();
 
   const handleBack = useCallback(() => {
@@ -58,6 +58,7 @@ const RelatorioPCO: React.FC = () => {
   return (
     <Container>
       <Content>
+        <TableListPCsForTransfer />
         <div>
           {selectedTable !== '' && (
             <button type="button" onClick={handleBack}>
@@ -74,9 +75,8 @@ const RelatorioPCO: React.FC = () => {
 
         {!selectedTable && (
           <textarea
-            value={textAreaInput}
+            value={textInput}
             onChange={({ target: { value } }) => {
-              setTextAreaInput(value);
               handleSetDataPCO(value);
             }}
           />
