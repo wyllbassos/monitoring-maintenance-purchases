@@ -1,63 +1,35 @@
-import { DataPCO, DataGoupByCC } from '..';
-
-interface ImportDataDTO {
-  text: string;
-}
+import { IDataPCO, IDataPCOGoupByCC, IPCO } from '../../types';
 
 interface CalcValueCC {
-  dataPCO: DataPCO[];
+  dataPCO: IDataPCO[];
 }
 
-export function fImportData({ text }: ImportDataDTO): DataPCO[] {
-  const lines = text.split('\n');
-
-  const arrayData = lines.map(line => {
-    return line.split('\t');
-  });
-
-  const header = arrayData.splice(0, 1)[0];
-  const dataReturn = arrayData.map((line, i) => {
-    const ret: any = {};
-    ret.id = String(i);
-    header.forEach((key, index) => {
-      ret[key] = line[index];
-    });
-    return ret;
-  }) as DataPCO[];
-  return dataReturn;
+function convertToNumber(value: string): number {
+  return Number(
+    value.replace('.', '').replace(',', '.').replace(' -   ', '0'),
+  );
 }
 
-export function groupDataByCC({ dataPCO }: CalcValueCC): DataGoupByCC[] {
-  const dataGoupByCC: DataGoupByCC[] = [];
+function groupDataByCC(dataPCO: IDataPCO[]): IDataPCOGoupByCC[] {
+  const dataGoupByCC: IDataPCOGoupByCC[] = [];
 
   dataPCO.forEach(item => {
     if (!item.Periodo) {
       return;
     }
 
-    const { 'C.Custo': CCusto, Conta, Periodo } = item;
-
-    const Total = Number(
-      item.Total.replace('.', '').replace(',', '.').replace(' -   ', '0'),
-    );
-    const Orcado = Number(
-      item.Orcado.replace('.', '').replace(',', '.').replace(' -   ', '0'),
-    );
-    const Pedido = Number(
-      item.Pedido.replace('.', '').replace(',', '.').replace(' -   ', '0'),
-    );
-    const EntrNF = Number(
-      item['Entr.NF'].replace('.', '').replace(',', '.').replace(' -   ', '0'),
-    );
-    const Contin = Number(
-      item.Contin.replace('.', '').replace(',', '.').replace(' -   ', '0'),
-    );
-    const VlrUnit = Number(
-      item['Vlr.Unit'].replace('.', '').replace(',', '.').replace(' -   ', '0'),
-    );
-    const Qtd = Number(
-      item.Qtd.replace('.', '').replace(',', '.').replace(' -   ', '0'),
-    );
+    const {
+      'C.Custo': CCusto,
+      Conta,
+      Periodo,
+      Total,
+      Orcado,
+      Pedido,
+      'Entr.NF': EntrNF,
+      Contin,
+      'Vlr.Unit': VlrUnit,
+      Qtd,
+    } = item;
 
     const findIndex = dataGoupByCC.findIndex(dataGoupByCCItem => {
       return (
@@ -101,7 +73,7 @@ export function groupDataByCC({ dataPCO }: CalcValueCC): DataGoupByCC[] {
     }
   });
 
-  const ordenedDataGoupByCC = dataGoupByCC
+  const ordenedIDataGoupByCC = dataGoupByCC
     .sort((a, b) => {
       if (a.disponivelSistema > b.disponivelSistema) {
         return 1;
@@ -125,5 +97,49 @@ export function groupDataByCC({ dataPCO }: CalcValueCC): DataGoupByCC[] {
       return 0;
     });
 
-  return ordenedDataGoupByCC;
+  return ordenedIDataGoupByCC;
+}
+
+export function convertTextToPCO(text: string): IPCO {
+  const lines = text.split('\n');
+
+  const arrayData = lines.map(line => {
+    return line.split('\t');
+  });
+
+  const header = arrayData.splice(0, 1)[0];
+  const list = arrayData.map((line, i) => {
+    if (!line.length) {
+      return;
+    }
+    const ret: any = {};
+    ret.id = String(i);
+    header.forEach((key, index) => {
+      const listOfFieldsToConvert = [
+        'Total',
+        'Orcado',
+        'Pedido',
+        'Contin',
+        'Qtd',
+        'Entr.NF',
+        'Vlr.Unit',
+      ];
+
+      const indexOfFieldToConvert = listOfFieldsToConvert.findIndex(
+        fieldConvert => fieldConvert === key
+      );
+
+      if (indexOfFieldToConvert >= 0) {
+        ret[key] = 0;
+        if (line[index])
+          ret[key] = convertToNumber(line[index]);
+        return;
+      }
+
+      ret[key] = line[index];
+    });
+    return ret;
+  }) as IDataPCO[];
+  const groupByCC = groupDataByCC(list);
+  return { list, groupByCC };
 }

@@ -9,6 +9,7 @@ import Prioridades from '../pages/Prioridades';
 import RelatorioNivel from '../pages/RelatorioNivel';
 import RelatorioNivelV2 from '../draft/RelatorioNivelV2';
 import RelatorioPCO from '../draft/RelatorioPCO/index';
+import { PcoProvider } from '../draft/RelatorioPCO/hooks/pco';
 
 const Routes: React.FC = () => (
   <Switch>
@@ -34,7 +35,13 @@ const Routes: React.FC = () => (
       exact
       component={() => <RelatorioNivelV2 Nivel="nivel-1" />}
     />
-    <Route path="/testes/pco" exact component={RelatorioPCO} />
+    <Route path="/testes/pco" exact component={
+      () => (
+        <PcoProvider>
+          <RelatorioPCO />
+        </PcoProvider>
+      )
+    } />
   </Switch>
 );
 
