@@ -3,7 +3,7 @@ import React from 'react';
 import formatValue from '../../../../utils/formatValue';
 
 export interface ITableLines {
-  key: string;
+  key: any;
   itens: Array<{
     key: any;
     isCurrency: boolean;

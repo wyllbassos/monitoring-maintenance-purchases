@@ -1,11 +1,30 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
+import formatValue from '../../../../utils/formatValue';
 import { usePco } from '../../hooks/pco';
 import { groupDataByCC } from '../../hooks/utils';
 import { IDataPCO, IDataPCOGoupByCC } from '../../types';
+import Table from '../Table';
+import makeObjectLinesOfTable from '../utils/makeObjectLinesOfTable';
 
 interface IPCs {
+  edit?: JSX.Element;
   value: string;
-  valid: boolean;
+  exists: string;
+}
+
+type TPCGroupByCC =
+  | 'Periodo'
+  | 'Conta'
+  | 'CCusto'
+  | 'Total PC Por CC'
+  | 'Disponível no CC';
+
+interface IPCGroupByCC {
+  Periodo: string;
+  Conta: string;
+  CCusto: string;
+  'Total PC Por CC': number;
+  'Disponível no CC': number;
 }
 
 const TableListPCsForTransfer: React.FC = () => {
@@ -27,8 +46,9 @@ const TableListPCsForTransfer: React.FC = () => {
     const newPcs: IPCs[] = [
       ...pcs,
       {
+        edit: <></>,
         value: valueInputPC,
-        valid: isPCValid,
+        exists: isPCValid ? 'SIM' : 'NÃO',
       },
     ];
 
@@ -36,15 +56,55 @@ const TableListPCsForTransfer: React.FC = () => {
       const listDataPCO = pco.list.filter(
         item => newPcs.findIndex(pc => pc.value === item.Documento) >= 0,
       );
-      const groupbycc = groupDataByCC(listDataPCO);
-      setGroupByCC(groupbycc);
+
+      setGroupByCC(groupDataByCC(listDataPCO));
     }
 
     setPcs(newPcs);
     setVAlueInputPC('794154');
   }, [valueInputPC, pco.list, pcs]);
 
-  const handleRemovePC = useCallback((pc: string) => {}, []);
+  const handleRemovePC = useCallback(
+    (pc: string) => {
+      const indexPC = pcs.findIndex(findePc => findePc.value === pc);
+      if (indexPC === -1) {
+        return;
+      }
+
+      const newPcs = [...pcs];
+      newPcs.splice(indexPC, 1);
+      const listDataPCO = pco.list.filter(
+        item => newPcs.findIndex(pc => pc.value === item.Documento) >= 0,
+      );
+
+      setPcs(newPcs);
+      setGroupByCC(groupDataByCC(listDataPCO));
+    },
+    [pcs],
+  );
+
+  /*
+   *---- G R O U P   B Y   C C
+   */
+  const headerGroupByCC = useMemo(
+    () => ['Periodo', 'Conta', 'CCusto', 'Total PC Por CC', 'Disponível no CC'],
+    [],
+  );
+
+  const keysGroupByCC = useMemo(
+    () => ['Periodo', 'Conta', 'CCusto', 'disponivelSistema'],
+    [],
+  );
+
+  const linesGroupByCC = useMemo(
+    () =>
+      makeObjectLinesOfTable({
+        keys: keysGroupByCC,
+        keysCurrency: ['disponivelSistema'],
+        list: groupByCC,
+      }),
+    [keysGroupByCC, groupByCC],
+  );
 
   return (
     <>
@@ -58,6 +118,7 @@ const TableListPCsForTransfer: React.FC = () => {
           Adicionar PC
         </button>
       </div>
+
       {!!pcs.length && (
         <table>
           <thead>
@@ -71,36 +132,25 @@ const TableListPCsForTransfer: React.FC = () => {
             {pcs.map(pc => (
               <tr key={pc.value}>
                 <td>
-                  <button type="button">Remover</button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleRemovePC(pc.value);
+                    }}
+                  >
+                    Remover
+                  </button>
                 </td>
                 <td>{pc.value}</td>
-                <td>{pc.valid ? 'SIM' : 'NÃO'}</td>
+                <td>{pc.exists}</td>
               </tr>
             ))}
           </tbody>
         </table>
       )}
+
       {!!groupByCC.length && (
-        <table>
-          <thead>
-            <tr>
-              <th>Periodo</th>
-              <th>Conta</th>
-              <th>CCusto</th>
-              <th>Disponivel Sistema</th>
-            </tr>
-          </thead>
-          <tbody>
-            {groupByCC.map(cc => (
-              <tr key={cc.id}>
-                <td>{cc.Periodo}</td>
-                <td>{cc.Conta}</td>
-                <td>{cc.CCusto}</td>
-                <td>{cc.disponivelSistema}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <Table header={headerGroupByCC} lines={linesGroupByCC} />
       )}
     </>
   );
