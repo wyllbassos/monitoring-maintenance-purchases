@@ -3,35 +3,93 @@ import { usePco } from '../../hooks/pco';
 import { groupDataByCC } from '../../hooks/utils';
 import { IDataPCO, IDataPCOGoupByCC } from '../../types';
 
+interface IPCs {
+  value: string;
+  valid: boolean;
+}
+
 const TableListPCsForTransfer: React.FC = () => {
-  const [pcs, setPcs] = useState<string[]>([]);
+  const [pcs, setPcs] = useState<IPCs[]>([]);
   const [groupByCC, setGroupByCC] = useState<IDataPCOGoupByCC[]>([]);
   const [valueInputPC, setVAlueInputPC] = useState('794153');
 
-  const { selectedTable, pco } = usePco();
+  const { pco } = usePco();
 
   const handleAddPC = useCallback(() => {
-    const newPcs = [
+    const exists = pcs.findIndex(pc => pc.value === valueInputPC) >= 0;
+    const isPCValid =
+      pco.list.findIndex(item => item.Documento === valueInputPC) >= 0;
+
+    if (exists) {
+      return;
+    }
+
+    const newPcs: IPCs[] = [
       ...pcs,
-      valueInputPC,
+      {
+        value: valueInputPC,
+        valid: isPCValid,
+      },
     ];
 
-    const listDataPCO = pco.list.filter(item => {
-      const findPC = newPcs.findIndex(pc => pc === item.Documento);
-      return findPC >= 0;
-    })
-
-    const groupbycc = groupDataByCC(listDataPCO);
+    if (isPCValid) {
+      const listDataPCO = pco.list.filter(
+        item => newPcs.findIndex(pc => pc.value === item.Documento) >= 0,
+      );
+      const groupbycc = groupDataByCC(listDataPCO);
+      setGroupByCC(groupbycc);
+    }
 
     setPcs(newPcs);
-    setGroupByCC(groupbycc);
+    setVAlueInputPC('794154');
+  }, [valueInputPC, pco.list, pcs]);
 
-  }, [valueInputPC, pco.list, pcs ]);
+  const handleRemovePC = useCallback((pc: string) => {}, []);
 
   return (
     <>
+      <div>
+        <input
+          type="text"
+          value={valueInputPC}
+          onChange={({ target: { value } }) => setVAlueInputPC(value)}
+        />
+        <button type="button" onClick={handleAddPC}>
+          Adicionar PC
+        </button>
+      </div>
       {!!pcs.length && (
         <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>PC</th>
+              <th>No Relatorio</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pcs.map(pc => (
+              <tr key={pc.value}>
+                <td>
+                  <button type="button">Remover</button>
+                </td>
+                <td>{pc.value}</td>
+                <td>{pc.valid ? 'SIM' : 'NÃO'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+      {!!groupByCC.length && (
+        <table>
+          <thead>
+            <tr>
+              <th>Periodo</th>
+              <th>Conta</th>
+              <th>CCusto</th>
+              <th>Disponivel Sistema</th>
+            </tr>
+          </thead>
           <tbody>
             {groupByCC.map(cc => (
               <tr key={cc.id}>
@@ -44,18 +102,8 @@ const TableListPCsForTransfer: React.FC = () => {
           </tbody>
         </table>
       )}
-      {selectedTable !== '' && (
-        <div>
-          <input
-            type="text"
-            value={valueInputPC}
-            onChange={({ target: { value } }) => setVAlueInputPC(value) }
-          />
-          <button type='button' onClick={handleAddPC}>Adicionar PC</button>
-        </div>
-      )}
     </>
   );
-}
+};
 
 export default TableListPCsForTransfer;

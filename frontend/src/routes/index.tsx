@@ -35,13 +35,15 @@ const Routes: React.FC = () => (
       exact
       component={() => <RelatorioNivelV2 Nivel="nivel-1" />}
     />
-    <Route path="/testes/pco" exact component={
-      () => (
+    <Route
+      path="/testes/pco"
+      exact
+      component={() => (
         <PcoProvider>
           <RelatorioPCO />
         </PcoProvider>
-      )
-    } />
+      )}
+    />
   </Switch>
 );
 

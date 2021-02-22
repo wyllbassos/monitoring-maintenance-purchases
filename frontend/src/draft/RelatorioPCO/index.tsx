@@ -26,51 +26,34 @@ const RelatorioPCO: React.FC = () => {
     textInput,
   } = usePco();
 
-  const handleBack = useCallback(() => {
-    if (selectedTable === 'dataList') {
-      handleSetSelectedTable('');
-      return;
-    }
-
-    if (selectedTable === 'dataGroupByCC') {
-      handleSetSelectedTable('dataList');
-      return;
-    }
-
-    if (selectedTable === 'dataItensCC') {
-      handleSetSelectedTable('dataGroupByCC');
-      return;
-    }
-  }, [selectedTable]);
-
-  const handleNext = useCallback(() => {
-    if (selectedTable === '') {
-      handleSetSelectedTable('dataList');
-      return;
-    }
-
-    if (selectedTable === 'dataList') {
-      handleSetSelectedTable('dataGroupByCC');
-      return;
-    }
-  }, [selectedTable]);
-
   return (
     <Container>
       <Content>
-        <TableListPCsForTransfer />
         <div>
-          {selectedTable !== '' && (
-            <button type="button" onClick={handleBack}>
-              Voltar
-            </button>
-          )}
+          <button type="button" onClick={() => handleSetSelectedTable('')}>
+            Entrada de Dados
+          </button>
 
-          {(selectedTable === '' || selectedTable === 'dataList') && (
-            <button type="button" onClick={handleNext}>
-              Avançar
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={() => handleSetSelectedTable('dataList')}
+          >
+            Lista Completa
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleSetSelectedTable('dataGroupByCC')}
+          >
+            Lista Agrupada Por CC
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleSetSelectedTable('listPCsForCheck')}
+          >
+            Lista PCs Para Aprovar
+          </button>
         </div>
 
         {!selectedTable && (
@@ -96,6 +79,8 @@ const RelatorioPCO: React.FC = () => {
         {selectedTable === 'dataItensCC' && (
           <TablePCODataList pcoDataList={itensCCSelected} />
         )}
+
+        {selectedTable === 'listPCsForCheck' && <TableListPCsForTransfer />}
       </Content>
     </Container>
   );

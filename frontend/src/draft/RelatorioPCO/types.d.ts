@@ -29,33 +29,31 @@ export interface IDataPCOGoupByCC {
   itens: IDataPCO[];
 }
 
-export type IKeysOfDataPCO = (
-  'id' |
-  'Periodo' |
-  'Conta' |
-  'C.Custo' |
-  'Documento' |
-  'Item' |
-  'Produto' |
-  'Qtd' |
-  'Total' |
-  'Orcado' |
-  'Pedido' |
-  'Entr.NF' |
-  'Tipo' |
-  'Contin' |
-  'Vlr.Unit'
-);
+export type IKeysOfDataPCO =
+  | 'id'
+  | 'Periodo'
+  | 'Conta'
+  | 'C.Custo'
+  | 'Documento'
+  | 'Item'
+  | 'Produto'
+  | 'Qtd'
+  | 'Total'
+  | 'Orcado'
+  | 'Pedido'
+  | 'Entr.NF'
+  | 'Tipo'
+  | 'Contin'
+  | 'Vlr.Unit';
 
-export type IKeysOfDataPCOGroupByCC = (
-  'id' |
-  'Periodo' |
-  'Conta' |
-  'CCusto' |
-  'totalPCBloqueado' |
-  'totalOrcado' |
-  'totalEmpenhadoPC' |
-  'totalEmpenhadoNF' |
-  'disponivelSistema' |
-  'itens'
-);
+export type IKeysOfDataPCOGroupByCC =
+  | 'id'
+  | 'Periodo'
+  | 'Conta'
+  | 'CCusto'
+  | 'totalPCBloqueado'
+  | 'totalOrcado'
+  | 'totalEmpenhadoPC'
+  | 'totalEmpenhadoNF'
+  | 'disponivelSistema'
+  | 'itens';

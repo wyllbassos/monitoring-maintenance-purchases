@@ -6,9 +6,7 @@ interface CalcValueCC {
 }
 
 function convertToNumber(value: string): number {
-  return Number(
-    value.replace('.', '').replace(',', '.').replace(' -   ', '0'),
-  );
+  return Number(value.replace('.', '').replace(',', '.').replace(' -   ', '0'));
 }
 
 export function groupDataByCC(dataPCO: IDataPCO[]): IDataPCOGoupByCC[] {
@@ -127,13 +125,12 @@ export function convertTextToPCO(text: string): IPCO {
       ];
 
       const indexOfFieldToConvert = listOfFieldsToConvert.findIndex(
-        fieldConvert => fieldConvert === key
+        fieldConvert => fieldConvert === key,
       );
 
       if (indexOfFieldToConvert >= 0) {
         ret[key] = 0;
-        if (line[index])
-          ret[key] = convertToNumber(line[index]);
+        if (line[index]) ret[key] = convertToNumber(line[index]);
         return;
       }
 

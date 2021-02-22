@@ -1,19 +1,20 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-} from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 import { IDataPCO, IDataPCOGoupByCC } from '../types';
 import { convertTextToPCO } from './utils';
 
-import initialInput from './utils/initialInput'
+import initialInput from './utils/initialInput';
 
-export type TSelectedTable = '' | 'dataList' | 'dataGroupByCC' | 'dataItensCC';
+export type TSelectedTable =
+  | ''
+  | 'dataList'
+  | 'dataGroupByCC'
+  | 'dataItensCC'
+  | 'listPCsForCheck';
 
 export interface IPCO {
-  list: IDataPCO[],
-  groupByCC: IDataPCOGoupByCC[],
+  list: IDataPCO[];
+  groupByCC: IDataPCOGoupByCC[];
 }
 
 interface IPcoContextData {
@@ -45,16 +46,12 @@ export const PcoProvider: React.FC = ({ children }) => {
       setState(current => ({
         ...current,
         selectedTable: 'dataItensCC',
-        itensCCSelected: itens
+        itensCCSelected: itens,
       }));
-    }
+    },
   });
 
-  return (
-    <PcoContext.Provider value={state}>
-      {children}
-    </PcoContext.Provider>
-  );
+  return <PcoContext.Provider value={state}>{children}</PcoContext.Provider>;
 };
 
 export const usePco = (): IPcoContextData => {

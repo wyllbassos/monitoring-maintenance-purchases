@@ -8,9 +8,7 @@ export interface IProps {
   pcoDataList: IDataPCO[];
 }
 
-const TablePCODataList: React.FC<IProps> = ({
-  pcoDataList,
-}: IProps) => {
+const TablePCODataList: React.FC<IProps> = ({ pcoDataList }: IProps) => {
   const header: IKeysOfDataPCO[] = [
     'Periodo',
     'Conta',
@@ -27,12 +25,11 @@ const TablePCODataList: React.FC<IProps> = ({
       key: custoPCO.id,
       itens: header.map(key => {
         const value = custoPCO[key];
-        const isCurrency = (
+        const isCurrency =
           key === 'Total' ||
           key === 'Orcado' ||
           key === 'Pedido' ||
-          key === 'Entr.NF'
-        )
+          key === 'Entr.NF';
 
         return { value, key, isCurrency };
       }),
@@ -40,7 +37,7 @@ const TablePCODataList: React.FC<IProps> = ({
     return ret;
   });
 
-  return <Table header={header} lines={lines} />
+  return <Table header={header} lines={lines} />;
 };
 
 export default TablePCODataList;

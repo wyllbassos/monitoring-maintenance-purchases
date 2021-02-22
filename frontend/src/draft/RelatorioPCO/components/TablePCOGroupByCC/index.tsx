@@ -2,7 +2,11 @@ import React from 'react';
 
 import Table, { ITableLines } from '../Table';
 
-import { IDataPCO, IDataPCOGoupByCC, IKeysOfDataPCOGroupByCC } from '../../types';
+import {
+  IDataPCO,
+  IDataPCOGoupByCC,
+  IKeysOfDataPCOGroupByCC,
+} from '../../types';
 
 export interface IProps {
   pcoDataGroupByCC: IDataPCOGoupByCC[];
@@ -54,22 +58,21 @@ const TablePCOGroupByCC: React.FC<IProps> = ({
         },
         ...keys.map(key => {
           const value = custoPCO[key];
-          const isCurrency = (
+          const isCurrency =
             key === 'totalPCBloqueado' ||
             key === 'totalOrcado' ||
             key === 'totalEmpenhadoPC' ||
             key === 'totalEmpenhadoNF' ||
-            key === 'disponivelSistema'
-          )
+            key === 'disponivelSistema';
 
           return { value, key, isCurrency };
-        })
+        }),
       ],
     };
     return ret;
   });
 
-  return <Table header={header} lines={lines} />
+  return <Table header={header} lines={lines} />;
 };
 
 export default TablePCOGroupByCC;

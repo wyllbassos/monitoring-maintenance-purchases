@@ -16,15 +16,14 @@ export interface ITable {
   lines: ITableLines[];
 }
 
-const Table: React.FC<ITable> = ({
-  header,
-  lines,
-}: ITable) => {
+const Table: React.FC<ITable> = ({ header, lines }: ITable) => {
   return (
     <table>
       <thead>
         <tr>
-          {header.map(cell => <th key={cell}>{cell}</th>)}
+          {header.map(cell => (
+            <th key={cell}>{cell}</th>
+          ))}
         </tr>
       </thead>
       <tbody>
