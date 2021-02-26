@@ -7,7 +7,6 @@ import Table from '../Table';
 import makeObjectLinesOfTable from '../utils/makeObjectLinesOfTable';
 
 interface IPCs {
-  edit?: JSX.Element;
   value: string;
   exists: string;
 }
@@ -27,72 +26,49 @@ interface IPCGroupByCC {
   'Disponível no CC': number;
 }
 
+interface IDataGroupPCByCC extends IDataPCOGoupByCC {
+  disponivelPeriodoContaCC?: number;
+  valorATransferir: number;
+}
+
 const TableListPCsForTransfer: React.FC = () => {
-  const [pcs, setPcs] = useState<IPCs[]>([]);
-  const [groupByCC, setGroupByCC] = useState<IDataPCOGoupByCC[]>([]);
-  const [valueInputPC, setVAlueInputPC] = useState('794153');
+  const [valueInputPC, setVAlueInputPC] = useState('794138');
 
-  const { pco } = usePco();
-
-  const handleAddPC = useCallback(() => {
-    const exists = pcs.findIndex(pc => pc.value === valueInputPC) >= 0;
-    const isPCValid =
-      pco.list.findIndex(item => item.Documento === valueInputPC) >= 0;
-
-    if (exists) {
-      return;
-    }
-
-    const newPcs: IPCs[] = [
-      ...pcs,
-      {
-        edit: <></>,
-        value: valueInputPC,
-        exists: isPCValid ? 'SIM' : 'NÃO',
-      },
-    ];
-
-    if (isPCValid) {
-      const listDataPCO = pco.list.filter(
-        item => newPcs.findIndex(pc => pc.value === item.Documento) >= 0,
-      );
-
-      setGroupByCC(groupDataByCC(listDataPCO));
-    }
-
-    setPcs(newPcs);
-    setVAlueInputPC('794154');
-  }, [valueInputPC, pco.list, pcs]);
-
-  const handleRemovePC = useCallback(
-    (pc: string) => {
-      const indexPC = pcs.findIndex(findePc => findePc.value === pc);
-      if (indexPC === -1) {
-        return;
-      }
-
-      const newPcs = [...pcs];
-      newPcs.splice(indexPC, 1);
-      const listDataPCO = pco.list.filter(
-        item => newPcs.findIndex(pc => pc.value === item.Documento) >= 0,
-      );
-
-      setPcs(newPcs);
-      setGroupByCC(groupDataByCC(listDataPCO));
-    },
-    [pcs],
-  );
+  const {
+    pcsForTransfer,
+    handleAddPcForTransfer,
+    pcsForTransferGroupByCC,
+    handleRemovePcForTransfer,
+  } = usePco();
 
   /*
-   *---- G R O U P   B Y   C C
+   *   G  R  O  U  P    B  Y     C  C
    */
   const headerGroupByCC = useMemo(
-    () => ['Periodo', 'Conta', 'CCusto', 'Total PC Por CC', 'Disponível no CC'],
+    () => [
+      'Periodo',
+      'Conta',
+      'CCusto',
+      'Total PC',
+      'Empenhado PC',
+      'Falta Empenhar',
+      'Disponivel no Sitema',
+      'Valor a Transferir',
+    ],
     [],
   );
 
   const keysGroupByCC = useMemo(
-    () => ['Periodo', 'Conta', 'CCusto', 'disponivelSistema'],
+    () => [
+      'Periodo',
+      'Conta',
+      'CCusto',
+      'totalPCBloqueado',
+      'totalEmpenhadoPC',
+      'faltaEmpenhar',
+      'disponivelPeriodoContaCC',
+      'valorATransferir',
+    ],
     [],
   );
 
@@ -100,10 +76,48 @@ const TableListPCsForTransfer: React.FC = () => {
     () =>
       makeObjectLinesOfTable({
         keys: keysGroupByCC,
-        keysCurrency: ['disponivelSistema'],
-        list: groupByCC,
+        keysCurrency: [
+          'totalPCBloqueado',
+          'totalEmpenhadoPC',
+          'faltaEmpenhar',
+          'disponivelPeriodoContaCC',
+          'valorATransferir',
+        ],
+        list: pcsForTransferGroupByCC,
       }),
-    [keysGroupByCC, groupByCC],
+    [keysGroupByCC, pcsForTransferGroupByCC],
+  );
+
+  /*
+   *---- L I S T   P C s
+   */
+  const headerListPCs = useMemo(() => ['Editar', 'PC', 'No Relatorio'], []);
+
+  const keysListPCs = useMemo(() => ['editar', 'value', 'exists'], []);
+
+  const linesListPCsC = useMemo(
+    () =>
+      makeObjectLinesOfTable({
+        keys: keysListPCs,
+        keysCurrency: [],
+        list: [
+          ...pcsForTransfer.map(pc => ({
+            value: pc,
+            exists: '',
+            editar: (
+              <button
+                type="button"
+                onClick={() => {
+                  handleRemovePcForTransfer(pc);
+                }}
+              >
+                Remover
+              </button>
+            ),
+          })),
+        ],
+      }),
+    [handleRemovePcForTransfer],
   );
 
   return (
@@ -114,42 +128,19 @@ const TableListPCsForTransfer: React.FC = () => {
           value={valueInputPC}
           onChange={({ target: { value } }) => setVAlueInputPC(value)}
         />
-        <button type="button" onClick={handleAddPC}>
+        <button
+          type="button"
+          onClick={() => handleAddPcForTransfer(valueInputPC)}
+        >
           Adicionar PC
         </button>
       </div>
 
-      {!!pcs.length && (
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th>PC</th>
-              <th>No Relatorio</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pcs.map(pc => (
-              <tr key={pc.value}>
-                <td>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      handleRemovePC(pc.value);
-                    }}
-                  >
-                    Remover
-                  </button>
-                </td>
-                <td>{pc.value}</td>
-                <td>{pc.exists}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      {!!pcsForTransfer.length && (
+        <Table header={headerListPCs} lines={linesListPCsC} />
       )}
 
-      {!!groupByCC.length && (
+      {!!pcsForTransferGroupByCC.length && (
         <Table header={headerGroupByCC} lines={linesGroupByCC} />
       )}
     </>

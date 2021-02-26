@@ -56,18 +56,20 @@ export function groupDataByCC(dataPCO: IDataPCO[]): IDataPCOGoupByCC[] {
         Periodo,
         id: Periodo + Conta + CCusto,
         itens: [newItem],
-        totalPCBloqueado: Total - Pedido,
+        totalPCBloqueado: Total,
         totalOrcado: Orcado,
         totalEmpenhadoPC: Pedido,
         totalEmpenhadoNF: EntrNF,
         disponivelSistema: Orcado + Pedido + EntrNF,
+        faltaEmpenhar: Total + Pedido,
       });
     } else {
-      dataGoupByCC[findIndex].totalPCBloqueado += Total - Pedido;
+      dataGoupByCC[findIndex].totalPCBloqueado += Total;
       dataGoupByCC[findIndex].totalOrcado += Orcado;
       dataGoupByCC[findIndex].totalEmpenhadoPC += Pedido;
       dataGoupByCC[findIndex].totalEmpenhadoNF += EntrNF;
       dataGoupByCC[findIndex].disponivelSistema += Orcado + Pedido + EntrNF;
+      dataGoupByCC[findIndex].faltaEmpenhar += Total + Pedido;
       dataGoupByCC[findIndex].itens.push(newItem);
     }
   });

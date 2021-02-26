@@ -1,0 +1,1126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>Microsiga Protheus</Author>
+  <LastAuthor>Framework Time</LastAuthor>
+  <Created>2011-11-11T00:00:00Z</Created>
+  <Version>14.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>11820</WindowHeight>
+  <WindowWidth>18195</WindowWidth>
+  <WindowTopX>480</WindowTopX>
+  <WindowTopY>75</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#000000"/>
+  </Style>
+  <Style ss:ID="TITLE">
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="12" ss:Color="#1F497D"  ss:Bold='1'  />
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="3" ss:Color="#FFFFFF"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="HEADER">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+   <Borders>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#4F81BD"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#4F81BD"/>
+   </Borders>
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#FFFFFF"  ss:Bold='1'  />
+   <Interior ss:Color="#4F81BD" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="LINEA">
+   <Borders>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#B8CCE4"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#B8CCE4"/>
+   </Borders>
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#000000" />
+   <Interior ss:Color="#B8CCE4" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="LINEB">
+   <Borders>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#DCE6F1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#DCE6F1"/>
+   </Borders>
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#000000" />
+   <Interior ss:Color="#DCE6F1" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="LINEALeftGeneral" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+
+  </Style>
+  <Style ss:ID="LINEALeftNumber" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.00_-;\-* #,##0.00_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEALeftMonetario" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-&quot;R$&quot;\ * #,##0.00_-;\-&quot;R$&quot;\ * #,##0.00_-;_-&quot;R$&quot;\ * &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEALeftDateTime" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="Short Date"/>
+  </Style>
+  <Style ss:ID="LINEALeftNumberDecimal0" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0_-;\-* #,##0_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEALeftNumberDecimal1" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.0_-;\-* #,##0.0_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEALeftNumberDecimal2" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.00_-;\-* #,##0.00_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEALeftNumberDecimal3" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.000_-;\-* #,##0.000_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEALeftNumberDecimal4" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.0000_-;\-* #,##0.0000_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEACenterGeneral" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+
+  </Style>
+  <Style ss:ID="LINEACenterNumber" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.00_-;\-* #,##0.00_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEACenterMonetario" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-&quot;R$&quot;\ * #,##0.00_-;\-&quot;R$&quot;\ * #,##0.00_-;_-&quot;R$&quot;\ * &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEACenterDateTime" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="Short Date"/>
+  </Style>
+  <Style ss:ID="LINEACenterNumberDecimal0" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0_-;\-* #,##0_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEACenterNumberDecimal1" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.0_-;\-* #,##0.0_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEACenterNumberDecimal2" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.00_-;\-* #,##0.00_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEACenterNumberDecimal3" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.000_-;\-* #,##0.000_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEACenterNumberDecimal4" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.0000_-;\-* #,##0.0000_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEARightGeneral" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+
+  </Style>
+  <Style ss:ID="LINEARightNumber" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.00_-;\-* #,##0.00_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEARightMonetario" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-&quot;R$&quot;\ * #,##0.00_-;\-&quot;R$&quot;\ * #,##0.00_-;_-&quot;R$&quot;\ * &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEARightDateTime" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="Short Date"/>
+  </Style>
+  <Style ss:ID="LINEARightNumberDecimal0" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0_-;\-* #,##0_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEARightNumberDecimal1" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.0_-;\-* #,##0.0_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEARightNumberDecimal2" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.00_-;\-* #,##0.00_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEARightNumberDecimal3" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.000_-;\-* #,##0.000_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEARightNumberDecimal4" ss:Parent="LINEA">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.0000_-;\-* #,##0.0000_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBLeftGeneral" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+
+  </Style>
+  <Style ss:ID="LINEBLeftNumber" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.00_-;\-* #,##0.00_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBLeftMonetario" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-&quot;R$&quot;\ * #,##0.00_-;\-&quot;R$&quot;\ * #,##0.00_-;_-&quot;R$&quot;\ * &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBLeftDateTime" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="Short Date"/>
+  </Style>
+  <Style ss:ID="LINEBLeftNumberDecimal0" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0_-;\-* #,##0_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBLeftNumberDecimal1" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.0_-;\-* #,##0.0_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBLeftNumberDecimal2" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.00_-;\-* #,##0.00_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBLeftNumberDecimal3" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.000_-;\-* #,##0.000_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBLeftNumberDecimal4" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.0000_-;\-* #,##0.0000_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBCenterGeneral" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+
+  </Style>
+  <Style ss:ID="LINEBCenterNumber" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.00_-;\-* #,##0.00_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBCenterMonetario" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-&quot;R$&quot;\ * #,##0.00_-;\-&quot;R$&quot;\ * #,##0.00_-;_-&quot;R$&quot;\ * &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBCenterDateTime" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="Short Date"/>
+  </Style>
+  <Style ss:ID="LINEBCenterNumberDecimal0" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0_-;\-* #,##0_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBCenterNumberDecimal1" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.0_-;\-* #,##0.0_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBCenterNumberDecimal2" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.00_-;\-* #,##0.00_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBCenterNumberDecimal3" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.000_-;\-* #,##0.000_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBCenterNumberDecimal4" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.0000_-;\-* #,##0.0000_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBRightGeneral" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+
+  </Style>
+  <Style ss:ID="LINEBRightNumber" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.00_-;\-* #,##0.00_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBRightMonetario" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-&quot;R$&quot;\ * #,##0.00_-;\-&quot;R$&quot;\ * #,##0.00_-;_-&quot;R$&quot;\ * &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBRightDateTime" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="Short Date"/>
+  </Style>
+  <Style ss:ID="LINEBRightNumberDecimal0" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0_-;\-* #,##0_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBRightNumberDecimal1" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.0_-;\-* #,##0.0_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBRightNumberDecimal2" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.00_-;\-* #,##0.00_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBRightNumberDecimal3" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.000_-;\-* #,##0.000_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+  <Style ss:ID="LINEBRightNumberDecimal4" ss:Parent="LINEB">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+<NumberFormat ss:Format="_-* #,##0.0000_-;\-* #,##0.0000_-;_-* &quot;-&quot;??_-;_-@_-"/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="1-PCO">
+  <Table ss:ExpandedColumnCount="20" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultRowHeight="15">
+   <Column ss:Width="59.4"/>
+   <Column ss:Width="231"/>
+   <Column ss:Width="46.2"/>
+   <Column ss:Width="66"/>
+   <Column ss:Width="26.4"/>
+   <Column ss:Width="59.4"/>
+   <Column ss:Width="26.4"/>
+   <Column ss:Width="46.2"/>
+   <Column ss:Width="19.8"/>
+   <Column ss:Width="112.2"/>
+   <Column ss:Width="118.8"/>
+   <Column ss:Width="52.8"/>
+   <Column ss:Width="52.8"/>
+   <Column ss:Width="46.2"/>
+   <Column ss:Width="39.6"/>
+   <Column ss:Width="39.6"/>
+   <Column ss:Width="33"/>
+   <Column ss:Width="125.4"/>
+   <Column ss:Width="46.2"/>
+   <Column ss:Width="52.8"/>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="TITLE" ss:MergeAcross="19"><Data ss:Type="String">RAZÃO ANALITICO PCO</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">Conta</Data></Cell>
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">Descrição</Data></Cell>
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">C.Custo</Data></Cell>
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">Item Conta</Data></Cell>
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">Tipo</Data></Cell>
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">Documento</Data></Cell>
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">Item</Data></Cell>
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">Produto</Data></Cell>
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">Qtd</Data></Cell>
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">Vlr.Unit</Data></Cell>
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">Total</Data></Cell>
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">Emissão</Data></Cell>
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">Data Prv</Data></Cell>
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">Periodo</Data></Cell>
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">Orcado</Data></Cell>
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">Contin</Data></Cell>
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">Solic</Data></Cell>
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">Pedido</Data></Cell>
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">Entr.NF</Data></Cell>
+    <Cell ss:StyleID="HEADER"><Data ss:Type="String">Real CTB</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">2201005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String">11/2020</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">20000</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">2202001</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String">11/2020</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">10000</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">2203001</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String">11/2020</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">2000</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">2203002</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String">11/2020</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">2000</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">2299004</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String">11/2020</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">2000</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">2299008</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String">11/2020</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">2000</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">2299010</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String">11/2020</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">2000</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">2207001</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String">11/2020</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">15000</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">2201005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String">11/2020</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">-15000</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">2104007</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String">11/2020</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">1000</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">2201005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String">12/2020</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">20000</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">2207001</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String">12/2020</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">8000</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">2203001</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String">12/2020</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">2000</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">2203002</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String">12/2020</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">2000</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">2299003</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String">12/2020</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">3200</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">2299004</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String">12/2020</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">2000</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">2299008</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String">12/2020</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">2000</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">2299010</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String">12/2020</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">2000</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">2202003</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String">12/2020</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">5000</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">2207004</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String">12/2020</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">200</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">2207004</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String">12/2020</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">2299004</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">SO</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String">12/2020</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">4200</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">2207004</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">PC</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">793692</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0002</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">70164</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">59</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">118</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="DateTime">2020-11-23T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="DateTime">2020-11-28T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String">11/2020</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">2207004</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">PC</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">793687</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0005</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">12354</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">5.2</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">15.6</Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="DateTime">2020-11-23T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="DateTime">2020-11-28T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String">11/2020</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">2207001</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">PC</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">793708</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0001</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">12970</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">80</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">52</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">4160</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="DateTime">2020-11-23T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="DateTime">2020-12-03T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String">11/2020</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">-4160</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">2207001</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">PC</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">793707</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0001</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">12340</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">150</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">52</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">7800</Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="DateTime">2020-11-23T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="DateTime">2020-12-03T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String">11/2020</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">-7800</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">2207004</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">PC</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">793687</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0002</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">13322</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">9</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">36</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="DateTime">2020-11-23T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="DateTime">2020-11-28T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String">11/2020</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">2207004</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">PC</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">793687</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0001</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">12427</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="DateTime">2020-11-23T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="DateTime">2020-11-28T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String">11/2020</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">2207004</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">PC</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">793687</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0004</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">46360</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">12</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="DateTime">2020-11-23T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="DateTime">2020-11-28T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String">11/2020</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">2207004</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">PC</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">793687</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0003</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">13324</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">5.5</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">22</Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="DateTime">2020-11-23T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="DateTime">2020-11-28T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String">11/2020</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">2299003</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">PC</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">793997</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0002</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">12052</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">8</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">99.9</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">799.2</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="DateTime">2020-12-09T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="DateTime">2020-12-09T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String">12/2020</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">-799.2</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">2299003</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">PC</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">793997</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0003</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">45355</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">30</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">12.393</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">371.79</Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="DateTime">2020-12-09T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="DateTime">2020-12-09T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String">12/2020</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">-371.79</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">2207004</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">PC</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">793870</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0001</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">87816</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">20</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">95</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">1900</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="DateTime">2020-12-03T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="DateTime">2020-12-13T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String">12/2020</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">2299003</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">PC</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">793997</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">0001</Data></Cell>
+    <Cell ss:StyleID="LINEBCenterGeneral"><Data ss:Type="String">12021</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">38.6</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">386</Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="DateTime">2020-12-09T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="DateTime">2020-12-09T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEBLeftDateTime"><Data ss:Type="String">12/2020</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">-386</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEBRightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">512206005</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">MANUTENCAO DE PREDIOS E INSTALACOES</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">1101003</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0102</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">NF</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">000165709</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">0003</Data></Cell>
+    <Cell ss:StyleID="LINEACenterGeneral"><Data ss:Type="String">46297</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">46.17</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">46.17</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="DateTime">2020-12-18T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="DateTime">2020-12-29T00:00:00.000Z</Data></Cell>
+    <Cell ss:StyleID="LINEALeftDateTime"><Data ss:Type="String">12/2020</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">-46.17</Data></Cell>
+    <Cell ss:StyleID="LINEARightNumber"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:Index="15" ss:StyleID="LINEARightNumber" ss:Formula="=SUM(R[-35]C:R[-1]C)"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="16" ss:StyleID="LINEARightNumber" ss:Formula="=SUM(R[-35]C:R[-1]C)"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="17" ss:StyleID="LINEARightNumber" ss:Formula="=SUM(R[-35]C:R[-1]C)"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="18" ss:StyleID="LINEARightNumber" ss:Formula="=SUM(R[-35]C:R[-1]C)"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="19" ss:StyleID="LINEARightNumber" ss:Formula="=SUM(R[-35]C:R[-1]C)"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:Index="20" ss:StyleID="LINEARightNumber" ss:Formula="=SUM(R[-35]C:R[-1]C)"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.31496062000000002"/>
+    <Footer x:Margin="0.31496062000000002"/>
+    <PageMargins x:Bottom="0.78740157499999996" x:Left="0.511811024"
+     x:Right="0.511811024" x:Top="0.78740157499999996"/>
+   </PageSetup>
+   <Unsynced/>
+   <Selected/>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

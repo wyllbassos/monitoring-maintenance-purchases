@@ -26,6 +26,7 @@ export interface IDataPCOGoupByCC {
   totalEmpenhadoPC: number;
   totalEmpenhadoNF: number;
   disponivelSistema: number;
+  faltaEmpenhar: number;
   itens: IDataPCO[];
 }
 
