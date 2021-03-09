@@ -91,9 +91,9 @@ const TableListPCsForTransfer: React.FC = () => {
   /*
    *---- L I S T   P C s
    */
-  const headerListPCs = useMemo(() => ['Editar', 'PC', 'No Relatorio'], []);
+  const headerListPCs = useMemo(() => ['PC'], []);
 
-  const keysListPCs = useMemo(() => ['editar', 'value', 'exists'], []);
+  const keysListPCs = useMemo(() => ['value'], []);
 
   const linesListPCsC = useMemo(
     () =>
@@ -102,17 +102,18 @@ const TableListPCsForTransfer: React.FC = () => {
         keysCurrency: [],
         list: [
           ...pcsForTransfer.map(pc => ({
-            value: pc,
-            exists: '',
-            editar: (
-              <button
-                type="button"
-                onClick={() => {
-                  handleRemovePcForTransfer(pc);
-                }}
-              >
-                Remover
-              </button>
+            value: (
+              <div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleRemovePcForTransfer(pc);
+                  }}
+                >
+                  X
+                </button>
+                {pc}
+              </div>
             ),
           })),
         ],

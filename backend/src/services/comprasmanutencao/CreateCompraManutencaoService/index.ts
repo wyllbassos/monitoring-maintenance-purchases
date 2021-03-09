@@ -60,6 +60,9 @@ export function getStatus(compraManutencao: CreateCompraManutencao): string {
     dt_aprovacao_n3,
     tipo_pagamento,
     quantidade,
+    cod_aprovador_n1,
+    cod_aprovador_n2,
+    cod_aprovador_n3,
   } = compraManutencao;
   /**
    * =
@@ -88,14 +91,13 @@ export function getStatus(compraManutencao: CreateCompraManutencao): string {
   if (status_pc === '') return '03-COTAÇÃO';
   if (quantidade_ja_entregue === quantidade) return '10-ENTREGUE';
   if (quantidade_ja_entregue > 0) return '10-ENTREGUE PARCIAL';
-  if (status_pc === 'B' && dt_aprovacao_n1 === null)
+  if (status_pc === 'B' && dt_aprovacao_n1 === null && !!cod_aprovador_n1)
     return '04-PC-BLOQUEADO NVL1';
-  if (status_pc === 'B' && dt_aprovacao_n2 === null)
+  if (status_pc === 'B' && dt_aprovacao_n2 === null && !!cod_aprovador_n2)
     return '05-PC-BLOQUEADO NVL2';
-  if (status_pc === 'B' && dt_aprovacao_n3 === null)
+  if (status_pc === 'B' && dt_aprovacao_n3 === null && !!cod_aprovador_n3)
     return '06-PC-BLOQUEADO NVL3';
-  if (status_pc === 'B' && dt_aprovacao_n3 !== null)
-    return '07-PC-BLOQ.NVL3 ERRO SIST.';
+  if (status_pc === 'B') return '07-PC-BLOQ.NVL3 ERRO SIST.';
   if (tipo_pagamento !== '') return '08-PAGAMENTO ANTECIPADO';
 
   return '09-PC-AGUARDA ENTREGA';
