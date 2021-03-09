@@ -1,9 +1,12 @@
 import axios from 'axios';
+import { baseURL } from '../env.json';
+
+console.log(baseURL);
 
 const api = axios.create({
-  // baseURL: 'http://192.168.1.103:3333',
+  baseURL,
   // baseURL: 'http://localhost:3333',
-  baseURL: 'http://glo-01-0443:3333',
+  // baseURL: 'http://glo-01-0443:3333',
   // baseURL: 'http://172.16.104.252:3333',
 });
 
