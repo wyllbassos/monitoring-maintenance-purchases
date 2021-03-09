@@ -130,6 +130,15 @@ class ComprasManutencao extends BaseColumnSchemaPart {
   )
   @JoinColumn({ referencedColumnName: 'tabela_alterada_id' })
   historico_alteracoes: HistoricoAlteracoes[];
+
+  @Column()
+  cod_aprovador_n1?: string;
+
+  @Column()
+  cod_aprovador_n2?: string;
+
+  @Column()
+  cod_aprovador_n3?: string;
 }
 
 export default ComprasManutencao;

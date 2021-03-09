@@ -303,6 +303,33 @@ export default async function updateCompraManutencao({
     newCompraManutencao.fornecedor = request.fornecedor;
   }
 
+  if (compraManutencao.cod_aprovador_n1 !== request.cod_aprovador_n1) {
+    arrAlteracoes.push({
+      campo: 'cod_aprovador_n1',
+      valor_antigo: compraManutencao.cod_aprovador_n1,
+      valor_novo: request.cod_aprovador_n1,
+    });
+    newCompraManutencao.cod_aprovador_n1 = request.cod_aprovador_n1;
+  }
+
+  if (compraManutencao.cod_aprovador_n2 !== request.cod_aprovador_n2) {
+    arrAlteracoes.push({
+      campo: 'cod_aprovador_n2',
+      valor_antigo: compraManutencao.cod_aprovador_n2,
+      valor_novo: request.cod_aprovador_n2,
+    });
+    newCompraManutencao.cod_aprovador_n2 = request.cod_aprovador_n2;
+  }
+
+  if (compraManutencao.cod_aprovador_n3 !== request.cod_aprovador_n3) {
+    arrAlteracoes.push({
+      campo: 'cod_aprovador_n3',
+      valor_antigo: compraManutencao.cod_aprovador_n3,
+      valor_novo: request.cod_aprovador_n3,
+    });
+    newCompraManutencao.cod_aprovador_n3 = request.cod_aprovador_n3;
+  }
+
   if (arrAlteracoes.length > 0) {
     const createHistoricoAlteracoesService = new CreateHistoricoAlteracoesService();
     const arrAlteracoesTratado = arrAlteracoes.map(alteracao => ({

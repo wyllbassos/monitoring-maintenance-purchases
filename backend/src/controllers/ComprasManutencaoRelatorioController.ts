@@ -9,8 +9,8 @@ class ComprasManutencaoRelatorioController {
 
     const relatorio = request.params.relatorio as string;
     if (
-      relatorio === 'nivel-2' ||
       relatorio === 'nivel-1' ||
+      relatorio === 'nivel-2' ||
       relatorio === 'nivel-3' ||
       relatorio === 'bloqueados'
     ) {

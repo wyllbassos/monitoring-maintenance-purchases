@@ -41,6 +41,9 @@ export interface CreateCompraManutencao {
   requisitante: string;
   fornecedor: string;
   status: string;
+  cod_aprovador_n1?: string;
+  cod_aprovador_n2?: string;
+  cod_aprovador_n3?: string;
 }
 
 export function getStatus(compraManutencao: CreateCompraManutencao): string {
