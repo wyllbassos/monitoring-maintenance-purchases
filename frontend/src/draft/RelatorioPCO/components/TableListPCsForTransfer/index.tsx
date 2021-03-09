@@ -117,7 +117,7 @@ const TableListPCsForTransfer: React.FC = () => {
           })),
         ],
       }),
-    [handleRemovePcForTransfer],
+    [pcsForTransfer, handleRemovePcForTransfer],
   );
 
   return (
