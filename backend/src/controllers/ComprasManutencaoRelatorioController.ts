@@ -12,6 +12,7 @@ class ComprasManutencaoRelatorioController {
       relatorio === 'nivel-1' ||
       relatorio === 'nivel-2' ||
       relatorio === 'nivel-3' ||
+      relatorio === 'erro' ||
       relatorio === 'bloqueados'
     ) {
       let status = '04-PC-BLOQUEADO NVL1';
@@ -21,8 +22,11 @@ class ComprasManutencaoRelatorioController {
       if (relatorio === 'nivel-3') {
         status = '06-PC-BLOQUEADO NVL3';
       }
+      if (relatorio === 'erro') {
+        status = '07-PC-BLOQ. ERRO SIST.';
+      }
       if (relatorio === 'bloqueados') {
-        status = '%PC-BLOQUEADO NVL%';
+        status = '%PC-BLOQ%';
       }
       const [
         comprasManutencao,

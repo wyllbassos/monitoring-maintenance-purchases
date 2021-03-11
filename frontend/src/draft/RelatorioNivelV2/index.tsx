@@ -89,7 +89,7 @@ const RelatorioNivelV2: React.FC<Props> = ({ Nivel }: Props) => {
     });
 
     return {
-      niveisAprovacoes: ['bloqueados', 'nivel-1', 'nivel-2', 'nivel-3'],
+      niveisAprovacoes: ['bloqueados', 'nivel-1', 'nivel-2', 'nivel-3', 'erro'],
       statusAprovacoes,
     };
   }, [state.relatorioPC]);
