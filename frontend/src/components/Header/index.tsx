@@ -35,29 +35,21 @@ const Header: React.FC<HeaderProps> = ({
         <Link to="/" className={selected === '/' ? 'headerNavLinkSelect' : ''}>
           Lista
         </Link>
+
         <Link
-          to="/nivel-1"
-          className={selected === '/nivel-1' ? 'headerNavLinkSelect' : ''}
+          to="/pcs-bloqueados"
+          className={
+            selected === '/pcs-bloqueados' ? 'headerNavLinkSelect' : ''
+          }
         >
-          Nível 1
+          PC's Bloqueados
         </Link>
-        <Link
-          to="/nivel-2"
-          className={selected === '/nivel-2' ? 'headerNavLinkSelect' : ''}
-        >
-          Nível 2
-        </Link>
+
         <Link
           to="/custos"
           className={selected === '/custos' ? 'headerNavLinkSelect' : ''}
         >
           Custos
-        </Link>
-        <Link
-          to="/prioridades"
-          className={selected === '/prioridades' ? 'headerNavLinkSelect' : ''}
-        >
-          Prioridades
         </Link>
       </nav>
     </header>

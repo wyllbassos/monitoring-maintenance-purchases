@@ -14,27 +14,17 @@ import { PcoProvider } from '../draft/RelatorioPCO/hooks/pco';
 const Routes: React.FC = () => (
   <Switch>
     <Route path="/" exact component={Dashboard} />
+
     <Route path="/list" exact component={Dashboard} />
-    <Route
-      path="/nivel-1"
-      exact
-      component={() => <RelatorioNivel Nivel="nivel-1" />}
-    />
-    <Route
-      path="/nivel-2"
-      exact
-      component={() => <RelatorioNivel Nivel="nivel-2" />}
-    />
+
+    <Route path="/pcs-bloqueados" exact component={RelatorioNivelV2} />
 
     <Route path="/custos" exact component={Custos} />
+
     <Route path="/prioridades" exact component={Prioridades} />
+
     <Route path="/import" exact component={Import} />
 
-    <Route
-      path="/testes/pc"
-      exact
-      component={() => <RelatorioNivelV2 Nivel="nivel-1" />}
-    />
     <Route
       path="/testes/pco"
       exact

@@ -9,9 +9,9 @@ import api from '../../services/api';
 import Table from './Table';
 import { Compra } from '../../pages/Prioridades/index';
 
-interface Props {
-  Nivel: string;
-}
+// interface Props {
+//   Nivel: string;
+// }
 
 interface UpdateStatusAaprovacao {
   pc: string;
@@ -67,10 +67,10 @@ const getDataApi = async (nivel: string): Promise<RelatorioPC[]> => {
   return relatorioPC;
 };
 
-const RelatorioNivelV2: React.FC<Props> = ({ Nivel }: Props) => {
+const RelatorioNivelV2: React.FC = () => {
   const [state, setState] = useState<StateProps>({
     statusAprovacao: 'Todos',
-    nivelAprovacao: 'nivel-1',
+    nivelAprovacao: 'bloqueados',
     relatorioPC: [],
   });
 
@@ -95,7 +95,7 @@ const RelatorioNivelV2: React.FC<Props> = ({ Nivel }: Props) => {
   }, [state.relatorioPC]);
 
   useEffect(() => {
-    getDataApi('nivel-1').then(relatorioPC => {
+    getDataApi(state.nivelAprovacao).then(relatorioPC => {
       setState(({ nivelAprovacao, statusAprovacao }) => {
         return {
           statusAprovacao,
@@ -128,7 +128,7 @@ const RelatorioNivelV2: React.FC<Props> = ({ Nivel }: Props) => {
 
   return (
     <Container>
-      <Header size="small" selected={`/${Nivel}`} />
+      <Header size="small" selected={`/pcs-bloqueados`} />
       <ContainerTable>
         <div>
           <div>
