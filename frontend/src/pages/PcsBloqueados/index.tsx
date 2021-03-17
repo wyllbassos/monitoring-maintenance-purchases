@@ -1,22 +1,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import Header from '../../components/Header';
 
 import { Container, ContainerTable } from './styles';
 
-import api from '../../services/api';
 import Table from './Table';
 import { Compra } from '../../pages/Prioridades/index';
-
-// interface Props {
-//   Nivel: string;
-// }
-
-interface UpdateStatusAaprovacao {
-  pc: string;
-  status_aprovacao: string;
-}
+import { getRelatorioPCsBloqueados } from './util/getRelatorioPCsBloqueados';
 
 export interface RelatorioPC {
   pc: string;
@@ -34,73 +25,68 @@ interface StateProps {
   statusAprovacao: string;
   nivelAprovacao: string;
   relatorioPC: RelatorioPC[];
+  relatorioPCFiltered: RelatorioPC[];
+  options: {
+    niveisAprovacoes: string[];
+    statusAprovacoes: string[];
+  };
 }
 
 interface SetStateProps {
   statusAprovacao?: string;
   nivelAprovacao?: string;
   relatorioPC?: RelatorioPC[];
+  options?: {
+    niveisAprovacoes: string[];
+    statusAprovacoes: string[];
+  };
 }
 
-const getDataApi = async (nivel: string): Promise<RelatorioPC[]> => {
-  const { data } = await api.get<Compra[]>(`/compras-manutencao/${nivel}`);
-
-  const relatorioPC: RelatorioPC[] = [];
-
-  data.forEach(compra => {
-    const indexNewCompra = relatorioPC.findIndex(
-      newCompra => newCompra.pc === compra.pc,
-    );
-
-    if (indexNewCompra === -1) {
-      relatorioPC.push({
-        pc: compra.pc,
-        valor_total: compra.valor_total,
-        status_aprovacao: compra.status_aprovacao,
-        itens: [compra],
-      });
-    } else {
-      relatorioPC[indexNewCompra].valor_total += compra.valor_total;
-      relatorioPC[indexNewCompra].itens.push(compra);
-    }
-  });
-  return relatorioPC;
-};
-
-const RelatorioNivelV2: React.FC = () => {
+const PcsBloqueados: React.FC = () => {
   const [state, setState] = useState<StateProps>({
     statusAprovacao: 'Todos',
     nivelAprovacao: 'bloqueados',
     relatorioPC: [],
+    relatorioPCFiltered: [],
+    options: {
+      niveisAprovacoes: ['bloqueados', 'nivel-1', 'nivel-2', 'nivel-3', 'erro'],
+      statusAprovacoes: ['Todos', 'Vazios', 'Enviados'],
+    },
   });
 
-  const options = useMemo<OptionsProps>(() => {
-    const statusAprovacoes: string[] = ['Todos', 'Vazios', 'Enviados'];
-    state.relatorioPC.forEach(compra => {
-      const indexStatusAprovacao = statusAprovacoes.findIndex(
-        statusAprovacaoItem => statusAprovacaoItem === compra.status_aprovacao,
-      );
-      if (indexStatusAprovacao === -1 && compra.status_aprovacao) {
-        // const isDate =
-        //   new Date(compra.status_aprovacao).toDateString() ===
-        //   'Invalid Date';
-        statusAprovacoes.push(compra.status_aprovacao);
-      }
-    });
-
-    return {
-      niveisAprovacoes: ['bloqueados', 'nivel-1', 'nivel-2', 'nivel-3', 'erro'],
-      statusAprovacoes,
-    };
-  }, [state.relatorioPC]);
-
   useEffect(() => {
-    getDataApi(state.nivelAprovacao).then(relatorioPC => {
+    getRelatorioPCsBloqueados(state.nivelAprovacao).then(relatorioPC => {
+      const niveisAprovacoes = [
+        'bloqueados',
+        'nivel-1',
+        'nivel-2',
+        'nivel-3',
+        'erro',
+      ];
+      const statusAprovacoes = ['Todos', 'Vazios', 'Enviados'];
+      relatorioPC.forEach(compra => {
+        const indexStatusAprovacao = statusAprovacoes.findIndex(
+          statusAprovacaoItem =>
+            statusAprovacaoItem === compra.status_aprovacao,
+        );
+        if (indexStatusAprovacao === -1 && compra.status_aprovacao) {
+          // const isDate =
+          //   new Date(compra.status_aprovacao).toDateString() ===
+          //   'Invalid Date';
+          statusAprovacoes.push(compra.status_aprovacao);
+        }
+      });
+
       setState(({ nivelAprovacao, statusAprovacao }) => {
         return {
           statusAprovacao,
           nivelAprovacao,
           relatorioPC,
+          relatorioPCFiltered: relatorioPC,
+          options: {
+            niveisAprovacoes,
+            statusAprovacoes,
+          },
         };
       });
     });
@@ -108,20 +94,29 @@ const RelatorioNivelV2: React.FC = () => {
 
   const handleSetState = useCallback(
     async (props: SetStateProps) => {
-      const { nivelAprovacao, relatorioPC, statusAprovacao } = props;
+      const statusAprovacao = props.statusAprovacao || state.statusAprovacao;
+      const nivelAprovacao = props.nivelAprovacao || state.nivelAprovacao;
 
-      const newState: StateProps = {
-        statusAprovacao: statusAprovacao || state.statusAprovacao,
-        nivelAprovacao: nivelAprovacao || state.nivelAprovacao,
-        relatorioPC: relatorioPC || state.relatorioPC,
-      };
+      let relatorioPC: RelatorioPC[] = props.nivelAprovacao
+        ? await getRelatorioPCsBloqueados(nivelAprovacao)
+        : props.relatorioPC || state.relatorioPC;
+      let relatorioPCFiltered: RelatorioPC[] = relatorioPC;
 
-      if (nivelAprovacao) {
-        const newRelatorioPC = await getDataApi(nivelAprovacao);
-        newState.relatorioPC = newRelatorioPC;
+      if (statusAprovacao === 'Vazios') {
+        relatorioPCFiltered = relatorioPC.filter(pc => !pc.status_aprovacao);
+      } else if (statusAprovacao !== 'Todos') {
+        relatorioPCFiltered = relatorioPC.filter(
+          pc => pc.status_aprovacao === statusAprovacao,
+        );
       }
 
-      setState(newState);
+      setState(current => ({
+        statusAprovacao,
+        nivelAprovacao,
+        relatorioPC,
+        relatorioPCFiltered,
+        options: current.options,
+      }));
     },
     [state],
   );
@@ -140,7 +135,7 @@ const RelatorioNivelV2: React.FC = () => {
                   handleSetState({ nivelAprovacao: e.target.value });
                 }}
               >
-                {options.niveisAprovacoes.map(niveisAprovacoesItem => (
+                {state.options.niveisAprovacoes.map(niveisAprovacoesItem => (
                   <option
                     key={niveisAprovacoesItem}
                     value={niveisAprovacoesItem}
@@ -158,7 +153,7 @@ const RelatorioNivelV2: React.FC = () => {
                   handleSetState({ statusAprovacao: e.target.value });
                 }}
               >
-                {options.statusAprovacoes.map(statusAprovacaoItem => (
+                {state.options.statusAprovacoes.map(statusAprovacaoItem => (
                   <option key={statusAprovacaoItem} value={statusAprovacaoItem}>
                     {statusAprovacaoItem}
                   </option>
@@ -172,7 +167,7 @@ const RelatorioNivelV2: React.FC = () => {
         </div>
         {state.relatorioPC.length > 0 ? (
           <Table
-            relatorioPC={state.relatorioPC}
+            relatorioPC={state.relatorioPCFiltered}
             setRelatorioPC={relatorioPC => handleSetState({ relatorioPC })}
           />
         ) : (
@@ -184,4 +179,4 @@ const RelatorioNivelV2: React.FC = () => {
   );
 };
 
-export default RelatorioNivelV2;
+export default PcsBloqueados;

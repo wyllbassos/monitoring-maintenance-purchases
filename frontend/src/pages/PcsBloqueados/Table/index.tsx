@@ -71,14 +71,14 @@ const Table: React.FC<Props> = ({ relatorioPC, setRelatorioPC }: Props) => {
           return {
             ...compra,
             itens,
+            status_aprovacao,
           };
         }
-        return compra;
+        return { ...compra };
       });
       setRelatorioPC(newRelatorioPC);
     }
     handleCloseDialog();
-    // console.log(newcompras);
   }, [removeDatePC, handleCloseDialog, setRelatorioPC, relatorioPC]);
 
   return (
@@ -99,7 +99,7 @@ const Table: React.FC<Props> = ({ relatorioPC, setRelatorioPC }: Props) => {
                       }}
                     />
                     <span>PC:</span>
-                    <strong>{detalhePC.pc}</strong>
+                    <strong>{`${detalhePC.pc} | `}</strong>
                     <span>Total:</span>
                     <strong>{formatValue(detalhePC.valor_total)}</strong>
                     <span>Status Aprovação:</span>

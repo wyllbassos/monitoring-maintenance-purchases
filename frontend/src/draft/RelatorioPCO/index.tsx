@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 
 import { Container, Content } from './styles';
 
@@ -9,6 +9,7 @@ import { usePco } from './hooks/pco';
 import TablePCODataList from './components/TablePCODataList';
 import TablePCOGroupByCC from './components/TablePCOGroupByCC';
 import TableListPCsForTransfer from './components/TableListPCsForTransfer';
+import TableListPCsBlock from './components/TableListPCsBlock/index';
 
 export interface ITableGroupByCC {
   dataGoupByCC: IDataPCOGoupByCC[];
@@ -54,6 +55,13 @@ const RelatorioPCO: React.FC = () => {
           >
             Lista PCs Para Aprovar
           </button>
+
+          <button
+            type="button"
+            onClick={() => handleSetSelectedTable('listPCsblocked')}
+          >
+            Lista PCs Bloqueados
+          </button>
         </div>
 
         {!selectedTable && (
@@ -81,6 +89,8 @@ const RelatorioPCO: React.FC = () => {
         )}
 
         {selectedTable === 'listPCsForCheck' && <TableListPCsForTransfer />}
+
+        {selectedTable === 'listPCsblocked' && <TableListPCsBlock />}
       </Content>
     </Container>
   );

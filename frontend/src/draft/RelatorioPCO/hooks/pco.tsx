@@ -1,17 +1,20 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 import { IDataPCO, IDataPCOGoupByCC } from '../types';
 import { convertTextToPCO } from './utils';
 
 import initialInput from './utils/initialInput';
 import { groupDataByCC } from './utils/index';
+import { RelatorioPC } from '../../../pages/PcsBloqueados';
+import { getRelatorioPCsBloqueados } from './../../../pages/PcsBloqueados/util/getRelatorioPCsBloqueados';
 
 export type TSelectedTable =
   | ''
   | 'dataList'
   | 'dataGroupByCC'
   | 'dataItensCC'
-  | 'listPCsForCheck';
+  | 'listPCsForCheck'
+  | 'listPCsblocked';
 
 export interface IPCO {
   list: IDataPCO[];
@@ -30,6 +33,8 @@ interface IPcoContextData {
   textInput: string;
   pcsForTransfer: string[];
   pcsForTransferGroupByCC: IDataGroupPCByCC[];
+
+  pcsBloqueados: RelatorioPC[];
 
   handleSetDataPCO: (text: string) => void;
   handleSetSelectedTable: (selectedTable: TSelectedTable) => void;
@@ -146,6 +151,8 @@ export const PcoProvider: React.FC = ({ children }) => {
     pcsForTransfer: [],
     pcsForTransferGroupByCC: [],
 
+    pcsBloqueados: [],
+
     handleSetDataPCO: (text: string) => {
       const pco = convertTextToPCO(text);
       setState(current => ({
@@ -181,6 +188,12 @@ export const PcoProvider: React.FC = ({ children }) => {
       );
     },
   });
+
+  useEffect(() => {
+    getRelatorioPCsBloqueados('bloqueados').then(pcsBloqueados => {
+      setState(current => ({ ...current, pcsBloqueados }));
+    });
+  }, []);
 
   return <PcoContext.Provider value={state}>{children}</PcoContext.Provider>;
 };

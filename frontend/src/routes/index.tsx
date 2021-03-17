@@ -6,8 +6,7 @@ import Dashboard from '../pages/ComprasList';
 import Import from '../pages/Import';
 import Custos from '../pages/Custos';
 import Prioridades from '../pages/Prioridades';
-import RelatorioNivel from '../pages/RelatorioNivel';
-import RelatorioNivelV2 from '../draft/RelatorioNivelV2';
+import PcsBloqueados from '../pages/PcsBloqueados';
 import RelatorioPCO from '../draft/RelatorioPCO/index';
 import { PcoProvider } from '../draft/RelatorioPCO/hooks/pco';
 
@@ -17,7 +16,7 @@ const Routes: React.FC = () => (
 
     <Route path="/list" exact component={Dashboard} />
 
-    <Route path="/pcs-bloqueados" exact component={RelatorioNivelV2} />
+    <Route path="/pcs-bloqueados" exact component={PcsBloqueados} />
 
     <Route path="/custos" exact component={Custos} />
 

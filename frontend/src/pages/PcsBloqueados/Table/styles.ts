@@ -1,23 +1,52 @@
 import styled from 'styled-components';
 
-export const Container = styled.table`
+export const Container = styled.div`
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 32px;
+  overflow-y: auto;
+`;
+
+export const TableStyled = styled.table`
+  width: 100%;
+  margin-top: 32px;
   border-spacing: 0;
-  border: 1px solid #343a40;
+  border: 1px solid #000;
   background-color: #fff;
   color: #000;
   thead {
     tr {
       th {
-        border: 1px solid #343a40;
+        border: 1px solid #000;
         padding: 5px;
+
+        div {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          svg {
+            cursor: pointer;
+          }
+
+          span {
+            font-weight: normal;
+            margin: 0 8px;
+          }
+
+          strong {
+          }
+        }
       }
     }
   }
 
   tbody {
     tr {
-      td {
-        border: 1px solid #343a40;
+      td,
+      th {
+        border: 1px solid #000;
         padding: 5px;
 
         div {
