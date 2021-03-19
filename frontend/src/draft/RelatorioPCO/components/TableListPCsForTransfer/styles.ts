@@ -15,6 +15,7 @@ export const ContainerTablePCs = styled.div`
     padding: 0 8px;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 4px 4px 8px;
     button {
       border: 0;
       margin-right: 8px;
