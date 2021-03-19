@@ -9,7 +9,7 @@ import { usePco } from './hooks/pco';
 import TablePCODataList from './components/TablePCODataList';
 import TablePCOGroupByCC from './components/TablePCOGroupByCC';
 import TableListPCsForTransfer from './components/TableListPCsForTransfer';
-import TableListPCsBlock from './components/TableListPCsBlock/index';
+import TableListPCsBlock from './components/TableListPCsBlock/';
 
 export interface ITableGroupByCC {
   dataGoupByCC: IDataPCOGoupByCC[];

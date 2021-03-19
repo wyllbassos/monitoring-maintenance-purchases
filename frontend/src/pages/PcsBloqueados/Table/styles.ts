@@ -10,7 +10,7 @@ export const Container = styled.div`
 
 export const TableStyled = styled.table`
   width: 100%;
-  margin-top: 32px;
+  margin-top: 48px;
   border-spacing: 0;
   border: 1px solid #000;
   background-color: #fff;

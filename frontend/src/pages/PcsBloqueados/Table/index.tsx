@@ -85,48 +85,50 @@ const Table: React.FC<Props> = ({ relatorioPC, setRelatorioPC }: Props) => {
     <Container>
       {relatorioPC.length ? (
         relatorioPC.map(detalhePC => (
-          <TableStyled key={detalhePC.pc}>
-            <thead>
-              <tr>
-                <th colSpan={5}>
-                  <div>
-                    <EditTwoTone
-                      onClick={() => {
-                        handleClickEditStatusAaprovacao({
-                          pc: detalhePC.pc,
-                          status_aprovacao: detalhePC.status_aprovacao,
-                        });
-                      }}
-                    />
-                    <span>PC:</span>
-                    <strong>{`${detalhePC.pc} | `}</strong>
-                    <span>Total:</span>
-                    <strong>{formatValue(detalhePC.valor_total)}</strong>
-                    <span>Status Aprovação:</span>
-                    <strong>{detalhePC.status_aprovacao}</strong>
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th>Qtd</th>
-                <th>Valor</th>
-                <th>Descrição</th>
-                <th>Aplicação</th>
-                <th>Observação</th>
-              </tr>
-              {detalhePC.itens.map(item => (
-                <tr key={`${item.sc}-${item.item}`}>
-                  <td>{item.quantidade}</td>
-                  <td>{formatValue(item.valor_total)}</td>
-                  <td>{item.descricao}</td>
-                  <td>{item.aplicacao}</td>
-                  <td>{item.observacao}</td>
+          <>
+            <TableStyled key={detalhePC.pc}>
+              <thead>
+                <tr>
+                  <th colSpan={5}>
+                    <div>
+                      <EditTwoTone
+                        onClick={() => {
+                          handleClickEditStatusAaprovacao({
+                            pc: detalhePC.pc,
+                            status_aprovacao: detalhePC.status_aprovacao,
+                          });
+                        }}
+                      />
+                      <span>PC:</span>
+                      <strong>{`${detalhePC.pc} | `}</strong>
+                      <span>Total:</span>
+                      <strong>{formatValue(detalhePC.valor_total)}</strong>
+                      <span>Status Aprovação:</span>
+                      <strong>{detalhePC.status_aprovacao}</strong>
+                    </div>
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </TableStyled>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Qtd</th>
+                  <th>Valor</th>
+                  <th>Descrição</th>
+                  <th>Aplicação</th>
+                  <th>Observação</th>
+                </tr>
+                {detalhePC.itens.map(item => (
+                  <tr key={`${item.sc}-${item.item}`}>
+                    <td>{item.quantidade}</td>
+                    <td>{formatValue(item.valor_total)}</td>
+                    <td>{item.descricao}</td>
+                    <td>{item.aplicacao}</td>
+                    <td>{item.observacao}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </TableStyled>
+          </>
         ))
       ) : (
         <></>
