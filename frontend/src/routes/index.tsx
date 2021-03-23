@@ -7,8 +7,8 @@ import Import from '../pages/Import';
 import Custos from '../pages/Custos';
 import Prioridades from '../pages/Prioridades';
 import PcsBloqueados from '../pages/PcsBloqueados';
-import RelatorioPCO from '../draft/RelatorioPCO/index';
-import { PcoProvider } from '../draft/RelatorioPCO/hooks/pco';
+import RelatorioPCO from '../pages/RelatorioPCO/index';
+import { PcoProvider } from '../pages/RelatorioPCO/hooks/pco';
 
 const Routes: React.FC = () => (
   <Switch>
@@ -25,7 +25,7 @@ const Routes: React.FC = () => (
     <Route path="/import" exact component={Import} />
 
     <Route
-      path="/testes/pco"
+      path="/relatorio-pco"
       exact
       component={() => (
         <PcoProvider>

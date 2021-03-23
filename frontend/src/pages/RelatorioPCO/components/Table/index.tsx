@@ -1,6 +1,7 @@
 import React from 'react';
 
 import formatValue from '../../../../utils/formatValue';
+import { Content } from './styles';
 
 export interface ITableLines {
   key: any;
@@ -18,7 +19,7 @@ export interface ITable {
 
 const Table: React.FC<ITable> = ({ header, lines }: ITable) => {
   return (
-    <table>
+    <Content>
       <thead>
         <tr>
           {header.map(cell => (
@@ -38,7 +39,7 @@ const Table: React.FC<ITable> = ({ header, lines }: ITable) => {
           </tr>
         ))}
       </tbody>
-    </table>
+    </Content>
   );
 };
 

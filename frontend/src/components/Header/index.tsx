@@ -46,6 +46,13 @@ const Header: React.FC<HeaderProps> = ({
         </Link>
 
         <Link
+          to="/relatorio-pco"
+          className={selected === '/relatorio-pco' ? 'headerNavLinkSelect' : ''}
+        >
+          PCO
+        </Link>
+
+        <Link
           to="/custos"
           className={selected === '/custos' ? 'headerNavLinkSelect' : ''}
         >

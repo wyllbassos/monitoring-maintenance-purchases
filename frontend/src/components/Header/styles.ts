@@ -91,7 +91,7 @@ export const Container = styled.div<ContainerProps>`
         }
       }
       .headerNavLinkSelect {
-        border-bottom: solid 2px #ff872c;
+        border-bottom: solid 2px #02aa4d;
       }
     }
   }

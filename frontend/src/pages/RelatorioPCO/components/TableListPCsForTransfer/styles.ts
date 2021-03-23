@@ -16,11 +16,20 @@ export const ContainerTablePCs = styled.div`
     justify-content: space-between;
     align-items: center;
     box-shadow: 4px 4px 8px;
+
     button {
-      border: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border-width: 1pt;
       margin-right: 8px;
-      color: red;
       font-size: 12px;
+      background-color: rgb(52 58 64);
+      color: #02aa4d;
+      transition: opacity 0.2s;
+      &:hover {
+        opacity: 0.5;
+      }
     }
   }
 `;

@@ -10,6 +10,8 @@ import TablePCODataList from './components/TablePCODataList';
 import TablePCOGroupByCC from './components/TablePCOGroupByCC';
 import TableListPCsForTransfer from './components/TableListPCsForTransfer';
 import TableListPCsBlock from './components/TableListPCsBlock/';
+import { Menu } from './styles';
+import Header from '../../components/Header';
 
 export interface ITableGroupByCC {
   dataGoupByCC: IDataPCOGoupByCC[];
@@ -29,8 +31,9 @@ const RelatorioPCO: React.FC = () => {
 
   return (
     <Container>
+      <Header size="small" selected={`/relatorio-pco`} />
       <Content>
-        <div>
+        <Menu>
           <button type="button" onClick={() => handleSetSelectedTable('')}>
             Entrada de Dados
           </button>
@@ -62,7 +65,7 @@ const RelatorioPCO: React.FC = () => {
           >
             Lista PCs Bloqueados
           </button>
-        </div>
+        </Menu>
 
         {!selectedTable && (
           <textarea
