@@ -5,37 +5,23 @@ interface ContainerProps {
 }
 
 export const Container = styled.div<ContainerProps>`
+  display: flex;
   background: #343a40;
-  padding: 0;
-  /* position: fixed; */
+  padding: 0 16px;
   width: 100vw;
   height: 60px;
-  /* top: 0px; */
   z-index: 20;
-  display: grid;
-  grid-template-columns: 1fr 1120px 1fr;
-  align-items: center;
+  box-shadow: black 0px 3px 3px;
 
   @media (max-width: 1000px) {
     padding: 0px 16px;
   }
 
-  small {
-    color: #02aa4d;
-    margin-left: 24px;
-
-    span {
-      margin-right: 8px;
-    }
-  }
-
   header {
-    max-width: 1120px;
     margin: 0;
     padding: ${({ size }) => (size === 'small' ? '0 20px ' : '0 20px 150px ')};
     display: flex;
     align-items: center;
-    justify-content: space-between;
     flex: 1;
 
     @media (max-width: 1000px) {
@@ -64,9 +50,24 @@ export const Container = styled.div<ContainerProps>`
           font-weight: 100;
         }
       }
+
+      small {
+        color: #02aa4d;
+        margin-left: 24px;
+
+        span {
+          margin-right: 8px;
+        }
+      }
     }
 
     nav {
+      display: flex;
+      flex: 1;
+      justify-content: flex-end;
+      height: 100%;
+      padding: 16px;
+
       a {
         color: #02aa4d;
         text-decoration: none;

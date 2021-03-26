@@ -10,6 +10,8 @@ import PcsBloqueados from '../pages/PcsBloqueados';
 import RelatorioPCO from '../pages/RelatorioPCO/index';
 import { PcoProvider } from '../pages/RelatorioPCO/hooks/pco';
 
+import PageBase from './../components/PageBase/index';
+
 const Routes: React.FC = () => (
   <Switch>
     <Route path="/" exact component={Dashboard} />
@@ -23,6 +25,17 @@ const Routes: React.FC = () => (
     <Route path="/prioridades" exact component={Prioridades} />
 
     <Route path="/import" exact component={Import} />
+
+    <Route
+      path="/test"
+      exact
+      component={() => (
+        <PageBase
+          route=""
+          sidebarComponent={<div style={{ color: '#fff' }}>ok</div>}
+        />
+      )}
+    />
 
     <Route
       path="/relatorio-pco"

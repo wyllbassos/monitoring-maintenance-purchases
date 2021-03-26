@@ -22,15 +22,17 @@ const Header: React.FC<HeaderProps> = ({
   updateAt,
 }: HeaderProps) => (
   <Container size={size}>
-    <small>
-      <span>Atualizado:</span>
-      {updateAt ? format(new Date(updateAt), 'dd/MM/yy HH:mm') : ''}
-    </small>
     <header>
       <div>
         <img src={Logo} alt="PCMFibraplac" />
         <strong>fibraplac PCM</strong>
+
+        <small>
+          <span>Atualizado:</span>
+          {updateAt ? format(new Date(updateAt), 'dd/MM/yy HH:mm') : ''}
+        </small>
       </div>
+
       <nav>
         <Link to="/" className={selected === '/' ? 'headerNavLinkSelect' : ''}>
           Lista

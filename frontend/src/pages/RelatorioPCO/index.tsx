@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React from 'react';
 
-import { Container, Content } from './styles';
+import { Container, Content, Body, Menu, MenuButton } from './styles';
 
 import { IDataPCO, IDataPCOGoupByCC } from './types';
 
@@ -10,8 +10,10 @@ import TablePCODataList from './components/TablePCODataList';
 import TablePCOGroupByCC from './components/TablePCOGroupByCC';
 import TableListPCsForTransfer from './components/TableListPCsForTransfer';
 import TableListPCsBlock from './components/TableListPCsBlock/';
-import { Menu } from './styles';
 import Header from '../../components/Header';
+import { useState } from 'react';
+import PageBase from './../../components/PageBase/index';
+import { useMemo } from 'react';
 
 export interface ITableGroupByCC {
   dataGoupByCC: IDataPCOGoupByCC[];
@@ -29,73 +31,127 @@ const RelatorioPCO: React.FC = () => {
     textInput,
   } = usePco();
 
+  const [selectedButtonMenu, setSelectedButtonMenu] = useState(0);
+
+  const sidebarButtons = useMemo(() => {
+    return [
+      {
+        text: 'Entrada de Dados',
+        onClick: () => handleSetSelectedTable(''),
+      },
+      {
+        text: 'Lista Completa',
+        onClick: () => handleSetSelectedTable('dataList'),
+      },
+      {
+        text: 'Agrupadmento Periodo + CO + CC',
+        onClick: () => handleSetSelectedTable('dataGroupByCC'),
+      },
+      {
+        text: "Verificar PCO de PC's",
+        onClick: () => handleSetSelectedTable('listPCsForCheck'),
+      },
+      {
+        text: "PC's Bloqueados",
+        onClick: () => handleSetSelectedTable('listPCsblocked'),
+      },
+    ];
+  }, []);
+
   return (
-    <Container>
-      <Header size="small" selected={`/relatorio-pco`} />
-      <Content>
-        <Menu>
-          <button type="button" onClick={() => handleSetSelectedTable('')}>
-            Entrada de Dados
-          </button>
+    <PageBase route="/relatorio-pco" sidebarButtons={sidebarButtons}>
+      {!selectedTable && (
+        <textarea
+          value={textInput}
+          onChange={({ target: { value } }) => {
+            handleSetDataPCO(value);
+          }}
+        />
+      )}
 
-          <button
-            type="button"
-            onClick={() => handleSetSelectedTable('dataList')}
-          >
-            Lista Completa
-          </button>
+      {selectedTable === 'dataList' && (
+        <TablePCODataList pcoDataList={pco.list} />
+      )}
 
-          <button
-            type="button"
-            onClick={() => handleSetSelectedTable('dataGroupByCC')}
-          >
-            Lista Agrupada Por CC
-          </button>
+      {selectedTable === 'dataGroupByCC' && (
+        <TablePCOGroupByCC
+          pcoDataGroupByCC={pco.groupByCC}
+          handleSetItensCC={handleSetItensCC}
+        />
+      )}
 
-          <button
-            type="button"
-            onClick={() => handleSetSelectedTable('listPCsForCheck')}
-          >
-            Lista PCs Para Aprovar
-          </button>
+      {selectedTable === 'dataItensCC' && (
+        <TablePCODataList pcoDataList={itensCCSelected} />
+      )}
 
-          <button
-            type="button"
-            onClick={() => handleSetSelectedTable('listPCsblocked')}
-          >
-            Lista PCs Bloqueados
-          </button>
-        </Menu>
+      {selectedTable === 'listPCsForCheck' && <TableListPCsForTransfer />}
 
-        {!selectedTable && (
-          <textarea
-            value={textInput}
-            onChange={({ target: { value } }) => {
-              handleSetDataPCO(value);
-            }}
-          />
-        )}
+      {selectedTable === 'listPCsblocked' && <TableListPCsBlock />}
+    </PageBase>
+    // <Container>
+    //   <Header size="small" selected={`/relatorio-pco`} />
+    //   <Body>
+    //     <Menu>
+    //       <MenuButton
+    //         selected={selectedButtonMenu === 0}
+    //         type="button"
+    //         onClick={() => {
+    //           handleSetSelectedTable('');
+    //           setSelectedButtonMenu(0);
+    //         }}
+    //       >
+    //         Entrada de Dados
+    //       </MenuButton>
 
-        {selectedTable === 'dataList' && (
-          <TablePCODataList pcoDataList={pco.list} />
-        )}
+    //       <MenuButton
+    //         selected={selectedButtonMenu === 1}
+    //         type="button"
+    //         onClick={() => {
+    //           handleSetSelectedTable('dataList');
+    //           setSelectedButtonMenu(1);
+    //         }}
+    //       >
+    //         Lista Completa
+    //       </MenuButton>
 
-        {selectedTable === 'dataGroupByCC' && (
-          <TablePCOGroupByCC
-            pcoDataGroupByCC={pco.groupByCC}
-            handleSetItensCC={handleSetItensCC}
-          />
-        )}
+    //       <MenuButton
+    //         selected={selectedButtonMenu === 2}
+    //         type="button"
+    //         onClick={() => {
+    //           handleSetSelectedTable('dataGroupByCC');
+    //           setSelectedButtonMenu(2);
+    //         }}
+    //       >
+    //         Lista Agrupada Por CC
+    //       </MenuButton>
 
-        {selectedTable === 'dataItensCC' && (
-          <TablePCODataList pcoDataList={itensCCSelected} />
-        )}
+    //       <MenuButton
+    //         selected={selectedButtonMenu === 3}
+    //         type="button"
+    //         onClick={() => {
+    //           handleSetSelectedTable('listPCsForCheck');
+    //           setSelectedButtonMenu(3);
+    //         }}
+    //       >
+    //         Lista PCs Para Aprovar
+    //       </MenuButton>
 
-        {selectedTable === 'listPCsForCheck' && <TableListPCsForTransfer />}
+    //       <MenuButton
+    //         selected={selectedButtonMenu === 4}
+    //         type="button"
+    //         onClick={() => {
+    //           handleSetSelectedTable('listPCsblocked');
+    //           setSelectedButtonMenu(4);
+    //         }}
+    //       >
+    //         Lista PCs Bloqueados
+    //       </MenuButton>
+    //     </Menu>
+    //     <Content>
 
-        {selectedTable === 'listPCsblocked' && <TableListPCsBlock />}
-      </Content>
-    </Container>
+    //     </Content>
+    //   </Body>
+    // </Container>
   );
 };
 

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-interface MenuProps {
+interface SidebarButtonsProps {
   selected: boolean;
 }
 
@@ -14,6 +14,17 @@ export const Container = styled.div`
   justify-content: space-between;
 `;
 
+export const Sidebar = styled.header`
+  display: flex;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  width: 220px;
+  flex-direction: column;
+  background-color: #343a40;
+  box-shadow: black 2px 3px 3px;
+  z-index: 20;
+`;
+
 export const Body = styled.div`
   display: flex;
   width: 100%;
@@ -22,21 +33,12 @@ export const Body = styled.div`
   textarea {
     flex: 1;
     resize: none;
-    padding: 16px 16px 0 16px;
+    padding: 0 16px;
     width: -webkit-fill-available;
   }
 `;
 
-export const Menu = styled.header`
-  display: flex;
-  height: calc(100vh - 60px);
-  overflow-y: auto;
-  width: 220px;
-  flex-direction: column;
-  background-color: #343a40;
-`;
-
-export const MenuButton = styled.button<MenuProps>`
+export const SidebarButtons = styled.button<SidebarButtonsProps>`
   width: 100%;
   color: ${({ selected }) => (selected ? '#343a40' : '#02aa4d')};
   border: 0;
@@ -61,4 +63,21 @@ export const Content = styled.div`
   padding: 0 32px;
   align-items: center;
   overflow-y: auto;
+`;
+
+export const Footer = styled.footer`
+  position: absolute;
+  bottom: 0;
+  left: 220px;
+  min-height: 60px;
+  height: 60px;
+  width: calc(100vw - 220px);
+  z-index: 20;
+  /* bottom: 0px; */
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: #343a40;
+  box-shadow: black 6px -6px 8px;
 `;

@@ -25,7 +25,7 @@ export const Container = styled.ul`
   li {
     background-color: #343a40;
     padding: 16px;
-    box-shadow: black 8px 8px 16px;
+    box-shadow: black 4px 4px 8px;
   }
 `;
 

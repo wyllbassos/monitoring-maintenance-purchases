@@ -42,8 +42,8 @@ export const Filtros = styled.div`
   width: 100%;
   background: #343a40;
   height: 40px;
-  box-shadow: black 0px 8px 16px;
-  z-index: 10;
+  box-shadow: black 0px 3px 3px;
+  z-index: 20;
   padding: 0 25%;
   span {
     color: #02aa4d;
@@ -77,7 +77,7 @@ export const Paginacao = styled.section`
   align-items: center;
   z-index: 10;
   background-color: #343a40;
-  box-shadow: black 0px -4px 8px;
+  box-shadow: black 0px -3px 3px;
 
   span {
     color: #fff;
