@@ -7,6 +7,9 @@ import initialInput from './utils/initialInput';
 import { groupDataByCC } from './utils/index';
 import { RelatorioPC } from '../../../pages/PcsBloqueados';
 import { getRelatorioPCsBloqueados } from './../../../pages/PcsBloqueados/util/getRelatorioPCsBloqueados';
+import { textToObject } from '../../../utils/textToObject';
+import PCO from '../../../utils/entities/PCO';
+import SS from '../../../utils/entities/SS';
 
 export type TSelectedTable =
   | ''
@@ -142,11 +145,13 @@ const getStateForRemovePcForTransfer = (
   };
 };
 
+const initialPCO = convertTextToPCO(initialInput.text);
+
 export const PcoProvider: React.FC = ({ children }) => {
   const [state, setState] = useState<IPcoContextData>({
     textInput: initialInput.text,
     selectedTable: '',
-    pco: convertTextToPCO(initialInput.text),
+    pco: initialPCO,
     itensCCSelected: [],
     pcsForTransfer: [],
     pcsForTransferGroupByCC: [],

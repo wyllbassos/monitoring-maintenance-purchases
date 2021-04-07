@@ -43,6 +43,7 @@ const PageBase: React.FC<PageBaseProps> = ({
           <Sidebar>
             {sidebarButtons.map((sidebarButton, index) => (
               <SidebarButtons
+                key={sidebarButton.text + index}
                 selected={index === selectedSidebarButtonState}
                 onClick={() => {
                   setSelectedSidebarButtonState(index);

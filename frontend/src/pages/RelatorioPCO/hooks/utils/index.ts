@@ -1,5 +1,7 @@
 import { IDataPCO, IDataPCOGoupByCC } from '../../types';
 import { IPCO } from '../pco';
+import { textToObject } from '../../../../utils/textToObject';
+import PCO from '../../../../utils/entities/PCO';
 
 interface CalcValueCC {
   dataPCO: IDataPCO[];
@@ -102,6 +104,8 @@ export function groupDataByCC(dataPCO: IDataPCO[]): IDataPCOGoupByCC[] {
 }
 
 export function convertTextToPCO(text: string): IPCO {
+  console.log(textToObject<PCO>('PCO', text));
+
   const lines = text.split('\n');
 
   const arrayData = lines.map(line => {

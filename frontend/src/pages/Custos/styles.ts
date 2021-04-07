@@ -41,21 +41,19 @@ export const Container = styled.div`
 
 export const Filtros = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   width: 100%;
-  background: #343a40;
-  height: 40px;
-  box-shadow: black 0px 8px 16px;
   z-index: 10;
-  padding: 0 25%;
+  padding: 0 18px;
   span {
     color: #02aa4d;
+    margin-top: 18px;
   }
 
   select,
   button {
     height: 30px;
-    margin-left: 10px;
   }
 
   button {

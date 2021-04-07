@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import formatValue from '../../utils/formatValue';
 
 import api from '../../services/api';
 
-import Header from '../../components/Header';
-
-import { Container, Paginacao } from './styles';
+import { Container, Filtros } from './styles';
+import PageBase from '../../components/PageBase';
 
 export interface CustosManutencao {
   total: {
@@ -146,15 +145,19 @@ const Custos: React.FC = () => {
     return newCustosManutencao;
   }, [custosManutencao, tipoCusto]);
 
+  new String(undefined);
+
   return (
-    <>
-      <Header size="small" selected="/custos" />
-      <Container>
-        <div>
+    <PageBase
+      route="/custos"
+      sidebarComponent={
+        <Filtros>
+          <span>Ano</span>
           <select value={ano} onChange={e => setAno(e.target.value)}>
             <option value="2020">2020</option>
             <option value="2021">2021</option>
           </select>
+          <span>Mês</span>
           <select value={mes} onChange={e => setMes(e.target.value)}>
             <option value="01">01</option>
             <option value="02">02</option>
@@ -169,6 +172,7 @@ const Custos: React.FC = () => {
             <option value="11">11</option>
             <option value="12">12</option>
           </select>
+          <span>Tipo</span>
           <select
             value={tipoCusto}
             onChange={e => setTipoCusto(e.target.value as TipoCusto)}
@@ -178,7 +182,10 @@ const Custos: React.FC = () => {
             <option value="Estoque">Estoque</option>
             <option value="Manutencao">Manutenção</option>
           </select>
-        </div>
+        </Filtros>
+      }
+    >
+      <Container>
         <div>
           <table>
             <thead>
@@ -212,9 +219,7 @@ const Custos: React.FC = () => {
           </table>
         </div>
       </Container>
-
-      <Paginacao></Paginacao>
-    </>
+    </PageBase>
   );
 };
 
