@@ -7,9 +7,6 @@ import initialInput from './utils/initialInput';
 import { groupDataByCC } from './utils/index';
 import { RelatorioPC } from '../../../pages/PcsBloqueados';
 import { getRelatorioPCsBloqueados } from './../../../pages/PcsBloqueados/util/getRelatorioPCsBloqueados';
-import { textToObject } from '../../../utils/textToObject';
-import PCO from '../../../utils/entities/PCO';
-import SS from '../../../utils/entities/SS';
 
 export type TSelectedTable =
   | ''
@@ -64,14 +61,15 @@ const getPcsForTransferGroupByCC = (
       if (!arrayItensCC[0]) {
       }
       const disponivelPeriodoContaCC = arrayItensCC[0]
-        ? arrayItensCC[0].disponivelSistema
+        ? arrayItensCC[0].DisponivelSistema
         : 0;
       const valorATransferir =
-        disponivelPeriodoContaCC - itenGroupByCCForTransfer.faltaEmpenhar;
+        disponivelPeriodoContaCC - itenGroupByCCForTransfer.FaltaEmpenhar;
       return {
         ...itenGroupByCCForTransfer,
         disponivelPeriodoContaCC,
         valorATransferir: valorATransferir > 0 ? 0 : -1 * valorATransferir,
+        DisponivelReal: arrayItensCC[0].DisponivelReal,
       };
     },
   );
@@ -103,14 +101,14 @@ const getStateForAddPcForTransfer = (
     item => newPcsForTransfer.findIndex(pc => pc === item.Documento) >= 0,
   );
 
-  const mewPcsForTransferGroupByCC = getPcsForTransferGroupByCC(
+  const newPcsForTransferGroupByCC = getPcsForTransferGroupByCC(
     listDataPCO,
     pco.groupByCC,
   );
   return {
     ...current,
     pcsForTransfer: newPcsForTransfer,
-    pcsForTransferGroupByCC: mewPcsForTransferGroupByCC,
+    pcsForTransferGroupByCC: newPcsForTransferGroupByCC,
   };
 };
 
@@ -133,7 +131,7 @@ const getStateForRemovePcForTransfer = (
     item => newPcsForTransfer.findIndex(pc => pc === item.Documento) >= 0,
   );
 
-  const mewPcsForTransferGroupByCC = getPcsForTransferGroupByCC(
+  const newPcsForTransferGroupByCC = getPcsForTransferGroupByCC(
     listDataPCO,
     pco.groupByCC,
   );
@@ -141,7 +139,7 @@ const getStateForRemovePcForTransfer = (
   return {
     ...current,
     pcsForTransfer: newPcsForTransfer,
-    pcsForTransferGroupByCC: mewPcsForTransferGroupByCC,
+    pcsForTransferGroupByCC: newPcsForTransferGroupByCC,
   };
 };
 

@@ -1,19 +1,28 @@
-export interface IDataPCO {
-  id: string;
-  Periodo: string;
+export interface IImportPCO {
   Conta: string;
+  Descrição: string;
   'C.Custo': string;
+  'Item Conta': string;
+  Tipo: string;
   Documento: string;
   Item: string;
   Produto: string;
-  Qtd: number;
+  Qtd: string;
+  'Vlr.Unit': number;
   Total: number;
+  Emissão: string;
+  'Data Prv': string;
+  Periodo: string;
   Orcado: number;
+  Contin: number;
+  Solic: number;
   Pedido: number;
   'Entr.NF': number;
-  Tipo: 'PC' | 'SC' | 'SO';
-  Contin: number;
-  'Vlr.Unit': number;
+  'Real CTB': number;
+}
+
+export interface IDataPCO extends IImportPCO {
+  id: string;
 }
 
 export interface IDataPCOGoupByCC {
@@ -21,12 +30,18 @@ export interface IDataPCOGoupByCC {
   Periodo: string;
   Conta: string;
   CCusto: string;
-  totalPCBloqueado: number;
-  totalOrcado: number;
-  totalEmpenhadoPC: number;
-  totalEmpenhadoNF: number;
-  disponivelSistema: number;
-  faltaEmpenhar: number;
+  GastoPrevisto: number;
+  Orcado: number;
+  Empenhado: number;
+  DisponivelSistema: number;
+  FaltaEmpenhar: number;
+  DisponivelReal: number;
+  // totalPCBloqueado: number;
+  // totalOrcado: number;
+  // totalEmpenhadoPC: number;
+  // totalEmpenhadoNF: number;
+  // disponivelSistema: number;
+  // faltaEmpenhar: number;
   itens: IDataPCO[];
 }
 

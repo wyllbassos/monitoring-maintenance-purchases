@@ -1,46 +1,89 @@
-import PCO from './entities/PCO';
-import SS from './entities/SS';
+import { IFields } from './textToObjectFields';
 
-export function textToObject<T>(
-  converType: 'PCO' | 'SS',
-  text: string,
-): T[] | null {
-  const returnObjectKeys: string[] = [];
-  if (converType === 'PCO') {
-    returnObjectKeys.push(...Object.keys(new PCO()));
-  } else if (converType === 'SS') {
-    returnObjectKeys.push(...Object.keys(new SS()));
+function convertToNumber(str: string): number {
+  let value = Number(str);
+  if (!Number.isNaN(value)) {
+    return value;
   }
+  const strReplaced = str.replace('.', '').replace(',', '.');
+  value = Number(strReplaced);
+  if (!Number.isNaN(value)) {
+    return value;
+  }
+  if (strReplaced === '-') {
+    return 0;
+  }
+  return value;
+}
 
+const formatData = {
+  number: (str: string): number => {
+    const value = convertToNumber(str);
+    return value;
+  },
+  date: (str: string): Date | null => {
+    const [day, month, year] = str.split('/');
+    const value = new Date(`${year}-${month}-${day}`);
+    if (value instanceof Date) {
+      return value;
+    }
+    return null;
+  },
+};
+
+export function textToObject<T = any>(
+  text: string,
+  fields: IFields[] | undefined = undefined,
+): T[] | null {
   const lines = text.split('\n');
 
   const arrayData = lines.map(line => {
     return line.split('\t');
   });
 
-  const importHeader = arrayData.splice(0, 1)[0] as unknown[];
+  const convertKeys = arrayData.splice(0, 1)[0];
 
-  if (importHeader.length !== returnObjectKeys.length) {
-    alert('Dados devem ter ' + returnObjectKeys.length + 'colunas!');
-    return null;
-  }
-
-  returnObjectKeys.forEach((key, index) => {
-    if (key !== importHeader[index]) {
-      alert(
-        'A ordem das colunas deve ser: ' + JSON.stringify(returnObjectKeys),
-      );
+  if (fields) {
+    if (convertKeys.length !== fields.length) {
+      alert('Dados devem ter ' + fields.length + 'colunas!');
       return null;
     }
+
+    fields.forEach((field, index) => {
+      if (field.key !== convertKeys[index]) {
+        alert(
+          'A ordem das colunas deve ser: ' +
+            JSON.stringify(fields.map(fieldRet => fieldRet.key)),
+        );
+        return null;
+      }
+    });
+  }
+
+  const objectData: any[] = [];
+
+  arrayData.forEach(data => {
+    const retunObject: any = {};
+
+    if (data.length !== convertKeys.length) {
+      return;
+    }
+
+    convertKeys.forEach((key, index) => {
+      retunObject[key] = data[index].trim();
+    });
+
+    if (fields) {
+      fields.forEach(({ format, key: keyFormat }) => {
+        if (format && retunObject[keyFormat] !== undefined) {
+          const valueFormated = formatData[format](retunObject[keyFormat]);
+          retunObject[keyFormat] = valueFormated;
+        }
+      });
+    }
+
+    objectData.push(retunObject);
   });
 
-  const objectData = arrayData.map(data => {
-    const retunObject: any = {};
-    returnObjectKeys.forEach((key, index) => {
-      retunObject[key] = data[index];
-    });
-    return retunObject;
-  }) as T[];
-
-  return objectData;
+  return objectData as T[];
 }

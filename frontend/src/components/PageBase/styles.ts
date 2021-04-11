@@ -62,6 +62,7 @@ export const Content = styled.div`
   height: calc(100vh - 60px);
   padding: 0 32px;
   align-items: center;
+  // align-items: flex-start;
   overflow-y: auto;
 `;
 

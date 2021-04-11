@@ -1,14 +1,10 @@
-import { IDataPCO, IDataPCOGoupByCC } from '../../types';
+import { IDataPCO, IDataPCOGoupByCC, IImportPCO } from '../../types';
 import { IPCO } from '../pco';
 import { textToObject } from '../../../../utils/textToObject';
-import PCO from '../../../../utils/entities/PCO';
+import { PCOfields } from '../../../../utils/textToObjectFields';
 
 interface CalcValueCC {
   dataPCO: IDataPCO[];
-}
-
-function convertToNumber(value: string): number {
-  return Number(value.replace('.', '').replace(',', '.').replace(' -   ', '0'));
 }
 
 export function groupDataByCC(dataPCO: IDataPCO[]): IDataPCOGoupByCC[] {
@@ -23,13 +19,14 @@ export function groupDataByCC(dataPCO: IDataPCO[]): IDataPCOGoupByCC[] {
       'C.Custo': CCusto,
       Conta,
       Periodo,
-      Total,
+      Total: GastoPrevisto,
       Orcado,
       Pedido,
       'Entr.NF': EntrNF,
       Contin,
-      'Vlr.Unit': VlrUnit,
-      Qtd,
+      'Real CTB': RealCTB,
+      // 'Vlr.Unit': VlrUnit,
+      // Qtd,
     } = item;
 
     const findIndex = dataGoupByCC.findIndex(dataGoupByCCItem => {
@@ -42,47 +39,45 @@ export function groupDataByCC(dataPCO: IDataPCO[]): IDataPCOGoupByCC[] {
 
     const newItem = {
       ...item,
-      Total,
-      Orcado,
-      Pedido,
-      'Entr.NF': EntrNF,
-      Contin,
-      'Vlr.Unit': VlrUnit,
-      Qtd,
     };
+
+    const Empenhado = Pedido + EntrNF + Contin + RealCTB;
+    const DisponivelSistema = Orcado + Empenhado;
+    const FaltaEmpenhar = GastoPrevisto + Empenhado;
+    const DisponivelReal = Orcado - GastoPrevisto;
 
     if (findIndex === -1) {
       dataGoupByCC.push({
-        CCusto,
-        Conta,
-        Periodo,
         id: Periodo + Conta + CCusto,
+        Periodo,
+        Conta,
+        CCusto,
+        GastoPrevisto,
+        Orcado,
+        Empenhado,
+        DisponivelSistema,
+        FaltaEmpenhar,
+        DisponivelReal,
         itens: [newItem],
-        totalPCBloqueado: Total,
-        totalOrcado: Orcado,
-        totalEmpenhadoPC: Pedido,
-        totalEmpenhadoNF: EntrNF,
-        disponivelSistema: Orcado + Pedido + EntrNF,
-        faltaEmpenhar: Total + Pedido,
       });
     } else {
-      dataGoupByCC[findIndex].totalPCBloqueado += Total;
-      dataGoupByCC[findIndex].totalOrcado += Orcado;
-      dataGoupByCC[findIndex].totalEmpenhadoPC += Pedido;
-      dataGoupByCC[findIndex].totalEmpenhadoNF += EntrNF;
-      dataGoupByCC[findIndex].disponivelSistema += Orcado + Pedido + EntrNF;
-      dataGoupByCC[findIndex].faltaEmpenhar += Total + Pedido;
+      dataGoupByCC[findIndex].GastoPrevisto += GastoPrevisto;
+      dataGoupByCC[findIndex].Orcado += Orcado;
+      dataGoupByCC[findIndex].Empenhado += Empenhado;
+      dataGoupByCC[findIndex].DisponivelSistema += DisponivelSistema;
+      dataGoupByCC[findIndex].FaltaEmpenhar += FaltaEmpenhar;
+      dataGoupByCC[findIndex].DisponivelReal += DisponivelReal;
       dataGoupByCC[findIndex].itens.push(newItem);
     }
   });
 
   const ordenedIDataGoupByCC = dataGoupByCC
     .sort((a, b) => {
-      if (a.disponivelSistema > b.disponivelSistema) {
+      if (a.DisponivelReal > b.DisponivelReal) {
         return 1;
       }
 
-      if (a.disponivelSistema < b.disponivelSistema) {
+      if (a.DisponivelReal < b.DisponivelReal) {
         return -1;
       }
 
@@ -90,10 +85,21 @@ export function groupDataByCC(dataPCO: IDataPCO[]): IDataPCOGoupByCC[] {
     })
     .sort((a, b) => {
       if (a.Periodo > b.Periodo) {
-        return 1;
+        return -1;
       }
 
       if (a.Periodo < b.Periodo) {
+        return 1;
+      }
+
+      return 0;
+    })
+    .sort((a, b) => {
+      if (a.Conta > b.Conta) {
+        return 1;
+      }
+
+      if (a.Conta < b.Conta) {
         return -1;
       }
 
@@ -104,46 +110,22 @@ export function groupDataByCC(dataPCO: IDataPCO[]): IDataPCOGoupByCC[] {
 }
 
 export function convertTextToPCO(text: string): IPCO {
-  console.log(textToObject<PCO>('PCO', text));
+  const PCOs = textToObject<IImportPCO>(text, PCOfields);
 
-  const lines = text.split('\n');
+  if (!PCOs) {
+    return { list: [], groupByCC: [] };
+  }
 
-  const arrayData = lines.map(line => {
-    return line.split('\t');
+  const dataPCO: IDataPCO[] = PCOs.map((PCO, index) => {
+    const [month, year] = PCO.Periodo.split('/');
+    const Periodo = `${year}/${month.length === 2 ? month : `0${month}`}`;
+    return {
+      ...PCO,
+      Periodo,
+      id: String(index),
+    };
   });
 
-  const header = arrayData.splice(0, 1)[0];
-  const list = arrayData.map((line, i) => {
-    if (!line.length) {
-      return;
-    }
-    const ret: any = {};
-    ret.id = String(i);
-    header.forEach((key, index) => {
-      const listOfFieldsToConvert = [
-        'Total',
-        'Orcado',
-        'Pedido',
-        'Contin',
-        'Qtd',
-        'Entr.NF',
-        'Vlr.Unit',
-      ];
-
-      const indexOfFieldToConvert = listOfFieldsToConvert.findIndex(
-        fieldConvert => fieldConvert === key,
-      );
-
-      if (indexOfFieldToConvert >= 0) {
-        ret[key] = 0;
-        if (line[index]) ret[key] = convertToNumber(line[index]);
-        return;
-      }
-
-      ret[key] = line[index];
-    });
-    return ret;
-  }) as IDataPCO[];
-  const groupByCC = groupDataByCC(list);
-  return { list, groupByCC };
+  const groupByCC = groupDataByCC(dataPCO);
+  return { list: dataPCO, groupByCC };
 }

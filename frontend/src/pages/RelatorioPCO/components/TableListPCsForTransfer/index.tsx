@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useMemo } from 'react';
+import ItemWithRemoveButton from '../../../../components/ItemWithRemoveButton';
+import PainelToListItens from '../../../../components/PainelToListItens';
 import { usePco } from '../../hooks/pco';
 import { IDataPCOGoupByCC } from '../../types';
 import Table from '../Table';
 import makeObjectLinesOfTable from '../utils/makeObjectLinesOfTable';
-import { ContainerTablePCs } from './styles';
 
 interface IPCs {
   value: string;
@@ -30,6 +31,39 @@ interface IDataGroupPCByCC extends IDataPCOGoupByCC {
   valorATransferir: number;
 }
 
+const header = [
+  'Periodo',
+  'Conta',
+  'CCusto',
+  'Gasto Previsto',
+  'Empenhado',
+  'Falta Empenhar',
+  'Disponivel Sitema',
+  'Disponivel Real',
+  'Valor a Transferir',
+];
+
+const keys = [
+  'Periodo',
+  'Conta',
+  'CCusto',
+  'GastoPrevisto',
+  'Empenhado',
+  'FaltaEmpenhar',
+  'disponivelPeriodoContaCC',
+  'DisponivelReal',
+  'valorATransferir',
+];
+
+const keysCurrency = [
+  'GastoPrevisto',
+  'Empenhado',
+  'FaltaEmpenhar',
+  'disponivelPeriodoContaCC',
+  'DisponivelReal',
+  'valorATransferir',
+];
+
 const TableListPCsForTransfer: React.FC = () => {
   const [valueInputPC, setVAlueInputPC] = useState('794138');
 
@@ -40,85 +74,15 @@ const TableListPCsForTransfer: React.FC = () => {
     handleRemovePcForTransfer,
   } = usePco();
 
-  /*
-   *   G  R  O  U  P    B  Y     C  C
-   */
-  const headerGroupByCC = useMemo(
-    () => [
-      'Periodo',
-      'Conta',
-      'CCusto',
-      'Total PC',
-      'Empenhado PC',
-      'Falta Empenhar',
-      'Disponivel no Sitema',
-      'Valor a Transferir',
-    ],
-    [],
-  );
-
-  const keysGroupByCC = useMemo(
-    () => [
-      'Periodo',
-      'Conta',
-      'CCusto',
-      'totalPCBloqueado',
-      'totalEmpenhadoPC',
-      'faltaEmpenhar',
-      'disponivelPeriodoContaCC',
-      'valorATransferir',
-    ],
-    [],
-  );
-
   const linesGroupByCC = useMemo(
     () =>
       makeObjectLinesOfTable({
-        keys: keysGroupByCC,
-        keysCurrency: [
-          'totalPCBloqueado',
-          'totalEmpenhadoPC',
-          'faltaEmpenhar',
-          'disponivelPeriodoContaCC',
-          'valorATransferir',
-        ],
+        keys,
+        keysCurrency,
         list: pcsForTransferGroupByCC,
       }),
-    [keysGroupByCC, pcsForTransferGroupByCC],
+    [keys, pcsForTransferGroupByCC],
   );
-
-  /*
-   *---- L I S T   P C s
-   */
-  // const headerListPCs = useMemo(() => ['PC'], []);
-
-  // const keysListPCs = useMemo(() => ['value'], []);
-
-  // const linesListPCsC = useMemo(
-  //   () =>
-  //     makeObjectLinesOfTable({
-  //       keys: keysListPCs,
-  //       keysCurrency: [],
-  //       list: [
-  //         ...pcsForTransfer.map(pc => ({
-  //           value: (
-  //             <div>
-  //               <button
-  //                 type="button"
-  //                 onClick={() => {
-  //                   handleRemovePcForTransfer(pc);
-  //                 }}
-  //               >
-  //                 X
-  //               </button>
-  //               {pc}
-  //             </div>
-  //           ),
-  //         })),
-  //       ],
-  //     }),
-  //   [pcsForTransfer, handleRemovePcForTransfer],
-  // );
 
   return (
     <>
@@ -136,56 +100,19 @@ const TableListPCsForTransfer: React.FC = () => {
         </button>
       </div>
 
-      {/* {!!pcsForTransfer.length && (
-        <Table header={headerListPCs} lines={linesListPCsC} />
-      )} */}
-
       {!!pcsForTransfer.length && (
-        <ContainerTablePCs>
+        <PainelToListItens>
           {pcsForTransfer.map(pc => (
-            <div>
-              <button
-                type="button"
-                onClick={() => {
-                  handleRemovePcForTransfer(pc);
-                }}
-              >
-                X
-              </button>
-              <span>{pc}</span>
-            </div>
+            <ItemWithRemoveButton
+              handleRemovePcForTransfer={() => handleRemovePcForTransfer(pc)}
+              value={pc}
+            />
           ))}
-          {/* <table>
-            <thead>
-              <tr>
-                <th colSpan={pcsForTransfer.length}>PCs</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                {pcsForTransfer.map(pc => (
-                  <td>
-                    <div style={{ width: '100px' }}>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          handleRemovePcForTransfer(pc);
-                        }}
-                      >
-                        X
-                      </button>
-                      {pc}
-                    </div>
-                  </td>
-                ))}
-              </tr>
-            </tbody>
-          </table> */}
-        </ContainerTablePCs>
+        </PainelToListItens>
       )}
 
       {!!pcsForTransferGroupByCC.length && (
-        <Table header={headerGroupByCC} lines={linesGroupByCC} />
+        <Table header={header} lines={linesGroupByCC} />
       )}
     </>
   );

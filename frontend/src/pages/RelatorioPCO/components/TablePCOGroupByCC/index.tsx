@@ -10,6 +10,43 @@ export interface IProps {
   handleSetItensCC: (value: IDataPCO[]) => void;
 }
 
+const header = [
+  'PCs',
+  'Periodo',
+  'Conta',
+  'C.Custo',
+  'Gasto Previsto',
+  'Orçado',
+  'Empenhado',
+  'Disponivel Sistema',
+  'Falta Empenhar',
+  'Disponivel Real',
+];
+
+const keys = [
+  'PCs',
+  'Periodo',
+  'Conta',
+  'CCusto',
+  'GastoPrevisto',
+  'Orcado',
+  'Empenhado',
+  'DisponivelSistema',
+  'FaltaEmpenhar',
+  'DisponivelReal',
+];
+
+const keysCurrency = [
+  'GastoPrevisto',
+  'Orcado',
+  'Empenhado',
+  'DisponivelSistema',
+  'FaltaEmpenhar',
+  'DisponivelReal',
+];
+
+const fieldsFilter = ['Periodo', 'Conta', 'CCusto'];
+
 const TablePCOGroupByCC: React.FC<IProps> = ({
   pcoDataGroupByCC,
   handleSetItensCC,
@@ -21,47 +58,6 @@ const TablePCOGroupByCC: React.FC<IProps> = ({
       </button>
     ),
     [handleSetItensCC],
-  );
-
-  const header = useMemo(
-    () => [
-      'PCs',
-      'Periodo',
-      'Conta',
-      'C.Custo',
-      'PC Bloqueado',
-      'Orçado',
-      'Empenhado PC',
-      'Empenhado NF',
-      'Disponivel Sistema',
-    ],
-    [],
-  );
-
-  const keys = useMemo(
-    () => [
-      'PCs',
-      'Periodo',
-      'Conta',
-      'CCusto',
-      'totalPCBloqueado',
-      'totalOrcado',
-      'totalEmpenhadoPC',
-      'totalEmpenhadoNF',
-      'disponivelSistema',
-    ],
-    [],
-  );
-
-  const keysCurrency = useMemo(
-    () => [
-      'totalPCBloqueado',
-      'totalOrcado',
-      'totalEmpenhadoPC',
-      'totalEmpenhadoNF',
-      'disponivelSistema',
-    ],
-    [],
   );
 
   const list = useMemo(
@@ -79,7 +75,7 @@ const TablePCOGroupByCC: React.FC<IProps> = ({
     [keys, keysCurrency, list],
   );
 
-  return <Table header={header} lines={lines} />;
+  return <Table header={header} lines={lines} fieldsFilter={fieldsFilter} />;
 };
 
 export default TablePCOGroupByCC;
