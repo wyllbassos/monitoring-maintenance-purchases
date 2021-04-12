@@ -1,24 +1,24 @@
 export interface IImportPCO {
-  Conta: string;
-  Descrição: string;
-  'C.Custo': string;
-  'Item Conta': string;
-  Tipo: string;
-  Documento: string;
-  Item: string;
-  Produto: string;
-  Qtd: string;
-  'Vlr.Unit': number;
-  Total: number;
-  Emissão: string;
-  'Data Prv': string;
-  Periodo: string;
-  Orcado: number;
-  Contin: number;
-  Solic: number;
-  Pedido: number;
-  'Entr.NF': number;
-  'Real CTB': number;
+  conta: string;
+  descrição: string;
+  c_custo: string;
+  item_conta: string;
+  tipo: string;
+  documento: string;
+  item: string;
+  produto: string;
+  qtd: string;
+  vlr_unit: number;
+  total: number;
+  emissão: string;
+  data_prv: string;
+  periodo: string;
+  orcado: number;
+  contin: number;
+  solic: number;
+  pedido: number;
+  entr_nf: number;
+  real_ctb: number;
 }
 
 export interface IDataPCO extends IImportPCO {
@@ -27,40 +27,46 @@ export interface IDataPCO extends IImportPCO {
 
 export interface IDataPCOGoupByCC {
   id: string;
-  Periodo: string;
-  Conta: string;
-  CCusto: string;
-  GastoPrevisto: number;
-  Orcado: number;
-  Empenhado: number;
-  DisponivelSistema: number;
-  FaltaEmpenhar: number;
-  DisponivelReal: number;
+  periodo: string;
+  conta: string;
+  c_custo: string;
+  gasto_previsto: number;
+  orcado: number;
+  empenhado: number;
+  disponivel_sistema: number;
+  falta_empenhar: number;
+  disponivel_real: number;
   itens: IDataPCO[];
 }
 
 export type IKeysOfDataPCO =
   | 'id'
-  | 'Periodo'
-  | 'Conta'
-  | 'C.Custo'
-  | 'Documento'
-  | 'Item'
-  | 'Produto'
-  | 'Qtd'
-  | 'Total'
-  | 'Orcado'
-  | 'Pedido'
-  | 'Entr.NF'
-  | 'Tipo'
-  | 'Contin'
-  | 'Vlr.Unit';
+  | 'conta'
+  | 'descricao'
+  | 'c_custo'
+  | 'item_conta'
+  | 'tipo'
+  | 'documento'
+  | 'item'
+  | 'produto'
+  | 'qtd'
+  | 'vlr_unit'
+  | 'total'
+  | 'emissao'
+  | 'data_prv'
+  | 'periodo'
+  | 'orcado'
+  | 'contin'
+  | 'solic'
+  | 'pedido'
+  | 'entr_nf'
+  | 'real_ctb';
 
 export type IKeysOfDataPCOGroupByCC =
   | 'id'
-  | 'Periodo'
-  | 'Conta'
-  | 'CCusto'
+  | 'periodo'
+  | 'conta'
+  | 'c_custo'
   | 'totalPCBloqueado'
   | 'totalOrcado'
   | 'totalEmpenhadoPC'

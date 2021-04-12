@@ -8,18 +8,19 @@ import makeObjectLinesOfTable, {
 } from '../RelatorioPCO/components/utils/makeObjectLinesOfTable';
 import Table from '../RelatorioPCO/components/Table';
 import { textToObject } from '../../utils/textToObject';
+import { SSFields } from './../../utils/textToObjectFields';
 
 interface ISS {
-  SS: string;
-  TAG: string;
-  'Nome Bem': string;
-  'Descricao Servico': string;
-  DT: string;
-  Area: string;
-  CT: string;
-  Solicitante: string;
-  OS: string;
-  Responsavel: string;
+  ss: string;
+  tag: string;
+  nome_bem: string;
+  descricao_servico: string;
+  dt: string;
+  area: string;
+  ct: string;
+  solicitante: string;
+  os: string;
+  responsavel: string;
 }
 
 const header = [
@@ -35,9 +36,9 @@ const header = [
   'Responsavel',
 ];
 
-const keys = header;
+const keys = SSFields.map(SSField => SSField.key);
 
-const fieldsFilter = header;
+const fieldsFilter = keys;
 
 const TratativaSSs: React.FC = () => {
   const [menuSelect, setMenuSelect] = useState('');
@@ -86,7 +87,7 @@ const TratativaSSs: React.FC = () => {
       {menuSelect === 'dataList' && (
         <Table
           style={{ fontSize: '12px' }}
-          header={keys}
+          header={header}
           lines={lines}
           fieldsFilter={fieldsFilter}
         />

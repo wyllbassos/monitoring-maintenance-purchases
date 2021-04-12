@@ -9,7 +9,7 @@ export interface IProps {
   pcoDataList: IDataPCO[];
 }
 
-const keys = [
+const header = [
   'Periodo',
   'Conta',
   'C.Custo',
@@ -17,12 +17,24 @@ const keys = [
   'Total',
   'Orcado',
   'Pedido',
-  'Entr.NF',
+  'Falta Empenhar',
+  'Entr Nf',
 ];
 
-const keysCurrency = ['Total', 'Orcado', 'Pedido', 'Entr.NF'];
+const keys = [
+  'periodo',
+  'conta',
+  'c_custo',
+  'documento',
+  'total',
+  'orcado',
+  'pedido',
+  'entr_nf',
+];
 
-const fieldsFilter = ['Periodo', 'Conta', 'CCusto', 'Documento'];
+const keysCurrency = ['total', 'orcado', 'pedido', 'entr_nf'];
+
+const fieldsFilter = ['periodo', 'conta', 'c_custo', 'documento'];
 
 const TablePCODataList: React.FC<IProps> = ({ pcoDataList }: IProps) => {
   const list = useMemo(() => pcoDataList, [pcoDataList]);
@@ -32,7 +44,7 @@ const TablePCODataList: React.FC<IProps> = ({ pcoDataList }: IProps) => {
     [keys, keysCurrency, list],
   );
 
-  return <Table header={keys} lines={lines} fieldsFilter={fieldsFilter} />;
+  return <Table header={header} lines={lines} fieldsFilter={fieldsFilter} />;
 };
 
 export default TablePCODataList;

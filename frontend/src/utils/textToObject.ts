@@ -41,7 +41,21 @@ export function textToObject<T = any>(
     return line.split('\t');
   });
 
-  const convertKeys = arrayData.splice(0, 1)[0];
+  const convertKeys = arrayData
+    .splice(0, 1)[0]
+    //.map(key => key.split('.').join('_').split(' ').join('_').toLowerCase());
+    .map(key =>
+      key
+        .split('.')
+        .join('_')
+        .split(' ')
+        .join('_')
+        .split('ã')
+        .join('a')
+        .split('ç')
+        .join('c')
+        .toLowerCase(),
+    );
 
   if (fields) {
     if (convertKeys.length !== fields.length) {

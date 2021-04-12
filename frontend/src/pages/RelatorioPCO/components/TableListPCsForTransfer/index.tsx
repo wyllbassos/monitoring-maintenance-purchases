@@ -6,31 +6,6 @@ import { IDataPCOGoupByCC } from '../../types';
 import Table from '../Table';
 import makeObjectLinesOfTable from '../utils/makeObjectLinesOfTable';
 
-interface IPCs {
-  value: string;
-  exists: string;
-}
-
-type TPCGroupByCC =
-  | 'Periodo'
-  | 'Conta'
-  | 'CCusto'
-  | 'Total PC Por CC'
-  | 'Disponível no CC';
-
-interface IPCGroupByCC {
-  Periodo: string;
-  Conta: string;
-  CCusto: string;
-  'Total PC Por CC': number;
-  'Disponível no CC': number;
-}
-
-interface IDataGroupPCByCC extends IDataPCOGoupByCC {
-  disponivelPeriodoContaCC?: number;
-  valorATransferir: number;
-}
-
 const header = [
   'Periodo',
   'Conta',
@@ -44,23 +19,23 @@ const header = [
 ];
 
 const keys = [
-  'Periodo',
-  'Conta',
-  'CCusto',
-  'GastoPrevisto',
-  'Empenhado',
-  'FaltaEmpenhar',
+  'periodo',
+  'conta',
+  'c_custo',
+  'gasto_previsto',
+  'empenhado',
+  'falta_empenhar',
   'disponivelPeriodoContaCC',
-  'DisponivelReal',
+  'disponivel_real',
   'valorATransferir',
 ];
 
 const keysCurrency = [
-  'GastoPrevisto',
-  'Empenhado',
-  'FaltaEmpenhar',
+  'gasto_previsto',
+  'empenhado',
+  'falta_empenhar',
   'disponivelPeriodoContaCC',
-  'DisponivelReal',
+  'disponivel_real',
   'valorATransferir',
 ];
 

@@ -54,22 +54,22 @@ const getPcsForTransferGroupByCC = (
     itenGroupByCCForTransfer => {
       const arrayItensCC = groupByCC.filter(
         itenGroupByCC =>
-          itenGroupByCCForTransfer.CCusto === itenGroupByCC.CCusto &&
-          itenGroupByCCForTransfer.Periodo === itenGroupByCC.Periodo &&
-          itenGroupByCCForTransfer.Conta === itenGroupByCC.Conta,
+          itenGroupByCCForTransfer.c_custo === itenGroupByCC.c_custo &&
+          itenGroupByCCForTransfer.periodo === itenGroupByCC.periodo &&
+          itenGroupByCCForTransfer.conta === itenGroupByCC.conta,
       );
       if (!arrayItensCC[0]) {
       }
       const disponivelPeriodoContaCC = arrayItensCC[0]
-        ? arrayItensCC[0].DisponivelSistema
+        ? arrayItensCC[0].disponivel_sistema
         : 0;
       const valorATransferir =
-        disponivelPeriodoContaCC - itenGroupByCCForTransfer.FaltaEmpenhar;
+        disponivelPeriodoContaCC - itenGroupByCCForTransfer.falta_empenhar;
       return {
         ...itenGroupByCCForTransfer,
         disponivelPeriodoContaCC,
         valorATransferir: valorATransferir > 0 ? 0 : -1 * valorATransferir,
-        DisponivelReal: arrayItensCC[0].DisponivelReal,
+        DisponivelReal: arrayItensCC[0].disponivel_real,
       };
     },
   );
@@ -84,7 +84,7 @@ const getStateForAddPcForTransfer = (
   const exists =
     pcsForTransfer.findIndex(pcList => pcList === pcForAddTransfer) >= 0;
   const isPCValid =
-    pco.list.findIndex(item => item.Documento === pcForAddTransfer) >= 0;
+    pco.list.findIndex(item => item.documento === pcForAddTransfer) >= 0;
 
   if (exists) {
     alert(`PC ${pcForAddTransfer} já listado para Transferência!`);
@@ -98,7 +98,7 @@ const getStateForAddPcForTransfer = (
   const newPcsForTransfer = [...pcsForTransfer, pcForAddTransfer];
 
   const listDataPCO = pco.list.filter(
-    item => newPcsForTransfer.findIndex(pc => pc === item.Documento) >= 0,
+    item => newPcsForTransfer.findIndex(pc => pc === item.documento) >= 0,
   );
 
   const newPcsForTransferGroupByCC = getPcsForTransferGroupByCC(
@@ -128,7 +128,7 @@ const getStateForRemovePcForTransfer = (
   const newPcsForTransfer = [...pcsForTransfer];
   newPcsForTransfer.splice(indexPC, 1);
   const listDataPCO = pco.list.filter(
-    item => newPcsForTransfer.findIndex(pc => pc === item.Documento) >= 0,
+    item => newPcsForTransfer.findIndex(pc => pc === item.documento) >= 0,
   );
 
   const newPcsForTransferGroupByCC = getPcsForTransferGroupByCC(

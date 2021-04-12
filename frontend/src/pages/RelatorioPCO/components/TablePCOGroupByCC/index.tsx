@@ -24,28 +24,28 @@ const header = [
 ];
 
 const keys = [
-  'PCs',
-  'Periodo',
-  'Conta',
-  'CCusto',
-  'GastoPrevisto',
-  'Orcado',
-  'Empenhado',
-  'DisponivelSistema',
-  'FaltaEmpenhar',
-  'DisponivelReal',
+  'pcs',
+  'periodo',
+  'conta',
+  'c_custo',
+  'gasto_previsto',
+  'orcado',
+  'empenhado',
+  'disponivel_sistema',
+  'falta_empenhar',
+  'disponivel_real',
 ];
 
 const keysCurrency = [
-  'GastoPrevisto',
-  'Orcado',
-  'Empenhado',
-  'DisponivelSistema',
-  'FaltaEmpenhar',
-  'DisponivelReal',
+  'gasto_previsto',
+  'orcado',
+  'empenhado',
+  'disponivel_sistema',
+  'falta_empenhar',
+  'disponivel_real',
 ];
 
-const fieldsFilter = ['Periodo', 'Conta', 'CCusto'];
+const fieldsFilter = ['periodo', 'conta', 'c_custo'];
 
 const TablePCOGroupByCC: React.FC<IProps> = ({
   pcoDataGroupByCC,

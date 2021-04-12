@@ -18,6 +18,8 @@ const keys = ['edit', 'periodo', 'conta_pc', 'pc', 'valor_total'];
 
 const fieldsFilter = ['periodo', 'conta_pc', 'pc'];
 
+const keysCurrency = ['valor_total'];
+
 const TableListPCsBlock: React.FC = () => {
   const { pcsBloqueados, handleAddPcForTransfer } = usePco();
 
@@ -52,8 +54,8 @@ const TableListPCsBlock: React.FC = () => {
     list.sort((a, b) => (a.key > b.key ? 1 : a.key < b.key ? -1 : 0));
 
     return makeObjectLinesOfTable({
-      keys: keys,
-      keysCurrency: [],
+      keys,
+      keysCurrency,
       list,
     });
   }, [pcsBloqueados]);
