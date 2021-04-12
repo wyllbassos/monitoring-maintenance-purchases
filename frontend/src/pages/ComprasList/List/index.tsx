@@ -9,7 +9,13 @@ import {
 } from '@material-ui/core';
 import { InfoTwoTone } from '@material-ui/icons';
 
-import { Container, Item, ContainerDados, ContainerDescricoes } from './styles';
+import {
+  Container,
+  Item,
+  ContainerDados,
+  FieldContainer,
+  ContainerDescricoes,
+} from './styles';
 import { Compra } from '../index';
 
 import formatValue from '../../../utils/formatValue';
@@ -50,6 +56,7 @@ const List: React.FC<ListProps> = (props: ListProps) => {
             previsao_entrega,
             valor_total,
             data_pc,
+            solicitante,
           } = compra;
           const emissaoFormated = new Date(emissao).toLocaleDateString();
           const data_pcFormated = data_pc
@@ -62,28 +69,72 @@ const List: React.FC<ListProps> = (props: ListProps) => {
             valor_total > 0 ? formatValue(valor_total) : '';
           return (
             <Item key={`${sc} - ${item}`}>
-              <section>
-                <ContainerDados>
-                  <span>
-                    <InfoTwoTone onClick={() => handleOpenDialog(compra)} />
-                    {`SC: ${sc} - ${item}`}
-                  </span>
-                  <span>{`STATUS: ${status}`}</span>
-                  <span>{`PC: ${pc}`}</span>
-                  <span>{`QUANTIDADE: ${quantidade}`}</span>
-                  <span>{`DATA SC: ${emissaoFormated}`}</span>
-                  <span>{`VALOR TOTAL: ${valor_totalFormated}`}</span>
-                  <span>{`DATA PC: ${data_pcFormated}`}</span>
-                  <span>{`PREVISÃO DE ENTREGA: ${previsao_entregaFormated}`}</span>
-                </ContainerDados>
-              </section>
-              <section>
-                <ContainerDescricoes>
-                  <span>{`PRODUTO: ${produto} - ${descricao}`}</span>
-                  <span>{`APLICAÇÃO: ${aplicacao}`}</span>
-                  <span>{`OBSERVAÇÃO: ${observacao}`}</span>
-                </ContainerDescricoes>
-              </section>
+              <ContainerDados>
+                <FieldContainer>
+                  <InfoTwoTone onClick={() => handleOpenDialog(compra)} />
+                  <strong>STATUS:</strong>
+                  <span>{status}</span>
+                </FieldContainer>
+
+                <FieldContainer>
+                  <strong>SC:</strong>
+                  <span>{`${sc} - ${item}`}</span>
+                </FieldContainer>
+
+                <FieldContainer>
+                  <strong>PC:</strong>
+                  <span>{pc}</span>
+                </FieldContainer>
+
+                <FieldContainer>
+                  <strong>QUANTIDADE:</strong>
+                  <span>{quantidade}</span>
+                </FieldContainer>
+
+                <FieldContainer>
+                  <strong>VALOR TOTAL:</strong>
+                  <span>{valor_totalFormated}</span>
+                </FieldContainer>
+              </ContainerDados>
+
+              <ContainerDados>
+                <FieldContainer>
+                  <strong>DATA SC:</strong>
+                  <span>{emissaoFormated}</span>
+                </FieldContainer>
+
+                <FieldContainer>
+                  <strong>DATA PC:</strong>
+                  <span>{data_pcFormated}</span>
+                </FieldContainer>
+
+                <FieldContainer>
+                  <strong>PREVISÃO DE ENTREGA:</strong>
+                  <span>{previsao_entregaFormated}</span>
+                </FieldContainer>
+
+                <FieldContainer>
+                  <strong>SOLICITANTE:</strong>
+                  <span>{solicitante?.usuario}</span>
+                </FieldContainer>
+              </ContainerDados>
+
+              <ContainerDescricoes>
+                <FieldContainer>
+                  <strong>PRODUTO:</strong>
+                  <span>{`${produto} - ${descricao}`}</span>
+                </FieldContainer>
+
+                <FieldContainer>
+                  <strong>APLICAÇÃO:</strong>
+                  <span>{aplicacao}</span>
+                </FieldContainer>
+
+                <FieldContainer>
+                  <strong>OBSERVAÇÃO:</strong>
+                  <span>{observacao}</span>
+                </FieldContainer>
+              </ContainerDescricoes>
             </Item>
           );
         })}
@@ -104,14 +155,6 @@ const List: React.FC<ListProps> = (props: ListProps) => {
             <div>
               <span>Centro Custo:</span>
               <strong>{compraDialog?.centro_custo_pc}</strong>
-            </div>
-            <div>
-              <span>Periodo:</span>
-              <strong>{compraDialog?.data_pc}</strong>
-            </div>
-            <div>
-              <span>Solicitante:</span>
-              <strong>{compraDialog?.solicitante.usuario}</strong>
             </div>
           </DialogContent>
           <DialogActions>

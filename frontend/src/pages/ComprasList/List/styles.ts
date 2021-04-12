@@ -3,8 +3,6 @@ import styled from 'styled-components';
 export const Container = styled.ul`
   width: 100%;
   max-width: 1120px;
-  /* position: absolute; */
-  /* top: 80px; */
 
   padding: 24px;
   display: flex;
@@ -12,9 +10,6 @@ export const Container = styled.ul`
   flex: 1;
   flex-direction: column;
   max-height: calc(100vh - 160px);
-
-  @media (max-width: 1000px) {
-  }
 
   li {
     & + li {
@@ -26,50 +21,68 @@ export const Container = styled.ul`
     background-color: #343a40;
     padding: 16px;
     box-shadow: black 4px 4px 8px;
+    @media (max-width: 500px) {
+      padding: 8px;
+    }
   }
 `;
-
 export const Item = styled.li`
   list-style-type: none;
   display: flex;
   flex-direction: column;
   border-radius: 8px;
-
-  span {
-    display: block;
-    color: #fff;
-    font-size: 16px;
-    font-weight: normal;
-
-    @media (max-width: 1000px) {
-      font-size: 12px;
-    }
-  }
-
-  section {
-    display: flex;
-
-    &:first-child {
-      border-bottom: 1px dashed #fff;
-      padding-bottom: 8px;
-    }
-  }
 `;
 
 export const ContainerDados = styled.div`
-  display: grid;
   flex: 1;
-  grid-template-columns: 1fr 1.7fr 1fr 1.7fr;
-  grid-template-rows: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 8px;
+  justify-content: space-between;
 
-  @media (max-width: 1000px) {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(4, 1fr);
+  @media (max-width: 500px) {
+    flex-direction: column;
   }
 `;
 
-export const ContainerDescricoes = styled.div`
+export const FieldContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+
+  @media (max-width: 500px) {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  svg {
+    color: #fff;
+  }
+
+  strong {
+    font-weight: 400;
+    font-size: 16px;
+    color: #02aa4d;
+
+    @media (max-width: 500px) {
+      font-size: 14px;
+    }
+  }
+
   span {
-    margin-top: 8px;
+    font-weight: 400;
+    font-size: 16px;
+    color: #fff;
+
+    @media (max-width: 500px) {
+      font-size: 14px;
+    }
+  }
+
+  span,
+  strong {
+    margin-left: 8px;
   }
 `;
+
+export const ContainerDescricoes = styled.div``;

@@ -4,7 +4,7 @@ import api from '../../services/api';
 
 import Header from '../../components/Header';
 
-import { Container, Paginacao, Filtros, ContainerList } from './styles';
+import { Container, Paginacao, Filtros, FiltersList } from './styles';
 
 import List from './List';
 
@@ -205,7 +205,7 @@ const ComprasList: React.FC = () => {
       </Filtros>
 
       <Container>
-        <div>
+        <FiltersList>
           <span>Filtros:</span>
           {filters.map(filter =>
             filter.search === '' ? (
@@ -217,7 +217,7 @@ const ComprasList: React.FC = () => {
               </div>
             ),
           )}
-        </div>
+        </FiltersList>
         {compras !== null ? (
           <List compras={compras} />
         ) : (
