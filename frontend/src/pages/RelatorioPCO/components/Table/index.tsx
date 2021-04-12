@@ -1,9 +1,16 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, {
+  useState,
+  useMemo,
+  useCallback,
+  useEffect,
+  TableHTMLAttributes,
+} from 'react';
 import ItemWithRemoveButton from '../../../../components/ItemWithRemoveButton';
 import PainelToListItens from '../../../../components/PainelToListItens';
 
 import formatValue from '../../../../utils/formatValue';
-import { Content, FilterContent, TableContent } from './styles';
+import FilterContent from './FilterContent';
+import { Content, TableContent } from './styles';
 
 export interface ITableLines {
   key: any;
@@ -14,18 +21,17 @@ export interface ITableLines {
   }>;
 }
 
-export interface ITable {
+export interface ITable extends TableHTMLAttributes<HTMLTableElement> {
   header: string[];
   lines: ITableLines[];
   fieldsFilter?: string[];
 }
 
-const Table: React.FC<ITable> = ({ header, lines, fieldsFilter }: ITable) => {
+const Table: React.FC<ITable> = (
+  { header, lines, fieldsFilter }: ITable,
+  ...rest
+) => {
   const [linesFiltered, setLinesFiltered] = useState(lines);
-  const [filterField, setFilterSelected] = useState(
-    fieldsFilter && fieldsFilter[0] ? fieldsFilter[0] : '',
-  );
-  const [filterValue, setFilterValue] = useState('');
   const [filterList, setFilterList] = useState<
     Array<{ field: string; value: string }>
   >([]);
@@ -63,21 +69,20 @@ const Table: React.FC<ITable> = ({ header, lines, fieldsFilter }: ITable) => {
     setLinesFiltered(newLinesFiltered);
   }, [lines, header, filterList]);
 
-  const handleAddFilter = useCallback(() => {
+  const handleAddFilter = useCallback((field: string, value: string) => {
     setFilterList(current => {
       const newFilters = [...current];
       const exists =
         newFilters.findIndex(
-          filter =>
-            filter.field === filterField && filter.value === filterValue,
+          filter => filter.field === field && filter.value === value,
         ) >= 0;
       if (exists) {
         return newFilters;
       }
-      newFilters.push({ field: filterField, value: filterValue });
+      newFilters.push({ field: field, value: value });
       return newFilters;
     });
-  }, [filterField, filterValue]);
+  }, []);
 
   const handleRemoveFilter = useCallback(index => {
     setFilterList(current => {
@@ -89,43 +94,20 @@ const Table: React.FC<ITable> = ({ header, lines, fieldsFilter }: ITable) => {
     });
   }, []);
 
+  const handleClearFilter = useCallback(() => {
+    setFilterList([]);
+  }, []);
+
   return (
-    <Content>
+    <Content {...rest}>
       {fieldsFilter && !!fieldsFilter.length && (
-        <>
-          <FilterContent>
-            <select
-              value={filterField}
-              onChange={({ target }) => {
-                setFilterSelected(target.value);
-              }}
-            >
-              {fieldsFilter.map(item => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-            </select>
-            <input
-              type="text"
-              value={filterValue}
-              onChange={({ target }) => setFilterValue(target.value)}
-            />
-            <button onClick={handleAddFilter}>Aplicar Filtro</button>
-            <button onClick={() => setFilterList([])}>Limpar Filtro</button>
-          </FilterContent>
-          {!!filterList.length && (
-            <PainelToListItens>
-              {filterList.map(({ field, value }, index) => (
-                <ItemWithRemoveButton
-                  key={field + value}
-                  handleRemovePcForTransfer={() => handleRemoveFilter(index)}
-                  value={field + '-' + value}
-                />
-              ))}
-            </PainelToListItens>
-          )}
-        </>
+        <FilterContent
+          handleAddFilter={handleAddFilter}
+          handleClearFilter={handleClearFilter}
+          handleRemoveFilter={handleRemoveFilter}
+          fieldsFilter={fieldsFilter}
+          filterList={filterList}
+        />
       )}
 
       <TableContent>

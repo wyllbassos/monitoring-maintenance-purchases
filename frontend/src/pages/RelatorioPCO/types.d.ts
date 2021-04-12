@@ -36,12 +36,6 @@ export interface IDataPCOGoupByCC {
   DisponivelSistema: number;
   FaltaEmpenhar: number;
   DisponivelReal: number;
-  // totalPCBloqueado: number;
-  // totalOrcado: number;
-  // totalEmpenhadoPC: number;
-  // totalEmpenhadoNF: number;
-  // disponivelSistema: number;
-  // faltaEmpenhar: number;
   itens: IDataPCO[];
 }
 

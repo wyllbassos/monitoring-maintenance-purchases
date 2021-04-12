@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export default styled.div`
-  margin: 16px;
+  margin-top: 16px;
   display: flex;
   flex-wrap: wrap;
   width: 75%;

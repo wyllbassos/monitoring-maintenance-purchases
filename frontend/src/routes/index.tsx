@@ -10,7 +10,8 @@ import PcsBloqueados from '../pages/PcsBloqueados';
 import RelatorioPCO from '../pages/RelatorioPCO/index';
 import { PcoProvider } from '../pages/RelatorioPCO/hooks/pco';
 
-import PageBase from './../components/PageBase/index';
+import PageBase from '../components/PageBase/index';
+import TratativaSSs from '../pages/TratativaSSs';
 
 const Routes: React.FC = () => (
   <Switch>
@@ -46,6 +47,8 @@ const Routes: React.FC = () => (
         </PcoProvider>
       )}
     />
+
+    <Route path="/tratativas" exact component={TratativaSSs} />
   </Switch>
 );
 

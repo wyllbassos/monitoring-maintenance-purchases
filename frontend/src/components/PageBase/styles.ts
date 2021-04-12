@@ -12,6 +12,37 @@ export const Container = styled.div`
   margin: 0;
   padding: 0;
   justify-content: space-between;
+
+  @media (max-width: 1550px) {
+    * {
+      font-size: 14px !important;
+    }
+  }
+  @media (max-width: 1300px) {
+    * {
+      font-size: 12px !important;
+    }
+  }
+  @media (max-width: 1100px) {
+    * {
+      font-size: 10px !important;
+    }
+  }
+  @media (max-width: 850px) {
+    * {
+      font-size: 8px !important;
+    }
+  }
+  @media (max-width: 650px) {
+    * {
+      font-size: 6px !important;
+    }
+  }
+  @media (max-width: 400px) {
+    * {
+      font-size: 5px !important;
+    }
+  }
 `;
 
 export const Sidebar = styled.header`
@@ -23,6 +54,25 @@ export const Sidebar = styled.header`
   background-color: #343a40;
   box-shadow: black 2px 3px 3px;
   z-index: 20;
+
+  @media (max-width: 1550px) {
+    width: 180px;
+  }
+  @media (max-width: 1300px) {
+    width: 150px;
+  }
+  @media (max-width: 1100px) {
+    width: 120px;
+  }
+  @media (max-width: 850px) {
+    width: 100px;
+  }
+  @media (max-width: 650px) {
+    width: 70px;
+  }
+  @media (max-width: 400px) {
+    width: 60px;
+  }
 `;
 
 export const Body = styled.div`
@@ -47,6 +97,19 @@ export const SidebarButtons = styled.button<SidebarButtonsProps>`
   transition: opacity 0.5s;
   text-align: left;
   padding: 0 16px;
+
+  @media (max-width: 1100px) {
+    min-height: 30px;
+    padding: 0 10px;
+  }
+  @media (max-width: 650px) {
+    min-height: 20px;
+    padding: 0 4px;
+  }
+  @media (max-width: 400px) {
+    min-height: 15px;
+    padding: 0 2px;
+  }
 
   &:hover {
     opacity: 0.5;

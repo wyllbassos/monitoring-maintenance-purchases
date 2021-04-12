@@ -4,27 +4,13 @@ export const Content = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-
-  select {
-    margin: 16px;
-  }
-`;
-
-export const FilterContent = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: center;
-
-  select,
-  input,
-  button {
-    padding: 4px 16px;
-    font-size: 16px;
-    margin: 16px 8px 16px;
-  }
 `;
 
 export const TableContent = styled.table`
+  margin-top: 16px;
+  width: 100%;
+  table-layout: fixed;
+
   &,
   thead tr th,
   tbody tr td {
@@ -34,8 +20,47 @@ export const TableContent = styled.table`
 
   thead tr th,
   tbody tr td {
-    padding: 16px;
+    padding: 14px;
     background-color: #fff;
     color: #000;
+  }
+
+  @media (max-width: 1550px) {
+    thead tr th,
+    tbody tr td {
+      padding: 12px;
+    }
+  }
+  @media (max-width: 1300px) {
+    thead tr th,
+    tbody tr td {
+      padding: 8px;
+      border: 0.6px solid #343a40;
+    }
+  }
+  @media (max-width: 1100px) {
+    thead tr th,
+    tbody tr td {
+      padding: 4px;
+    }
+  }
+  @media (max-width: 850px) {
+    thead tr th,
+    tbody tr td {
+      padding: 2px;
+      border: 0.3px solid #343a40;
+    }
+  }
+  @media (max-width: 750px) {
+    thead tr th,
+    tbody tr td {
+      padding: 1px;
+    }
+  }
+  @media (max-width: 400px) {
+    thead tr th,
+    tbody tr td {
+      padding: 0px;
+    }
   }
 `;

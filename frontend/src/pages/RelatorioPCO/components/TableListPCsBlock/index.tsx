@@ -12,23 +12,16 @@ interface ListPcsBlock {
   valor_total: number;
 }
 
+const header = ['PCO', 'Periodo', 'Conta', 'PC', 'Valor'];
+
+const keys = ['edit', 'periodo', 'conta_pc', 'pc', 'valor_total'];
+
+const fieldsFilter = ['periodo', 'conta_pc', 'pc'];
+
 const TableListPCsBlock: React.FC = () => {
   const { pcsBloqueados, handleAddPcForTransfer } = usePco();
 
   console.log(pcsBloqueados);
-
-  /*
-   *---- L I S T   P C s
-   */
-  const headerPCsBlock = useMemo(
-    () => ['PCO', 'Periodo', 'Conta', 'PC', 'Valor'],
-    [],
-  );
-
-  const keysPCsBlock = useMemo(
-    () => ['edit', 'periodo', 'conta_pc', 'pc', 'valor_total'],
-    [],
-  );
 
   const linesPCsBlock = useMemo(() => {
     const list: ListPcsBlock[] = [];
@@ -59,7 +52,7 @@ const TableListPCsBlock: React.FC = () => {
     list.sort((a, b) => (a.key > b.key ? 1 : a.key < b.key ? -1 : 0));
 
     return makeObjectLinesOfTable({
-      keys: keysPCsBlock,
+      keys: keys,
       keysCurrency: [],
       list,
     });
@@ -68,7 +61,11 @@ const TableListPCsBlock: React.FC = () => {
   return (
     <>
       {!!pcsBloqueados.length && (
-        <Table header={headerPCsBlock} lines={linesPCsBlock} />
+        <Table
+          header={header}
+          lines={linesPCsBlock}
+          fieldsFilter={fieldsFilter}
+        />
       )}
     </>
   );
