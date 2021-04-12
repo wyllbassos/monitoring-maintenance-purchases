@@ -17,7 +17,6 @@ const header = [
   'Total',
   'Orcado',
   'Pedido',
-  'Falta Empenhar',
   'Entr Nf',
 ];
 

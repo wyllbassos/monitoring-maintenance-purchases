@@ -1,26 +1,34 @@
 import styled from 'styled-components';
 
-export const Content = styled.div`
+export const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  width: 100%;
+  height: 100%;
+`;
+
+export const TableContainer = styled.div`
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  overflow: auto;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  margin-top: 16px;
 `;
 
 export const TableContent = styled.table`
-  margin-top: 16px;
   width: 100%;
-  table-layout: fixed;
-
-  &,
-  thead tr th,
-  tbody tr td {
-    border: 1px solid #343a40;
-    border-spacing: 0;
-  }
+  align-self: baseline;
+  border-spacing: 0;
+  // table-layout: fixed;
 
   thead tr th,
   tbody tr td {
-    padding: 14px;
+    border-bottom: 1px solid #000;
+    border-right: 1px solid #000;
+    padding: 16px 8px;
     background-color: #fff;
     color: #000;
   }
@@ -35,7 +43,6 @@ export const TableContent = styled.table`
     thead tr th,
     tbody tr td {
       padding: 8px;
-      border: 0.6px solid #343a40;
     }
   }
   @media (max-width: 1100px) {
@@ -48,7 +55,6 @@ export const TableContent = styled.table`
     thead tr th,
     tbody tr td {
       padding: 2px;
-      border: 0.3px solid #343a40;
     }
   }
   @media (max-width: 750px) {

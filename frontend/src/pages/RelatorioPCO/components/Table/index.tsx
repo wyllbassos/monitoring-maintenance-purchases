@@ -10,7 +10,7 @@ import PainelToListItens from '../../../../components/PainelToListItens';
 
 import formatValue from '../../../../utils/formatValue';
 import FilterContent from './FilterContent';
-import { Content, TableContent } from './styles';
+import { Container, TableContainer, TableContent } from './styles';
 
 export interface ITableLines {
   key: any;
@@ -99,7 +99,7 @@ const Table: React.FC<ITable> = (
   }, []);
 
   return (
-    <Content {...rest}>
+    <Container {...rest}>
       {fieldsFilter && !!fieldsFilter.length && (
         <FilterContent
           handleAddFilter={handleAddFilter}
@@ -109,29 +109,30 @@ const Table: React.FC<ITable> = (
           filterList={filterList}
         />
       )}
-
-      <TableContent>
-        <thead>
-          <tr>
-            {header.map(cell => (
-              <th key={cell}>{cell}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {linesFiltered.map(line => (
-            <tr key={line.key}>
-              {line.itens.map(cell => (
-                <td key={cell.key}>
-                  {cell.isCurrency && formatValue(cell.value)}
-                  {!cell.isCurrency && cell.value}
-                </td>
+      <TableContainer>
+        <TableContent>
+          <thead>
+            <tr>
+              {header.map(cell => (
+                <th key={cell}>{cell}</th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </TableContent>
-    </Content>
+          </thead>
+          <tbody>
+            {linesFiltered.map(line => (
+              <tr key={line.key}>
+                {line.itens.map(cell => (
+                  <td key={cell.key}>
+                    {cell.isCurrency && formatValue(cell.value)}
+                    {!cell.isCurrency && cell.value}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </TableContent>
+      </TableContainer>
+    </Container>
   );
 };
 
