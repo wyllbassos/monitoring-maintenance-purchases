@@ -118,10 +118,10 @@ export function convertTextToPCO(text: string): IPCO {
 
   const dataPCO: IDataPCO[] = PCOs.map((PCO, index) => {
     const [month, year] = PCO.periodo.split('/');
-    const Periodo = `${year}/${month.length === 2 ? month : `0${month}`}`;
+    const periodo = `${year}/${month.length === 2 ? month : `0${month}`}`;
     return {
       ...PCO,
-      Periodo,
+      periodo,
       id: String(index),
     };
   });

@@ -62,7 +62,7 @@ const FilterContent: React.FC<IFilterContent> = ({
             <ItemWithRemoveButton
               key={field + value}
               handleRemovePcForTransfer={() => handleRemoveFilter(index)}
-              value={field + '-' + value}
+              value={field + ' = ' + value}
             />
           ))}
         </PainelToListItens>
