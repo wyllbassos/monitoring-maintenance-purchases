@@ -31,6 +31,18 @@ const formatData = {
   },
 };
 
+function replaceChars(
+  value: string,
+  arrFrom: string[],
+  arrTo: string[],
+): string {
+  let textFormated = value;
+  arrFrom.forEach((char, index) => {
+    textFormated = textFormated.split(char).join(arrTo[index]);
+  });
+  return textFormated;
+}
+
 export function textToObject<T = any>(
   text: string,
   fields: IFields[] | undefined = undefined,
@@ -43,18 +55,12 @@ export function textToObject<T = any>(
 
   const convertKeys = arrayData
     .splice(0, 1)[0]
-    //.map(key => key.split('.').join('_').split(' ').join('_').toLowerCase());
     .map(key =>
-      key
-        .split('.')
-        .join('_')
-        .split(' ')
-        .join('_')
-        .split('ã')
-        .join('a')
-        .split('ç')
-        .join('c')
-        .toLowerCase(),
+      replaceChars(
+        key,
+        ['.', ' ', 'é', 'á', 'ã', 'ç'],
+        ['_', '_', 'e', 'a', 'a', 'c'],
+      ).toLowerCase(),
     );
 
   if (fields) {
@@ -63,15 +69,20 @@ export function textToObject<T = any>(
       return null;
     }
 
+    let fieldsOk = true;
     fields.forEach((field, index) => {
       if (field.key !== convertKeys[index]) {
-        alert(
-          'A ordem das colunas deve ser: ' +
-            JSON.stringify(fields.map(fieldRet => fieldRet.key)),
-        );
-        return null;
+        fieldsOk = false;
       }
     });
+
+    if (!fieldsOk) {
+      alert(
+        'A ordem das colunas deve ser: ' +
+          JSON.stringify(fields.map(fieldRet => fieldRet.key)),
+      );
+      return null;
+    }
   }
 
   const objectData: any[] = [];
