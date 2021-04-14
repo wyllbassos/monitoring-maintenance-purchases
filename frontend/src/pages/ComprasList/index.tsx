@@ -4,9 +4,10 @@ import api from '../../services/api';
 
 import Header from '../../components/Header';
 
-import { Container, Paginacao, Filtros, FiltersList } from './styles';
+import { Paginacao, Filtros, FiltersList, ContainerList } from './styles';
 
 import List from './List';
+import PageBase from '../../components/PageBase';
 
 export interface Compra {
   status: string;
@@ -187,8 +188,24 @@ const ComprasList: React.FC = () => {
   );
 
   return (
-    <>
-      <Header size="small" selected="/" updateAt={updateAt} />
+    <PageBase
+      route="/"
+      sidebarComponent={
+        <FiltersList>
+          <span>Filtros:</span>
+          {filters.map(filter =>
+            filter.search === '' ? (
+              ''
+            ) : (
+              <div key={`${filter.field} ${filter.search}`}>
+                <span>{`${filter.field}: `}</span>
+                <span>{`${filter.search}`}</span>
+              </div>
+            ),
+          )}
+        </FiltersList>
+      }
+    >
       <Filtros>
         <span>Pesquisar</span>
         <select value={field} onChange={handleChangeField}>
@@ -204,46 +221,27 @@ const ComprasList: React.FC = () => {
         </button>
       </Filtros>
 
-      <Container>
-        <FiltersList>
-          <span>Filtros:</span>
-          {filters.map(filter =>
-            filter.search === '' ? (
-              ''
-            ) : (
-              <div key={`${filter.field} ${filter.search}`}>
-                <span>{`${filter.field}: `}</span>
-                <span>{`${filter.search}`}</span>
-              </div>
-            ),
-          )}
-        </FiltersList>
-        {compras !== null ? (
-          <List compras={compras} />
-        ) : (
+      <ContainerList>
+        {compras && <List compras={compras} />}
+        {!compras && (
           <ul>
             <li>Carregando</li>
           </ul>
         )}
-      </Container>
+      </ContainerList>
 
       <Paginacao>
         <span>{`Total: ${totalRegistros}`}</span>
-        <div>
-          <span>Mostrar:</span>
-          <select value={limit} onChange={handleSetLimit}>
-            <option value="3">3</option>
-            <option value="10">10</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-            <option value="200">200</option>
-            <option value="500">500</option>
-            <option value="1000">1000</option>
-          </select>
-        </div>
-        {/*
-          <button onClick={e => handlePreviusPage()}>{'<'}</button>
-        */}
+        <span>Mostrar:</span>
+        <select value={limit} onChange={handleSetLimit}>
+          <option value="3">3</option>
+          <option value="10">10</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="200">200</option>
+          <option value="500">500</option>
+          <option value="1000">1000</option>
+        </select>
         <span>{`Pagina: `}</span>
         <input
           type="number"
@@ -251,11 +249,8 @@ const ComprasList: React.FC = () => {
           onChange={e => handleChangePage(Number(e.target.value))}
         />
         <span>{` de ${totalPaginas}`}</span>
-        {/*
-        <button onClick={e => handleNextPage()}>{'>'}</button>
-        */}
       </Paginacao>
-    </>
+    </PageBase>
   );
 };
 

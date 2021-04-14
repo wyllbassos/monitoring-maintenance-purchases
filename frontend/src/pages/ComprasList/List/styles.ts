@@ -9,7 +9,6 @@ export const Container = styled.ul`
   overflow-y: auto;
   flex: 1;
   flex-direction: column;
-  max-height: calc(100vh - 160px);
 
   li {
     & + li {
@@ -20,7 +19,7 @@ export const Container = styled.ul`
   li {
     background-color: #343a40;
     padding: 16px;
-    box-shadow: black 4px 4px 8px;
+    // box-shadow: black 4px 4px 8px;
     @media (max-width: 500px) {
       padding: 8px;
     }

@@ -10,10 +10,14 @@ export const Container = styled.div`
   align-items: center;
 `;
 
+export const FiltersContainer = styled.div`
+  color: #fff;
+`;
+
 export const ContainerTable = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1120px 1fr;
+  display: flex;
   width: 100%;
+  max-width: 1200px;
   flex: 1;
-  max-height: calc(100vh - 60px);
+  height: 100%;
 `;

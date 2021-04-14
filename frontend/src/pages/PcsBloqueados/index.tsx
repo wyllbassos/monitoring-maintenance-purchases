@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useState, useEffect, useCallback } from 'react';
 
-import Header from '../../components/Header';
-
-import { Container, ContainerTable } from './styles';
+import { Container, ContainerTable, FiltersContainer } from './styles';
 
 import Table from './Table';
 import { Compra } from '../../pages/Prioridades/index';
 import { getRelatorioPCsBloqueados } from './util/getRelatorioPCsBloqueados';
+import PageBase from '../../components/PageBase';
 
 export interface RelatorioPC {
   pc: string;
@@ -123,58 +122,66 @@ const PcsBloqueados: React.FC = () => {
 
   return (
     <Container>
-      <Header size="small" selected={`/pcs-bloqueados`} />
-      <ContainerTable>
-        <div>
-          <div>
+      <PageBase
+        route="/pcs-bloqueados"
+        sidebarComponent={
+          <FiltersContainer>
             <div>
-              <span>{"PC's Bloqueados: "}</span>
-              <select
-                value={state.nivelAprovacao}
-                onChange={e => {
-                  handleSetState({ nivelAprovacao: e.target.value });
-                }}
-              >
-                {state.options.niveisAprovacoes.map(niveisAprovacoesItem => (
-                  <option
-                    key={niveisAprovacoesItem}
-                    value={niveisAprovacoesItem}
-                  >
-                    {niveisAprovacoesItem}
-                  </option>
-                ))}
-              </select>
+              <div>
+                <span>{"PC's Bloqueados: "}</span>
+                <select
+                  value={state.nivelAprovacao}
+                  onChange={e => {
+                    handleSetState({ nivelAprovacao: e.target.value });
+                  }}
+                >
+                  {state.options.niveisAprovacoes.map(niveisAprovacoesItem => (
+                    <option
+                      key={niveisAprovacoesItem}
+                      value={niveisAprovacoesItem}
+                    >
+                      {niveisAprovacoesItem}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <span>{'Status Aprovação: '}</span>
+                <select
+                  value={state.statusAprovacao}
+                  onChange={e => {
+                    handleSetState({ statusAprovacao: e.target.value });
+                  }}
+                >
+                  {state.options.statusAprovacoes.map(statusAprovacaoItem => (
+                    <option
+                      key={statusAprovacaoItem}
+                      value={statusAprovacaoItem}
+                    >
+                      {statusAprovacaoItem}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <span>{`Total: ${state.relatorioPC.length} PC's`}</span>
+              </div>
             </div>
-            <div>
-              <span>{'Status Aprovação: '}</span>
-              <select
-                value={state.statusAprovacao}
-                onChange={e => {
-                  handleSetState({ statusAprovacao: e.target.value });
-                }}
-              >
-                {state.options.statusAprovacoes.map(statusAprovacaoItem => (
-                  <option key={statusAprovacaoItem} value={statusAprovacaoItem}>
-                    {statusAprovacaoItem}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <span>{`Total: ${state.relatorioPC.length} PC's`}</span>
-            </div>
-          </div>
-        </div>
-        {state.relatorioPC.length > 0 ? (
-          <Table
-            relatorioPC={state.relatorioPCFiltered}
-            setRelatorioPC={relatorioPC => handleSetState({ relatorioPC })}
-          />
-        ) : (
-          <div>Sem PC</div>
-        )}
-        <div> </div>
-      </ContainerTable>
+          </FiltersContainer>
+        }
+      >
+        <ContainerTable>
+          {state.relatorioPC.length > 0 ? (
+            <Table
+              relatorioPC={state.relatorioPCFiltered}
+              setRelatorioPC={relatorioPC => handleSetState({ relatorioPC })}
+            />
+          ) : (
+            <div>Sem PC</div>
+          )}
+          <div> </div>
+        </ContainerTable>
+      </PageBase>
     </Container>
   );
 };

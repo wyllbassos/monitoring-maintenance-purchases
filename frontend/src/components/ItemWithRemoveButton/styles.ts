@@ -8,7 +8,7 @@ export const Container = styled.div`
   padding: 0 8px;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 4px 4px 8px;
+  // box-shadow: 4px 4px 8px;
   button {
     width: 20px;
     height: 20px;

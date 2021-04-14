@@ -61,7 +61,7 @@ const Import: React.FC = () => {
 
   return (
     <>
-      <Header size="small" selected="/insert" />
+      <Header selected="/insert" />
       <Container>
         <Title>Inserir Movimentação</Title>
         <Form onSubmit={submitTransaction}>

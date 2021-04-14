@@ -4,12 +4,11 @@ interface CardProps {
   total?: boolean;
 }
 
-export const Container = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1120px 1fr;
-  width: 100%;
-  flex: 1;
-  max-height: calc(100vh - 160px);
+export const ContainerList = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 80px);
+
   @media (max-width: 1300px) {
     grid-template-columns: 100%;
     justify-items: center;
@@ -20,6 +19,7 @@ export const FiltersList = styled.div`
   display: flex;
   flex-direction: column;
   padding: 24px;
+  color: #fff;
   @media (max-width: 1300px) {
     display: none;
   }
@@ -28,10 +28,10 @@ export const FiltersList = styled.div`
 export const Filtros = styled.div`
   display: flex;
   justify-content: center;
-  width: 100%;
+  width: calc(100% + 64px);
   background: #343a40;
   height: 40px;
-  box-shadow: black 0px 3px 3px;
+  // box-shadow: black 0px 3px 3px;
   z-index: 20;
   padding: 0 25%;
 
@@ -57,36 +57,28 @@ export const Filtros = styled.div`
 `;
 
 export const Paginacao = styled.section`
-  /* position: fixed; */
-  width: 100vw;
-  height: 60px;
-  /* bottom: 0px; */
+  width: calc(100% + 64px);
+  height: 40px;
   display: flex;
-  /* flex: 1; */
   justify-content: center;
   align-items: center;
   z-index: 10;
   background-color: #343a40;
-  box-shadow: black 0px -3px 3px;
+  padding: 8px 0;
 
   span {
     color: #fff;
+    margin-right: 8px;
+  }
+
+  select,
+  input {
+    height: 100%;
     margin-right: 16px;
   }
 
-  select {
-    margin-left: 8px;
-    height: 30px;
-  }
-
   input {
-    width: 100px;
-    margin-right: 8px;
-  }
-
-  button {
-    width: 32px;
-    margin-right: 8px;
+    width: 50px;
   }
 `;
 

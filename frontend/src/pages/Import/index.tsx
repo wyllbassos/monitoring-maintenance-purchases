@@ -72,7 +72,7 @@ const Import: React.FC = () => {
 
   return (
     <>
-      <Header size="small" selected="/import" />
+      <Header selected="/import" />
       <Container>
         <Title>
           {!loading ? 'Importar uma transação' : `Carregando: ${timeLoading}s`}

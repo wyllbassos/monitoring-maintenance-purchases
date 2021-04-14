@@ -1,4 +1,8 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+interface SideBarShow {
+  isSideBarShow: boolean;
+}
 
 interface SidebarButtonsProps {
   selected: boolean;
@@ -45,15 +49,37 @@ export const Container = styled.div`
   }
 `;
 
-export const Sidebar = styled.header`
+export const SidebarButtonShowHide = styled.div`
   display: flex;
-  height: calc(100vh - 60px);
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  color: #02aa4d;
+  z-index: 30;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  &:hover {
+    opacity: 0.8;
+    cursor: pointer;
+  }
+`;
+
+export const SidebarContent = styled.div<SideBarShow>`
+  display: flex;
+  height: calc(100vh - 40px);
   overflow-y: auto;
+  height: 100%;
+  background-color: #343a40;
   width: 220px;
   flex-direction: column;
-  background-color: #343a40;
-  box-shadow: black 2px 3px 3px;
+  // box-shadow: black 2px 3px 3px;
   z-index: 20;
+
+  transition-duration: 1s;
+  position: fixed;
+  left: ${({ isSideBarShow }) => (isSideBarShow ? '0px' : '-220px')};
 
   @media (max-width: 1550px) {
     width: 180px;
@@ -75,28 +101,19 @@ export const Sidebar = styled.header`
   }
 `;
 
-export const Body = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-
-  textarea {
-    flex: 1;
-    resize: none;
-    padding: 0 16px;
-    width: -webkit-fill-available;
-  }
-`;
-
 export const SidebarButtons = styled.button<SidebarButtonsProps>`
   width: 100%;
-  color: ${({ selected }) => (selected ? '#343a40' : '#02aa4d')};
   border: 0;
   background-color: ${({ selected }) => (selected ? '#02aa4d' : '#343a40')};
+  color: ${({ selected }) => (selected ? '#343a40' : '#02aa4d')};
+  /* background-color: #343a40;
+  color: #02aa4d;
+  border-bottom: ${({ selected }) => (selected ? 'solid 2px #343a40' : '0')}; */
   min-height: 40px;
   transition: opacity 0.5s;
   text-align: left;
   padding: 0 16px;
+
 
   @media (max-width: 1100px) {
     min-height: 30px;
@@ -118,15 +135,31 @@ export const SidebarButtons = styled.button<SidebarButtonsProps>`
   }
 `;
 
-export const Content = styled.div`
+export const Body = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+
+  textarea {
+    flex: 1;
+    resize: none;
+    padding: 0 16px;
+    width: -webkit-fill-available;
+  }
+`;
+
+export const Content = styled.div<SideBarShow>`
   display: flex;
   flex-direction: column;
   flex: 1;
-  height: calc(100vh - 60px);
-  padding: 0 32px;
+  height: calc(100vh - 40px);
+  padding: ${({ isSideBarShow }) =>
+    isSideBarShow ? '0px 32px 0px 252px' : '0px 32px;'};
   align-items: center;
   // align-items: flex-start;
   overflow-y: auto;
+  transition-duration: 1s;
+  // margin-right:
 `;
 
 export const Footer = styled.footer`
@@ -143,5 +176,5 @@ export const Footer = styled.footer`
   justify-content: center;
   align-items: center;
   background-color: #343a40;
-  box-shadow: black 6px -6px 8px;
+  // box-shadow: black 6px -6px 8px;
 `;

@@ -10,7 +10,6 @@ export const Container = styled.div`
   width: 100%;
   flex: 1;
   align-items: center;
-  max-height: calc(100vh - 100px);
 
   div {
     width: 1120px;
@@ -78,7 +77,7 @@ export const Paginacao = styled.section`
   align-items: center;
   z-index: 10;
   background-color: #343a40;
-  box-shadow: black 0px -4px 8px;
+  // box-shadow: black 0px -4px 8px;
 
   span {
     color: #fff;
