@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const Container = styled.ul`
   width: 100%;
-  max-width: 1120px;
 
   padding: 24px;
   display: flex;
@@ -21,6 +20,7 @@ export const Container = styled.ul`
     padding: 16px;
     // box-shadow: black 4px 4px 8px;
     @media (max-width: 500px) {
+      width: 50%;
       padding: 8px;
     }
   }

@@ -5,8 +5,7 @@ interface CardProps {
 }
 
 export const ContainerList = styled.div`
-  display: flex;
-  flex-direction: column;
+  max-width: 1200px;
   height: calc(100% - 80px);
 
   @media (max-width: 1300px) {
