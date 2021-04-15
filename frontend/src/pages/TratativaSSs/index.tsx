@@ -8,8 +8,10 @@ import Table from '../RelatorioPCO/components/Table';
 import { textToObject } from '../../utils/textToObject';
 import { SSFields } from './../../utils/textToObjectFields';
 import { apiSS } from '../../services/api';
+import Dialog from '../../components/Dialog';
 
 interface ISS {
+  id: number;
   ss: string;
   tag: string;
   nome_bem: string;
@@ -20,9 +22,11 @@ interface ISS {
   solicitante: string;
   os: string;
   responsavel: string;
+  observacao_tratativas: string;
 }
 
 const header = [
+  'Editar',
   'SS',
   'TAG',
   'Nome Bem',
@@ -33,9 +37,14 @@ const header = [
   'Solicitante',
   'OS',
   'Responsavel',
+  'Observacao Tratativas',
 ];
 
-const keys = [...SSFields.map(SSField => SSField.key)];
+const keys = [
+  'edit',
+  ...SSFields.map(SSField => SSField.key),
+  'observacao_tratativas',
+];
 
 const fieldsFilter = keys;
 
@@ -45,6 +54,9 @@ const TratativaSSs: React.FC = () => {
   const [sssImport, setSssImport] = useState<ISS[]>([]);
   const [sssBaseDados, setSssBaseDados] = useState<ISS[]>([]);
   const [ssInProcess, setSsInProcess] = useState('');
+
+  const [open, setOpen] = useState(false);
+  const [ssTratativa, setSsTratativa] = useState<ISS>();
 
   useEffect(() => {
     apiSS.get<ISS[]>('sss').then(({ data }) => {
@@ -96,7 +108,18 @@ const TratativaSSs: React.FC = () => {
 
   const sssBaseDadosToTable = useMemo(
     () =>
-      makeObjectLinesOfTable({ keys, keysCurrency: [], list: sssBaseDados }),
+      makeObjectLinesOfTable({
+        keys,
+        keysCurrency: [],
+        list: sssBaseDados.map(ssBaseDados => ({
+          ...ssBaseDados,
+          edit: (
+            <button onClick={() => handleTratativa(ssBaseDados)}>
+              Tratativa
+            </button>
+          ),
+        })),
+      }),
     [keys, sssBaseDados],
   );
 
@@ -105,6 +128,36 @@ const TratativaSSs: React.FC = () => {
     setTextInput(text);
     setSssImport(SSs ? SSs : []);
   }, []);
+
+  const handleTratativa = useCallback((ss: ISS) => {
+    setSsTratativa(ss);
+    setOpen(true);
+  }, []);
+
+  const handleUpdateSS = useCallback(async () => {
+    console.log(ssTratativa);
+    if (!ssTratativa) {
+      return;
+    }
+
+    const index = sssBaseDados.findIndex(
+      ssBaseDados => ssBaseDados.id === ssTratativa.id,
+    );
+    const newSsBaseDados = [...sssBaseDados];
+
+    try {
+      const response = await apiSS.put<ISS>(
+        'sss/' + ssTratativa.id,
+        ssTratativa,
+      );
+      newSsBaseDados[index] = response.data;
+      setSssBaseDados(newSsBaseDados);
+    } catch (e) {
+      console.log(e);
+    }
+
+    setOpen(false);
+  }, [ssTratativa, sssBaseDados]);
 
   return (
     <PageBase route="/relatorio-pco" sidebarButtons={sidebarButtons}>
@@ -140,6 +193,54 @@ const TratativaSSs: React.FC = () => {
             fieldsFilter={fieldsFilter}
           />
         </>
+      )}
+
+      {ssTratativa && (
+        <Dialog
+          open={open}
+          onClose={() => setOpen(false)}
+          title={'SS: ' + ssTratativa.ss}
+          buttons={[
+            {
+              text: 'Cancelar',
+              onClick: () => setOpen(false),
+              color: 'secondary',
+            },
+            {
+              text: 'Confirmar',
+              onClick: handleUpdateSS,
+              color: 'primary',
+            },
+          ]}
+        >
+          <div>
+            <label>{`Descricao Bem: `}</label>
+            <span>{ssTratativa.nome_bem}</span>
+          </div>
+
+          <div>
+            <label>{`Descrição Serviço: `}</label>
+            <span>{ssTratativa.descricao_servico}</span>
+          </div>
+
+          <div>
+            <label>Observações da Tratativa</label>
+            <textarea
+              value={ssTratativa.observacao_tratativas}
+              onChange={({ target }) => {
+                setSsTratativa(current =>
+                  current
+                    ? {
+                        ...current,
+                        observacao_tratativas: target.value,
+                      }
+                    : current,
+                );
+              }}
+              style={{ width: '552px', height: '100px' }}
+            />
+          </div>
+        </Dialog>
       )}
     </PageBase>
   );

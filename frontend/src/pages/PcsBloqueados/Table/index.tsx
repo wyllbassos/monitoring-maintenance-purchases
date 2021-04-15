@@ -1,11 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useCallback, useState } from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-// import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import EditTwoTone from '@material-ui/icons/EditTwoTone';
 import DeleteForeverTwoToneIcon from '@material-ui/icons/DeleteForeverTwoTone';
 
@@ -20,6 +14,7 @@ import api from '../../../services/api';
 import formatValue from '../../../utils/formatValue';
 import Thead from './Thead';
 import { RelatorioPC } from '..';
+import Dialog from '../../../components/Dialog';
 
 interface Props {
   relatorioPC: RelatorioPC[];
@@ -133,89 +128,80 @@ const Table: React.FC<Props> = ({ relatorioPC, setRelatorioPC }: Props) => {
       ) : (
         <></>
       )}
-
       <Dialog
         open={open}
         onClose={handleCloseDialog}
-        aria-labelledby="dialog-title"
-        aria-describedby="dialog-description"
+        title="Controle de Aprovação"
+        buttons={[
+          { text: 'Cancelar', onClick: handleCloseDialog },
+          { text: 'Confirmar', onClick: handleUpdateDataEnvio },
+        ]}
       >
-        <DialogTitle id="dialog-title">Controle de Aprovação</DialogTitle>
-        <DialogContent>
-          <FormControleAprovacao>
-            <span>PC:</span>
-            <Enfase>{removeDatePC.pc}</Enfase>
+        <FormControleAprovacao>
+          <span>PC:</span>
+          <Enfase>{removeDatePC.pc}</Enfase>
 
-            <span>Data Envio: </span>
-            <div>
-              <input
-                type="date"
-                value={removeDatePC.status_aprovacao || ''}
-                onChange={e => {
-                  setRemoveDatePC({
-                    pc: removeDatePC.pc,
-                    status_aprovacao: e.target.value,
-                  });
-                }}
-              />
-              <DeleteForeverTwoToneIcon
-                onClick={() => {
-                  setRemoveDatePC({
-                    pc: removeDatePC.pc,
-                    status_aprovacao: '',
-                  });
-                }}
-              />
-            </div>
-
-            <span>PCO: </span>
+          <span>Data Envio: </span>
+          <div>
             <input
-              type="checkbox"
-              value={removeDatePC.status_aprovacao === 'PCO' ? 1 : 0}
-              checked={removeDatePC.status_aprovacao === 'PCO'}
+              type="date"
+              value={removeDatePC.status_aprovacao || ''}
               onChange={e => {
                 setRemoveDatePC({
                   pc: removeDatePC.pc,
-                  status_aprovacao: e.target.checked ? 'PCO' : '',
+                  status_aprovacao: e.target.value,
                 });
               }}
             />
-
-            <span>Aprovado: </span>
-            <input
-              type="checkbox"
-              value={removeDatePC.status_aprovacao === 'APROVADO' ? 1 : 0}
-              checked={removeDatePC.status_aprovacao === 'APROVADO'}
-              onChange={e => {
+            <DeleteForeverTwoToneIcon
+              onClick={() => {
                 setRemoveDatePC({
                   pc: removeDatePC.pc,
-                  status_aprovacao: e.target.checked ? `APROVADO` : '',
+                  status_aprovacao: '',
                 });
               }}
             />
+          </div>
 
-            <span>Eliminar: </span>
-            <input
-              type="checkbox"
-              value={removeDatePC.status_aprovacao === 'ELIMINAR' ? 1 : 0}
-              checked={removeDatePC.status_aprovacao === 'ELIMINAR'}
-              onChange={e => {
-                setRemoveDatePC({
-                  pc: removeDatePC.pc,
-                  status_aprovacao: e.target.checked ? `ELIMINAR` : '',
-                });
-              }}
-            />
-          </FormControleAprovacao>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
-            Cancelar
-          </Button>
-          <Button onClick={handleUpdateDataEnvio} color="primary">
-            Confirmar
-          </Button>
-        </DialogActions>
+          <span>PCO: </span>
+          <input
+            type="checkbox"
+            value={removeDatePC.status_aprovacao === 'PCO' ? 1 : 0}
+            checked={removeDatePC.status_aprovacao === 'PCO'}
+            onChange={e => {
+              setRemoveDatePC({
+                pc: removeDatePC.pc,
+                status_aprovacao: e.target.checked ? 'PCO' : '',
+              });
+            }}
+          />
+
+          <span>Aprovado: </span>
+          <input
+            type="checkbox"
+            value={removeDatePC.status_aprovacao === 'APROVADO' ? 1 : 0}
+            checked={removeDatePC.status_aprovacao === 'APROVADO'}
+            onChange={e => {
+              setRemoveDatePC({
+                pc: removeDatePC.pc,
+                status_aprovacao: e.target.checked ? `APROVADO` : '',
+              });
+            }}
+          />
+
+          <span>Eliminar: </span>
+          <input
+            type="checkbox"
+            value={removeDatePC.status_aprovacao === 'ELIMINAR' ? 1 : 0}
+            checked={removeDatePC.status_aprovacao === 'ELIMINAR'}
+            onChange={e => {
+              setRemoveDatePC({
+                pc: removeDatePC.pc,
+                status_aprovacao: e.target.checked ? `ELIMINAR` : '',
+              });
+            }}
+          />
+        </FormControleAprovacao>
       </Dialog>
     </Container>
   );
