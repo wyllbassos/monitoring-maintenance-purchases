@@ -5,8 +5,10 @@ interface CardProps {
 }
 
 export const ContainerList = styled.div`
+  width: 100%;
   max-width: 1200px;
   height: calc(100% - 80px);
+  overflow-y: auto;
 
   @media (max-width: 1300px) {
     grid-template-columns: 100%;

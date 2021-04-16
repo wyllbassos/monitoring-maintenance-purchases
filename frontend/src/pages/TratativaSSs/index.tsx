@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import PageBase from '../../components/PageBase/index';
 import { useMemo } from 'react';
@@ -15,14 +15,17 @@ interface ISS {
   ss: string;
   tag: string;
   nome_bem: string;
-  descricao_servico: string;
+  descricao_servico: string | null;
   data: string;
   servico: string;
   centro_trabalho: string;
   solicitante: string;
-  os: string;
-  responsavel: string;
-  observacao_tratativas: string;
+  os: string | null;
+  responsavel: string | null;
+  observacao_tratativas: string | null;
+  prioridade: 0 | 1 | 2 | null;
+  recursos: string | null;
+  tempo: number | null;
 }
 
 const header = [
@@ -37,16 +40,15 @@ const header = [
   'Solicitante',
   'OS',
   'Responsavel',
+  'Recursos',
+  'Tempo',
+  'Prioridade',
   'Observacao Tratativas',
 ];
 
-const keys = [
-  'edit',
-  ...SSFields.map(SSField => SSField.key),
-  'observacao_tratativas',
-];
+const keys = ['edit', ...SSFields.map(SSField => SSField.key)];
 
-const fieldsFilter = keys;
+const fieldsFilter = keys.slice(1, keys.length);
 
 const TratativaSSs: React.FC = () => {
   const [menuSelect, setMenuSelect] = useState('sssList');
@@ -57,6 +59,11 @@ const TratativaSSs: React.FC = () => {
 
   const [open, setOpen] = useState(false);
   const [ssTratativa, setSsTratativa] = useState<ISS>();
+
+  const inputRecursos = useRef<HTMLTextAreaElement>(null);
+  const inputTempo = useRef<HTMLInputElement>(null);
+  const selectPrioridade = useRef<HTMLSelectElement>(null);
+  const textObservacao = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     apiSS.get<ISS[]>('sss').then(({ data }) => {
@@ -135,9 +142,17 @@ const TratativaSSs: React.FC = () => {
   }, []);
 
   const handleUpdateSS = useCallback(async () => {
-    console.log(ssTratativa);
     if (!ssTratativa) {
       return;
+    }
+
+    const recursos = inputRecursos.current?.value.toLocaleUpperCase();
+    const tempo = Number(inputTempo.current?.value);
+    const observacao_tratativas = textObservacao.current?.value.toLocaleUpperCase();
+    let prioridade: number | null = Number(selectPrioridade.current?.value);
+
+    if (prioridade !== 0 && prioridade !== 1 && prioridade !== 2) {
+      prioridade = null;
     }
 
     const index = sssBaseDados.findIndex(
@@ -146,10 +161,13 @@ const TratativaSSs: React.FC = () => {
     const newSsBaseDados = [...sssBaseDados];
 
     try {
-      const response = await apiSS.put<ISS>(
-        'sss/' + ssTratativa.id,
-        ssTratativa,
-      );
+      const response = await apiSS.put<ISS>('sss/' + ssTratativa.id, {
+        ...ssTratativa,
+        recursos,
+        tempo: tempo ? tempo : null,
+        observacao_tratativas,
+        prioridade,
+      });
       newSsBaseDados[index] = response.data;
       setSssBaseDados(newSsBaseDados);
     } catch (e) {
@@ -214,30 +232,80 @@ const TratativaSSs: React.FC = () => {
           ]}
         >
           <div>
-            <label>{`Descricao Bem: `}</label>
-            <span>{ssTratativa.nome_bem}</span>
+            <label>Bem</label>
+            <textarea
+              value={ssTratativa.tag + ' - ' + ssTratativa.nome_bem || ''}
+              readOnly
+              style={{ width: '552px', height: '35px', resize: 'none' }}
+            />
+          </div>
+          <div>
+            <label>Tipo Serviço</label>
+            <textarea
+              value={ssTratativa.servico || ''}
+              readOnly
+              style={{ width: '552px', height: '25px', resize: 'none' }}
+            />
           </div>
 
           <div>
-            <label>{`Descrição Serviço: `}</label>
-            <span>{ssTratativa.descricao_servico}</span>
+            <label>Descrição Serviço</label>
+            <textarea
+              value={ssTratativa.descricao_servico || ''}
+              readOnly
+              style={{ width: '552px', height: '75px', resize: 'none' }}
+            />
+          </div>
+
+          <div>
+            <label>Recursos</label>
+            <textarea
+              ref={inputRecursos}
+              defaultValue={ssTratativa.recursos || ''}
+              style={{ width: '552px', height: '50px', resize: 'none' }}
+              // onChange={({ target }) => {
+              //   setSsTratativa(current =>
+              //     current
+              //       ? {
+              //           ...current,
+              //           recursos: target.value,
+              //         }
+              //       : current,
+              //   );
+              // }}
+            />
+          </div>
+
+          <div>
+            <label>Tempo</label>
+
+            <input
+              ref={inputTempo}
+              defaultValue={ssTratativa.tempo || undefined}
+              style={{ width: '552px', height: '25px', resize: 'none' }}
+              type="number"
+            />
+          </div>
+
+          <div>
+            <label>Prioridade</label>
+            <select
+              ref={selectPrioridade}
+              defaultValue={ssTratativa.prioridade || 2}
+              style={{ width: '552px', height: '25px', resize: 'none' }}
+            >
+              <option value={0}>0</option>
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+            </select>
           </div>
 
           <div>
             <label>Observações da Tratativa</label>
             <textarea
-              value={ssTratativa.observacao_tratativas}
-              onChange={({ target }) => {
-                setSsTratativa(current =>
-                  current
-                    ? {
-                        ...current,
-                        observacao_tratativas: target.value,
-                      }
-                    : current,
-                );
-              }}
-              style={{ width: '552px', height: '100px' }}
+              ref={textObservacao}
+              defaultValue={ssTratativa.observacao_tratativas || ''}
+              style={{ width: '552px', height: '50px', resize: 'none' }}
             />
           </div>
         </Dialog>
