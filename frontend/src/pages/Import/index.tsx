@@ -40,6 +40,7 @@ const Import: React.FC = () => {
       setLoading(true);
       await api.post('/compras-manutencao/import', data);
     } catch (err) {
+      console.log(JSON.stringify(err));
       window.alert('Erro no envio do arquivo');
     }
     setLoading(false);

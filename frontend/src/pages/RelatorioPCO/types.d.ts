@@ -37,6 +37,7 @@ export interface IDataPCOGoupByCC {
   falta_empenhar: number;
   disponivel_real: number;
   itens: IDataPCO[];
+  pcs_nao_empenhados: string[];
 }
 
 export type IKeysOfDataPCO =

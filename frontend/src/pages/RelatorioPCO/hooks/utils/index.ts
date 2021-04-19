@@ -3,10 +3,6 @@ import { IPCO } from '../pco';
 import { textToObject } from '../../../../utils/textToObject';
 import { PCOFields } from '../../../../utils/textToObjectFields';
 
-interface CalcValueCC {
-  dataPCO: IDataPCO[];
-}
-
 export function groupDataByCC(dataPCO: IDataPCO[]): IDataPCOGoupByCC[] {
   const dataGoupByCC: IDataPCOGoupByCC[] = [];
 
@@ -19,12 +15,14 @@ export function groupDataByCC(dataPCO: IDataPCO[]): IDataPCOGoupByCC[] {
       c_custo,
       conta,
       periodo,
+      documento,
       total: gasto_previsto,
       orcado,
       pedido,
       entr_nf,
       contin,
       real_ctb,
+      tipo,
       // 'Vlr.Unit': VlrUnit,
       // Qtd,
     } = item;
@@ -59,6 +57,7 @@ export function groupDataByCC(dataPCO: IDataPCO[]): IDataPCOGoupByCC[] {
         falta_empenhar,
         disponivel_real,
         itens: [newItem],
+        pcs_nao_empenhados: tipo === 'PC' && pedido === 0 ? [documento] : [],
       });
     } else {
       dataGoupByCC[findIndex].gasto_previsto += gasto_previsto;
@@ -68,6 +67,14 @@ export function groupDataByCC(dataPCO: IDataPCO[]): IDataPCOGoupByCC[] {
       dataGoupByCC[findIndex].falta_empenhar += falta_empenhar;
       dataGoupByCC[findIndex].disponivel_real += disponivel_real;
       dataGoupByCC[findIndex].itens.push(newItem);
+
+      const indexPCNaoEmpenhado = dataGoupByCC[
+        findIndex
+      ].pcs_nao_empenhados.findIndex(pc => pc === documento);
+
+      if (tipo === 'PC' && pedido === 0 && indexPCNaoEmpenhado < 0) {
+        dataGoupByCC[findIndex].pcs_nao_empenhados.push(documento);
+      }
     }
   });
 

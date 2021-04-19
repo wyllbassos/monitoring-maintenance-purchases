@@ -19,6 +19,7 @@ const header = [
   'Orçado',
   'Empenhado',
   'Disponivel Sistema',
+  "PC's Nao Empenhados",
   'Falta Empenhar',
   'Disponivel Real',
 ];
@@ -32,6 +33,7 @@ const keys = [
   'orcado',
   'empenhado',
   'disponivel_sistema',
+  'pcs_nao_empenhados',
   'falta_empenhar',
   'disponivel_real',
 ];
@@ -62,10 +64,17 @@ const TablePCOGroupByCC: React.FC<IProps> = ({
 
   const list = useMemo(
     () => [
-      ...pcoDataGroupByCC.map(custoPCO => ({
-        ...custoPCO,
-        PCs: makeButtonDetalhePC(custoPCO.itens),
-      })),
+      ...pcoDataGroupByCC.map(custoPCO => {
+        let pcs_nao_empenhados = '';
+        custoPCO.pcs_nao_empenhados.forEach(
+          pc => (pcs_nao_empenhados += `${pc}; `),
+        );
+        return {
+          ...custoPCO,
+          pcs: makeButtonDetalhePC(custoPCO.itens),
+          pcs_nao_empenhados,
+        };
+      }),
     ],
     [pcoDataGroupByCC, makeButtonDetalhePC],
   );
