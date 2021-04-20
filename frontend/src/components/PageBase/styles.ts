@@ -77,7 +77,7 @@ export const SidebarContent = styled.div<SideBarShow>`
   // box-shadow: black 2px 3px 3px;
   z-index: 20;
 
-  transition-duration: 1s;
+  transition-duration: 0.2s;
   position: fixed;
   left: ${({ isSideBarShow }) => (isSideBarShow ? '0px' : '-220px')};
 
@@ -110,7 +110,7 @@ export const SidebarButtons = styled.button<SidebarButtonsProps>`
   color: #02aa4d;
   border-bottom: ${({ selected }) => (selected ? 'solid 2px #343a40' : '0')}; */
   min-height: 40px;
-  transition: opacity 0.5s;
+  transition: opacity 0.2s;
   text-align: left;
   padding: 0 16px;
 
@@ -158,7 +158,7 @@ export const Content = styled.div<SideBarShow>`
   align-items: center;
   // align-items: flex-start;
   overflow-y: auto;
-  transition-duration: 1s;
+  transition-duration: 0.2s;
   // margin-right:
 `;
 
