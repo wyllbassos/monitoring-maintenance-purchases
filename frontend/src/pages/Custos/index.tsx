@@ -5,6 +5,7 @@ import api from '../../services/api';
 
 import { Container, Filtros } from './styles';
 import PageBase from '../../components/PageBase';
+import { usePageBase } from './../../hooks/pageBase';
 
 export interface CustosManutencao {
   total: {
@@ -52,6 +53,8 @@ const Custos: React.FC = () => {
   const [mes, setMes] = useState('01');
   const [tipoCusto, setTipoCusto] = useState<TipoCusto>('Todos');
 
+  const { setSidebarComponent } = usePageBase();
+
   useEffect(() => {
     async function loadCompras(): Promise<void> {
       const { data } = await api.get<CustosManutencao>(
@@ -62,6 +65,43 @@ const Custos: React.FC = () => {
 
     loadCompras();
   }, [ano, mes]);
+
+  useEffect(() => {
+    setSidebarComponent(
+      <Filtros>
+        <span>Ano</span>
+        <select value={ano} onChange={e => setAno(e.target.value)}>
+          <option value="2020">2020</option>
+          <option value="2021">2021</option>
+        </select>
+        <span>Mês</span>
+        <select value={mes} onChange={e => setMes(e.target.value)}>
+          <option value="01">01</option>
+          <option value="02">02</option>
+          <option value="03">03</option>
+          <option value="04">04</option>
+          <option value="05">05</option>
+          <option value="06">06</option>
+          <option value="07">07</option>
+          <option value="08">08</option>
+          <option value="09">09</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+        </select>
+        <span>Tipo</span>
+        <select
+          value={tipoCusto}
+          onChange={e => setTipoCusto(e.target.value as TipoCusto)}
+        >
+          <option value="Todos">Todos</option>
+          <option value="Lubrificantes">Lubrificantes</option>
+          <option value="Estoque">Estoque</option>
+          <option value="Manutencao">Manutenção</option>
+        </select>
+      </Filtros>,
+    );
+  }, []);
 
   const custoManutencaoFormated = useMemo(() => {
     const newCustosManutencao = {
@@ -148,78 +188,40 @@ const Custos: React.FC = () => {
   new String(undefined);
 
   return (
-    <PageBase
-      route="/custos"
-      sidebarComponent={
-        <Filtros>
-          <span>Ano</span>
-          <select value={ano} onChange={e => setAno(e.target.value)}>
-            <option value="2020">2020</option>
-            <option value="2021">2021</option>
-          </select>
-          <span>Mês</span>
-          <select value={mes} onChange={e => setMes(e.target.value)}>
-            <option value="01">01</option>
-            <option value="02">02</option>
-            <option value="03">03</option>
-            <option value="04">04</option>
-            <option value="05">05</option>
-            <option value="06">06</option>
-            <option value="07">07</option>
-            <option value="08">08</option>
-            <option value="09">09</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-          </select>
-          <span>Tipo</span>
-          <select
-            value={tipoCusto}
-            onChange={e => setTipoCusto(e.target.value as TipoCusto)}
-          >
-            <option value="Todos">Todos</option>
-            <option value="Lubrificantes">Lubrificantes</option>
-            <option value="Estoque">Estoque</option>
-            <option value="Manutencao">Manutenção</option>
-          </select>
-        </Filtros>
-      }
-    >
-      <Container>
-        <div>
-          <table>
-            <thead>
-              <tr>
-                <th>Status PC</th>
-                <th>Valor</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Liberado Entregue</td>
-                <td>{custoManutencaoFormated.liberado.entregue}</td>
-              </tr>
-              <tr>
-                <td>Liberado Pendente</td>
-                <td>{custoManutencaoFormated.liberado.pendente}</td>
-              </tr>
-              <tr>
-                <td>Liberado Total</td>
-                <td>{custoManutencaoFormated.liberado.total}</td>
-              </tr>
-              <tr>
-                <td>Bloqueado</td>
-                <td>{custoManutencaoFormated.bloqueado}</td>
-              </tr>
-              <tr>
-                <td>Total</td>
-                <td>{custoManutencaoFormated.total}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </Container>
-    </PageBase>
+    <Container>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Status PC</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Liberado Entregue</td>
+              <td>{custoManutencaoFormated.liberado.entregue}</td>
+            </tr>
+            <tr>
+              <td>Liberado Pendente</td>
+              <td>{custoManutencaoFormated.liberado.pendente}</td>
+            </tr>
+            <tr>
+              <td>Liberado Total</td>
+              <td>{custoManutencaoFormated.liberado.total}</td>
+            </tr>
+            <tr>
+              <td>Bloqueado</td>
+              <td>{custoManutencaoFormated.bloqueado}</td>
+            </tr>
+            <tr>
+              <td>Total</td>
+              <td>{custoManutencaoFormated.total}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </Container>
   );
 };
 

@@ -2,12 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 import api from '../../services/api';
 
-import Header from '../../components/Header';
-
 import { Paginacao, Filtros, FiltersList, ContainerList } from './styles';
 
 import List from './List';
 import PageBase from '../../components/PageBase';
+import { usePageBase } from '../../hooks/pageBase';
 
 export interface Compra {
   status: string;
@@ -65,6 +64,8 @@ const ComprasList: React.FC = () => {
     }),
   );
 
+  const { setSidebarComponent } = usePageBase();
+
   useEffect(() => {
     async function loadCompras(): Promise<void> {
       const { data } = await api.get<{
@@ -83,8 +84,25 @@ const ComprasList: React.FC = () => {
     }
 
     loadCompras();
-    // console.log(filters)
   }, [limit, skip, filters, search, field]);
+
+  useEffect(() => {
+    setSidebarComponent(
+      <FiltersList>
+        <span>Filtros:</span>
+        {filters.map(filter =>
+          filter.search === '' ? (
+            ''
+          ) : (
+            <div key={`${filter.field} ${filter.search}`}>
+              <span>{`${filter.field}: `}</span>
+              <span>{`${filter.search}`}</span>
+            </div>
+          ),
+        )}
+      </FiltersList>,
+    );
+  }, [filters]);
 
   const handleNextPage = useCallback(() => {
     const newPage = pagina + 1;
@@ -121,8 +139,7 @@ const ComprasList: React.FC = () => {
       const newLimit = Number(e.target.value);
       if (!(pagina === 1)) {
         const newPage = (limit * pagina) / newLimit;
-        // console.log(newPage)
-        // if (newPage <= 1)
+
         setPagina(Math.ceil(newPage));
       }
       setLimit(newLimit);
@@ -188,24 +205,25 @@ const ComprasList: React.FC = () => {
   );
 
   return (
-    <PageBase
-      route="/"
-      sidebarComponent={
-        <FiltersList>
-          <span>Filtros:</span>
-          {filters.map(filter =>
-            filter.search === '' ? (
-              ''
-            ) : (
-              <div key={`${filter.field} ${filter.search}`}>
-                <span>{`${filter.field}: `}</span>
-                <span>{`${filter.search}`}</span>
-              </div>
-            ),
-          )}
-        </FiltersList>
-      }
-    >
+    // <PageBase
+    //   route="/"
+    //   sidebarComponent={
+    //     <FiltersList>
+    //       <span>Filtros:</span>
+    //       {filters.map(filter =>
+    //         filter.search === '' ? (
+    //           ''
+    //         ) : (
+    //           <div key={`${filter.field} ${filter.search}`}>
+    //             <span>{`${filter.field}: `}</span>
+    //             <span>{`${filter.search}`}</span>
+    //           </div>
+    //         ),
+    //       )}
+    //     </FiltersList>
+    //   }
+    // >
+    <>
       <Filtros>
         <span>Pesquisar</span>
         <select value={field} onChange={handleChangeField}>
@@ -250,7 +268,7 @@ const ComprasList: React.FC = () => {
         />
         <span>{` de ${totalPaginas}`}</span>
       </Paginacao>
-    </PageBase>
+    </>
   );
 };
 

@@ -75,7 +75,7 @@ const Prioridades: React.FC = () => {
 
   return (
     <>
-      <Header selected="/prioridades" />
+      <Header />
       <Container>
         <div>
           <label htmlFor="">Incluir</label>

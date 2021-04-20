@@ -178,7 +178,7 @@ const TratativaSSs: React.FC = () => {
   }, [ssTratativa, sssBaseDados]);
 
   return (
-    <PageBase route="/relatorio-pco" sidebarButtons={sidebarButtons}>
+    <PageBase>
       {menuSelect === 'sssList' && (
         <>
           <Table

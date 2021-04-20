@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { usePco } from './hooks/pco';
 import TablePCODataList from './components/TablePCODataList';
 import TablePCOGroupByCC from './components/TablePCOGroupByCC';
 import TableListPCsForTransfer from './components/TableListPCsForTransfer';
 import TableListPCsBlock from './components/TableListPCsBlock/';
-import PageBase from './../../components/PageBase/index';
-import { useMemo } from 'react';
+import { usePageBase } from '../../hooks/pageBase';
 
 const RelatorioPCO: React.FC = () => {
   const {
@@ -20,8 +19,10 @@ const RelatorioPCO: React.FC = () => {
     textInput,
   } = usePco();
 
-  const sidebarButtons = useMemo(() => {
-    return [
+  const { setSidebarButtons } = usePageBase();
+
+  useEffect(() => {
+    setSidebarButtons([
       {
         text: 'Entrada de Dados',
         onClick: () => handleSetSelectedTable(''),
@@ -42,11 +43,11 @@ const RelatorioPCO: React.FC = () => {
         text: "PC's Bloqueados",
         onClick: () => handleSetSelectedTable('listPCsblocked'),
       },
-    ];
+    ]);
   }, []);
 
   return (
-    <PageBase route="/relatorio-pco" sidebarButtons={sidebarButtons}>
+    <>
       {!selectedTable && (
         <textarea
           style={{ marginTop: '32px', marginBottom: '32px' }}
@@ -75,7 +76,7 @@ const RelatorioPCO: React.FC = () => {
       {selectedTable === 'listPCsForCheck' && <TableListPCsForTransfer />}
 
       {selectedTable === 'listPCsblocked' && <TableListPCsBlock />}
-    </PageBase>
+    </>
   );
 };
 

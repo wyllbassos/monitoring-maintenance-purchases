@@ -37,7 +37,11 @@ const Dialog: React.FC<IDialog> = ({
       {buttons && buttons.length && (
         <DialogActions>
           {buttons.map(button => (
-            <Button onClick={button.onClick} color={button.color}>
+            <Button
+              key={button.text}
+              onClick={button.onClick}
+              color={button.color}
+            >
               {button.text}
             </Button>
           ))}

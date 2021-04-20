@@ -23,8 +23,6 @@ const keysCurrency = ['valor_total'];
 const TableListPCsBlock: React.FC = () => {
   const { pcsBloqueados, handleAddPcForTransfer } = usePco();
 
-  console.log(pcsBloqueados);
-
   const linesPCsBlock = useMemo(() => {
     const list: ListPcsBlock[] = [];
     pcsBloqueados.forEach(pcBloqueado => {

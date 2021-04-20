@@ -48,7 +48,9 @@ export const HeaderMenu = styled.nav`
   justify-content: flex-end;
   height: 100%;
 
-  a {
+  button {
+    background: none;
+    border: 0;
     color: #02aa4d;
     text-decoration: none;
     font-size: 16px;

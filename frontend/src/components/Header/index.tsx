@@ -9,51 +9,42 @@ import { Container, HeaderTitle, HeaderMenu } from './styles';
 // import './styles.css';
 
 import Logo from '../../assets/logo.svg';
+import { usePageBase } from '../../hooks/pageBase';
 
 interface HeaderProps {
-  selected: string;
   updateAt?: Date;
 }
 
-const Header: React.FC<HeaderProps> = ({ selected, updateAt }: HeaderProps) => (
-  <Container>
-    <HeaderTitle>
-      <img src={Logo} alt="PCMFibraplac" />
-      <strong>fibraplac PCM</strong>
+const Header: React.FC<HeaderProps> = ({ updateAt }: HeaderProps) => {
+  const { pageBaseItens, handleChangePageBaseItens } = usePageBase();
+  return (
+    <Container>
+      <HeaderTitle>
+        <img src={Logo} alt="PCMFibraplac" />
+        <strong>fibraplac PCM</strong>
 
-      <small>
-        <span>Atualizado:</span>
-        {updateAt ? format(new Date(updateAt), 'dd/MM/yy HH:mm') : ''}
-      </small>
-    </HeaderTitle>
+        <small>
+          <span>Atualizado:</span>
+          {updateAt ? format(new Date(updateAt), 'dd/MM/yy HH:mm') : ''}
+        </small>
+      </HeaderTitle>
 
-    <HeaderMenu>
-      <Link to="/" className={selected === '/' ? 'headerNavLinkSelect' : ''}>
-        Lista
-      </Link>
-
-      <Link
-        to="/pcs-bloqueados"
-        className={selected === '/pcs-bloqueados' ? 'headerNavLinkSelect' : ''}
-      >
-        PC's Bloqueados
-      </Link>
-
-      <Link
-        to="/relatorio-pco"
-        className={selected === '/relatorio-pco' ? 'headerNavLinkSelect' : ''}
-      >
-        PCO
-      </Link>
-
-      <Link
-        to="/custos"
-        className={selected === '/custos' ? 'headerNavLinkSelect' : ''}
-      >
-        Custos
-      </Link>
-    </HeaderMenu>
-  </Container>
-);
+      <HeaderMenu>
+        {pageBaseItens.map(pageBaseIten => {
+          const { route, selected } = pageBaseIten;
+          return (
+            <button
+              key={route}
+              onClick={() => handleChangePageBaseItens(route)}
+              className={selected ? 'headerNavLinkSelect' : ''}
+            >
+              {route}
+            </button>
+          );
+        })}
+      </HeaderMenu>
+    </Container>
+  );
+};
 
 export default Header;

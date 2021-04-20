@@ -15,38 +15,28 @@ import { Menu, MenuOpen } from '@material-ui/icons';
 
 import Header from '../Header';
 import { useState } from 'react';
+import { usePageBase } from '../../hooks/pageBase';
 
-interface PageBaseProps {
-  sidebarComponent?: JSX.Element;
-  sidebarButtons?: Array<{
-    text: string;
-    onClick?: any;
-  }>;
-  selectedSidebarButton?: number;
-  route: string;
-}
-
-const PageBase: React.FC<PageBaseProps> = ({
-  children,
-  sidebarComponent,
-  sidebarButtons,
-  selectedSidebarButton,
-  route,
-}) => {
+const PageBase: React.FC = ({ children }) => {
   const [selectedSidebarButtonState, setSelectedSidebarButtonState] = useState(
-    selectedSidebarButton || 0,
+    0,
   );
-  const [isSideBarShow, setIsSideBarShow] = useState(false);
+  const [isSideBarShow, handleShowSideBar] = useState(false);
+
+  const { sidebarComponent, sidebarButtons } = usePageBase();
+
+  console.log(sidebarButtons);
 
   return (
     <Container>
-      <Header selected={route} />
+      <Header />
       <Body>
         {!!sidebarComponent && (
           <SidebarContent isSideBarShow={isSideBarShow}>
             {sidebarComponent}
           </SidebarContent>
         )}
+
         {!!sidebarButtons && (
           <SidebarContent isSideBarShow={isSideBarShow}>
             {sidebarButtons.map((sidebarButton, index) => (
@@ -63,9 +53,10 @@ const PageBase: React.FC<PageBaseProps> = ({
             ))}
           </SidebarContent>
         )}
+
         {(!!sidebarComponent || !!sidebarButtons) && (
           <SidebarButtonShowHide
-            onClick={() => setIsSideBarShow(!isSideBarShow)}
+            onClick={() => handleShowSideBar(!isSideBarShow)}
           >
             {isSideBarShow ? <MenuOpen /> : <Menu />}
           </SidebarButtonShowHide>

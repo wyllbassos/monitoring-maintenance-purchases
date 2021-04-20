@@ -45,21 +45,6 @@ const Import: React.FC = () => {
     }
     setLoading(false);
     setTimeLoading(0);
-    // for (const uploadedFile of uploadedFiles) {
-    //   try {
-    //     const data = new FormData();
-    //     data.append('file', uploadedFile.file);
-    //     data.append('nome_tabela', 'Listagem do Browse');
-    //     console.log(data);
-    //     setLoading(true);
-    //     api.post('/compras-manutencao/import', data).then(response => {
-    //       setLoading(false);
-    //       setTimeLoading(0);
-    //     });
-    //   } catch (err) {
-    //     console.log(err.response.error);
-    //   }
-    // }
   }
 
   function submitFile(files: File[]): void {
@@ -73,7 +58,7 @@ const Import: React.FC = () => {
 
   return (
     <>
-      <Header selected="/import" />
+      <Header />
       <Container>
         <Title>
           {!loading ? 'Importar uma transação' : `Carregando: ${timeLoading}s`}

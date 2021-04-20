@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Switch, Route } from 'react-router-dom';
 
+import Providers from '../hooks';
+
 import Dashboard from '../pages/ComprasList';
 import Import from '../pages/Import';
 import Custos from '../pages/Custos';
@@ -12,31 +14,25 @@ import { PcoProvider } from '../pages/RelatorioPCO/hooks/pco';
 
 import PageBase from '../components/PageBase/index';
 import TratativaSSs from '../pages/TratativaSSs';
+import ComprasCustos from './../pages/ComprasCustos/index';
 
 const Routes: React.FC = () => (
   <Switch>
-    <Route path="/" exact component={Dashboard} />
-
-    <Route path="/list" exact component={Dashboard} />
-
-    <Route path="/pcs-bloqueados" exact component={PcsBloqueados} />
-
-    <Route path="/custos" exact component={Custos} />
-
-    <Route path="/prioridades" exact component={Prioridades} />
-
-    <Route path="/import" exact component={Import} />
-
     <Route
-      path="/test"
+      path="/index"
       exact
       component={() => (
-        <PageBase
-          route=""
-          sidebarComponent={<div style={{ color: '#fff' }}>ok</div>}
-        />
+        <Providers>
+          <ComprasCustos />
+        </Providers>
       )}
     />
+    <Route path="/" exact component={Dashboard} />
+    <Route path="/list" exact component={Dashboard} />
+    <Route path="/pcs-bloqueados" exact component={PcsBloqueados} />
+    <Route path="/custos" exact component={Custos} />
+    <Route path="/prioridades" exact component={Prioridades} />
+    <Route path="/import" exact component={Import} />
 
     <Route
       path="/relatorio-pco"
@@ -47,7 +43,6 @@ const Routes: React.FC = () => (
         </PcoProvider>
       )}
     />
-
     <Route path="/tratativas" exact component={TratativaSSs} />
   </Switch>
 );

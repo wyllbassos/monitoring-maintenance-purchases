@@ -7,6 +7,7 @@ import Table from './Table';
 import { Compra } from '../../pages/Prioridades/index';
 import { getRelatorioPCsBloqueados } from './util/getRelatorioPCsBloqueados';
 import PageBase from '../../components/PageBase';
+import { usePageBase } from '../../hooks/pageBase';
 
 export interface RelatorioPC {
   pc: string;
@@ -53,6 +54,8 @@ const PcsBloqueados: React.FC = () => {
     },
   });
 
+  const { setSidebarComponent } = usePageBase();
+
   useEffect(() => {
     getRelatorioPCsBloqueados(state.nivelAprovacao).then(relatorioPC => {
       const niveisAprovacoes = [
@@ -91,6 +94,48 @@ const PcsBloqueados: React.FC = () => {
     });
   }, []);
 
+  useEffect(() => {
+    setSidebarComponent(
+      <FiltersContainer>
+        <div>
+          <div>
+            <span>{"PC's Bloqueados: "}</span>
+            <select
+              value={state.nivelAprovacao}
+              onChange={e => {
+                handleSetState({ nivelAprovacao: e.target.value });
+              }}
+            >
+              {state.options.niveisAprovacoes.map(niveisAprovacoesItem => (
+                <option key={niveisAprovacoesItem} value={niveisAprovacoesItem}>
+                  {niveisAprovacoesItem}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <span>{'Status Aprovação: '}</span>
+            <select
+              value={state.statusAprovacao}
+              onChange={e => {
+                handleSetState({ statusAprovacao: e.target.value });
+              }}
+            >
+              {state.options.statusAprovacoes.map(statusAprovacaoItem => (
+                <option key={statusAprovacaoItem} value={statusAprovacaoItem}>
+                  {statusAprovacaoItem}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <span>{`Total: ${state.relatorioPC.length} PC's`}</span>
+          </div>
+        </div>
+      </FiltersContainer>,
+    );
+  }, [state]);
+
   const handleSetState = useCallback(
     async (props: SetStateProps) => {
       const statusAprovacao = props.statusAprovacao || state.statusAprovacao;
@@ -122,66 +167,17 @@ const PcsBloqueados: React.FC = () => {
 
   return (
     <Container>
-      <PageBase
-        route="/pcs-bloqueados"
-        sidebarComponent={
-          <FiltersContainer>
-            <div>
-              <div>
-                <span>{"PC's Bloqueados: "}</span>
-                <select
-                  value={state.nivelAprovacao}
-                  onChange={e => {
-                    handleSetState({ nivelAprovacao: e.target.value });
-                  }}
-                >
-                  {state.options.niveisAprovacoes.map(niveisAprovacoesItem => (
-                    <option
-                      key={niveisAprovacoesItem}
-                      value={niveisAprovacoesItem}
-                    >
-                      {niveisAprovacoesItem}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <span>{'Status Aprovação: '}</span>
-                <select
-                  value={state.statusAprovacao}
-                  onChange={e => {
-                    handleSetState({ statusAprovacao: e.target.value });
-                  }}
-                >
-                  {state.options.statusAprovacoes.map(statusAprovacaoItem => (
-                    <option
-                      key={statusAprovacaoItem}
-                      value={statusAprovacaoItem}
-                    >
-                      {statusAprovacaoItem}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <span>{`Total: ${state.relatorioPC.length} PC's`}</span>
-              </div>
-            </div>
-          </FiltersContainer>
-        }
-      >
-        <ContainerTable>
-          {state.relatorioPC.length > 0 ? (
-            <Table
-              relatorioPC={state.relatorioPCFiltered}
-              setRelatorioPC={relatorioPC => handleSetState({ relatorioPC })}
-            />
-          ) : (
-            <div>Sem PC</div>
-          )}
-          <div> </div>
-        </ContainerTable>
-      </PageBase>
+      <ContainerTable>
+        {state.relatorioPC.length > 0 ? (
+          <Table
+            relatorioPC={state.relatorioPCFiltered}
+            setRelatorioPC={relatorioPC => handleSetState({ relatorioPC })}
+          />
+        ) : (
+          <div>Sem PC</div>
+        )}
+        <div> </div>
+      </ContainerTable>
     </Container>
   );
 };
