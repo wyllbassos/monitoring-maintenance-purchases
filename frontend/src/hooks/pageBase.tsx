@@ -11,8 +11,9 @@ import Custos from '../pages/Custos';
 import PcsBloqueados from '../pages/PcsBloqueados';
 import RelatorioPCO from '../pages/RelatorioPCO';
 import { PcoProvider } from '../pages/RelatorioPCO/hooks/pco';
+import TratativaSSs from '../pages/TratativaSSs';
 
-export type Route = 'Lista Compras' | "PC's Bloqueados" | 'PCO' | 'Custos';
+export type Route = 'Lista Compras' | "PC's Bloqueados" | 'PCO' | 'Custos' | 'Tratativas';
 
 type PageBaseItens = {
   route: Route;
@@ -25,6 +26,7 @@ const pageBaseItens: PageBaseItens[] = [
   { route: "PC's Bloqueados", selected: false, componet: <PcsBloqueados /> },
   { route: 'PCO', selected: false, componet: <RelatorioPCO /> },
   { route: 'Custos', selected: false, componet: <Custos /> },
+  { route: 'Tratativas', selected: false, componet: <TratativaSSs /> },
 ];
 
 type SideBarButton = { text: string; onClick: () => void };

@@ -9,6 +9,7 @@ import { textToObject } from '../../utils/textToObject';
 import { SSFields } from './../../utils/textToObjectFields';
 import { apiSS } from '../../services/api';
 import Dialog from '../../components/Dialog';
+import { usePageBase } from '../../hooks/pageBase';
 
 interface ISS {
   id: number;
@@ -33,20 +34,20 @@ const header = [
   'SS',
   'TAG',
   'Nome Bem',
-  'Descricao Servico',
+  'Descrição Serviço',
   'DT',
   'Serviço',
   'Centro Trabalho',
   'Solicitante',
   'OS',
-  'Responsavel',
+  'Responsável',
   'Recursos',
   'Tempo',
   'Prioridade',
-  'Observacao Tratativas',
+  'Observação Tratativas',
 ];
 
-const keys = ['edit', ...SSFields.map(SSField => SSField.key)];
+const keys = ['edit', ...SSFields.map(SSField => SSField.key), 'recursos', 'tempo', 'prioridade', 'observacao_tratativas'];
 
 const fieldsFilter = keys.slice(1, keys.length);
 
@@ -65,10 +66,28 @@ const TratativaSSs: React.FC = () => {
   const selectPrioridade = useRef<HTMLSelectElement>(null);
   const textObservacao = useRef<HTMLTextAreaElement>(null);
 
+  const { setSidebarButtons, sidebarButtons } = usePageBase();
+
   useEffect(() => {
     apiSS.get<ISS[]>('sss').then(({ data }) => {
       setSssBaseDados(data);
+      setSidebarButtons([])
+      setSidebarButtons([
+        {
+          text: 'Lista Base Dados',
+          onClick: () => setMenuSelect('sssList'),
+        },
+        {
+          text: 'Entrada de Dados Para Importar',
+          onClick: () => setMenuSelect('inputTextToImport'),
+        },
+        {
+          text: 'Lista Para Importar',
+          onClick: () => setMenuSelect('importDataList'),
+        },
+      ])
     });
+    
   }, []);
 
   const handleImport = useCallback(async () => {
@@ -90,23 +109,6 @@ const TratativaSSs: React.FC = () => {
       setSsInProcess('');
     }
   }, [apiSS, sssImport]);
-
-  const sidebarButtons = useMemo(() => {
-    return [
-      {
-        text: 'Lista Base Dados',
-        onClick: () => setMenuSelect('sssList'),
-      },
-      {
-        text: 'Entrada de Dados Para Importar',
-        onClick: () => setMenuSelect('imputTextToImport'),
-      },
-      {
-        text: 'Lista Para Importar',
-        onClick: () => setMenuSelect('importDataList'),
-      },
-    ];
-  }, []);
 
   const sssImportToTable = useMemo(
     () => makeObjectLinesOfTable({ keys, keysCurrency: [], list: sssImport }),
@@ -177,9 +179,8 @@ const TratativaSSs: React.FC = () => {
     setOpen(false);
   }, [ssTratativa, sssBaseDados]);
 
-  return (
-    <PageBase>
-      {menuSelect === 'sssList' && (
+  return (<>
+  {menuSelect === 'sssList' && (
         <>
           <Table
             style={{ fontSize: '12px' }}
@@ -190,7 +191,7 @@ const TratativaSSs: React.FC = () => {
         </>
       )}
 
-      {menuSelect === 'imputTextToImport' && (
+      {menuSelect === 'inputTextToImport' && (
         <textarea
           style={{ marginTop: '32px', marginBottom: '32px' }}
           value={textInput}
@@ -310,8 +311,7 @@ const TratativaSSs: React.FC = () => {
           </div>
         </Dialog>
       )}
-    </PageBase>
-  );
+  </>)
 };
 
 export default TratativaSSs;

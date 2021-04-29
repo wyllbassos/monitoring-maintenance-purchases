@@ -37,10 +37,10 @@ export const SSFields = [
   { key: 'solicitante' },
   { key: 'os' },
   { key: 'responsavel' },
-  { key: 'recursos' },
-  { key: 'tempo' },
-  { key: 'prioridade' },
-  { key: 'observacao_tratativas' },
+  // { key: 'recursos' },
+  // { key: 'tempo' },
+  // { key: 'prioridade' },
+  // { key: 'observacao_tratativas' },
 ];
 
 export const SSKeys = ['SS'];
