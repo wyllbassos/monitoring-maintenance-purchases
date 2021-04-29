@@ -4,9 +4,9 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "build": "tsc",
+        "build": "tsc --build ./src",
         "dev:server": "ts-node --transpile-only --ignore-watch node_modules src/server.ts",
-        "start": "ts-node src/index.ts",
+        "start": "cd dist && node server.js",
         "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
         "test": "cross-env NODE_ENV=test jest"
     },
