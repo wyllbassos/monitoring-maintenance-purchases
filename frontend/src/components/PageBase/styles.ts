@@ -114,7 +114,6 @@ export const SidebarButtons = styled.button<SidebarButtonsProps>`
   text-align: left;
   padding: 0 16px;
 
-
   @media (max-width: 1100px) {
     min-height: 30px;
     padding: 0 10px;

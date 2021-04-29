@@ -1,6 +1,6 @@
-import { Compra } from './../../../pages/ComprasList/index';
-import { RelatorioPC } from './../index';
-import api from './../../../services/api';
+import { RelatorioPC } from '../index';
+import api from '../../../services/api';
+import { Compra } from '../../ComprasList';
 
 export const getRelatorioPCsBloqueados = async (
   nivel: string,

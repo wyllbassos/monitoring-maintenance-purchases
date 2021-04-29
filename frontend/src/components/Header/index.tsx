@@ -2,18 +2,14 @@ import React from 'react';
 
 import { format } from 'date-fns';
 
-import { Link } from 'react-router-dom';
-
 import { Container, HeaderTitle, HeaderMenu } from './styles';
-
-// import './styles.css';
 
 import Logo from '../../assets/logo.svg';
 import { usePageBase } from '../../hooks/pageBase';
 
-interface HeaderProps {
+type HeaderProps = {
   updateAt?: Date;
-}
+};
 
 const Header: React.FC<HeaderProps> = ({ updateAt }: HeaderProps) => {
   const { pageBaseItens, handleChangePageBaseItens } = usePageBase();
@@ -34,6 +30,7 @@ const Header: React.FC<HeaderProps> = ({ updateAt }: HeaderProps) => {
           const { route, selected } = pageBaseIten;
           return (
             <button
+              type="button"
               key={route}
               onClick={() => handleChangePageBaseItens(route)}
               className={selected ? 'headerNavLinkSelect' : ''}
@@ -45,6 +42,10 @@ const Header: React.FC<HeaderProps> = ({ updateAt }: HeaderProps) => {
       </HeaderMenu>
     </Container>
   );
+};
+
+Header.defaultProps = {
+  updateAt: undefined,
 };
 
 export default Header;

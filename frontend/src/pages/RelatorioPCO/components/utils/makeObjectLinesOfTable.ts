@@ -22,7 +22,7 @@ export default function makeObjectLinesOfTable({
         return { value, key, isCurrency };
       }),
     };
-    keyLine = keyLine + 1;
+    keyLine += 1;
     return ret;
   });
   return lines;

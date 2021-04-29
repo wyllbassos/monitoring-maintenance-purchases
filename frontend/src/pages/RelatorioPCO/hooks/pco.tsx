@@ -1,12 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { RelatorioPC } from '../../PcsBloqueados';
+import { getRelatorioPCsBloqueados } from '../../PcsBloqueados/util/getRelatorioPCsBloqueados';
 
 import { IDataPCO, IDataPCOGoupByCC } from '../types';
-import { convertTextToPCO } from './utils';
+import { convertTextToPCO, groupDataByCC } from './utils';
 
-import initialInput from './utils/initialInput';
-import { groupDataByCC } from './utils/index';
-import { RelatorioPC } from '../../../pages/PcsBloqueados';
-import { getRelatorioPCsBloqueados } from './../../../pages/PcsBloqueados/util/getRelatorioPCsBloqueados';
+import initialInput from './utils/initialInput.js';
 
 export type TSelectedTable =
   | ''
@@ -58,8 +57,6 @@ const getPcsForTransferGroupByCC = (
           itenGroupByCCForTransfer.periodo === itenGroupByCC.periodo &&
           itenGroupByCCForTransfer.conta === itenGroupByCC.conta,
       );
-      if (!arrayItensCC[0]) {
-      }
       const disponivelPeriodoContaCC = arrayItensCC[0]
         ? arrayItensCC[0].disponivel_sistema
         : 0;
@@ -145,7 +142,11 @@ const getStateForRemovePcForTransfer = (
 
 const initialPCO = convertTextToPCO(initialInput.text);
 
-export const PcoProvider: React.FC = ({ children }) => {
+type PcoProvideProps = { children: React.ReactNode };
+
+export const PcoProvider: React.FC<PcoProvideProps> = ({
+  children,
+}: PcoProvideProps) => {
   const [state, setState] = useState<IPcoContextData>({
     textInput: initialInput.text,
     selectedTable: '',

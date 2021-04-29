@@ -36,7 +36,11 @@ const TableListPCsBlock: React.FC = () => {
 
         if (index < 0) {
           list.push({
-            edit: <button onClick={() => handleAddPcForTransfer(pc)}>+</button>,
+            edit: (
+              <button type="button" onClick={() => handleAddPcForTransfer(pc)}>
+                +
+              </button>
+            ),
             key,
             periodo,
             conta_pc,
@@ -49,7 +53,11 @@ const TableListPCsBlock: React.FC = () => {
       });
     });
 
-    list.sort((a, b) => (a.key > b.key ? 1 : a.key < b.key ? -1 : 0));
+    list.sort((a, b) => {
+      if (a.key > b.key) return 1;
+      if (a.key < b.key) return -1;
+      return 0;
+    });
 
     return makeObjectLinesOfTable({
       keys,

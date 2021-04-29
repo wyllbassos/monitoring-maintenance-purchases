@@ -14,11 +14,11 @@ interface IButtons {
 }
 
 interface IDialog {
-  children?: ReactNode;
+  children: ReactNode | undefined;
   open: boolean;
   onClose: () => void;
-  buttons?: IButtons[];
-  title?: string;
+  buttons: IButtons[] | undefined;
+  title: string | undefined;
 }
 
 const Dialog: React.FC<IDialog> = ({

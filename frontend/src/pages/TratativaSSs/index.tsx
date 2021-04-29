@@ -1,12 +1,15 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+} from 'react';
 
-import PageBase from '../../components/PageBase/index';
-import { useMemo } from 'react';
 import makeObjectLinesOfTable from '../RelatorioPCO/components/utils/makeObjectLinesOfTable';
 import Table from '../RelatorioPCO/components/Table';
 import { textToObject } from '../../utils/textToObject';
-import { SSFields } from './../../utils/textToObjectFields';
+import { SSFields } from '../../utils/textToObjectFields';
 import { apiSS } from '../../services/api';
 import Dialog from '../../components/Dialog';
 import { usePageBase } from '../../hooks/pageBase';
@@ -47,7 +50,14 @@ const header = [
   'Observação Tratativas',
 ];
 
-const keys = ['edit', ...SSFields.map(SSField => SSField.key), 'recursos', 'tempo', 'prioridade', 'observacao_tratativas'];
+const keys = [
+  'edit',
+  ...SSFields.map(SSField => SSField.key),
+  'recursos',
+  'tempo',
+  'prioridade',
+  'observacao_tratativas',
+];
 
 const fieldsFilter = keys.slice(1, keys.length);
 
@@ -66,29 +76,27 @@ const TratativaSSs: React.FC = () => {
   const selectPrioridade = useRef<HTMLSelectElement>(null);
   const textObservacao = useRef<HTMLTextAreaElement>(null);
 
-  const { setSidebarButtons, sidebarButtons } = usePageBase();
+  const { setSidebarButtons } = usePageBase();
 
   useEffect(() => {
+    setSidebarButtons([
+      {
+        text: 'Lista Base Dados',
+        onClick: () => setMenuSelect('sssList'),
+      },
+      {
+        text: 'Entrada de Dados Para Importar',
+        onClick: () => setMenuSelect('inputTextToImport'),
+      },
+      {
+        text: 'Lista Para Importar',
+        onClick: () => setMenuSelect('importDataList'),
+      },
+    ]);
     apiSS.get<ISS[]>('sss').then(({ data }) => {
       setSssBaseDados(data);
-      setSidebarButtons([])
-      setSidebarButtons([
-        {
-          text: 'Lista Base Dados',
-          onClick: () => setMenuSelect('sssList'),
-        },
-        {
-          text: 'Entrada de Dados Para Importar',
-          onClick: () => setMenuSelect('inputTextToImport'),
-        },
-        {
-          text: 'Lista Para Importar',
-          onClick: () => setMenuSelect('importDataList'),
-        },
-      ])
     });
-    
-  }, []);
+  }, [setSidebarButtons]);
 
   const handleImport = useCallback(async () => {
     if (sssImport.length) {
@@ -108,12 +116,23 @@ const TratativaSSs: React.FC = () => {
       setSssBaseDados(sss);
       setSsInProcess('');
     }
-  }, [apiSS, sssImport]);
+  }, [sssImport]);
 
   const sssImportToTable = useMemo(
     () => makeObjectLinesOfTable({ keys, keysCurrency: [], list: sssImport }),
-    [keys, sssImport],
+    [sssImport],
   );
+
+  const handleConvertToSS = useCallback((text: string) => {
+    const SSs = textToObject<ISS>(text, SSFields);
+    setTextInput(text);
+    setSssImport((SSs && SSs) || []);
+  }, []);
+
+  const handleTratativa = useCallback((ss: ISS) => {
+    setSsTratativa(ss);
+    setOpen(true);
+  }, []);
 
   const sssBaseDadosToTable = useMemo(
     () =>
@@ -123,25 +142,14 @@ const TratativaSSs: React.FC = () => {
         list: sssBaseDados.map(ssBaseDados => ({
           ...ssBaseDados,
           edit: (
-            <button onClick={() => handleTratativa(ssBaseDados)}>
+            <button type="button" onClick={() => handleTratativa(ssBaseDados)}>
               Tratativa
             </button>
           ),
         })),
       }),
-    [keys, sssBaseDados],
+    [sssBaseDados, handleTratativa],
   );
-
-  const handleConvertToSS = useCallback((text: string) => {
-    const SSs = textToObject<ISS>(text, SSFields);
-    setTextInput(text);
-    setSssImport(SSs ? SSs : []);
-  }, []);
-
-  const handleTratativa = useCallback((ss: ISS) => {
-    setSsTratativa(ss);
-    setOpen(true);
-  }, []);
 
   const handleUpdateSS = useCallback(async () => {
     if (!ssTratativa) {
@@ -163,10 +171,10 @@ const TratativaSSs: React.FC = () => {
     const newSsBaseDados = [...sssBaseDados];
 
     try {
-      const response = await apiSS.put<ISS>('sss/' + ssTratativa.id, {
+      const response = await apiSS.put<ISS>(`sss/${ssTratativa.id}`, {
         ...ssTratativa,
         recursos,
-        tempo: tempo ? tempo : null,
+        tempo,
         observacao_tratativas,
         prioridade,
       });
@@ -179,8 +187,9 @@ const TratativaSSs: React.FC = () => {
     setOpen(false);
   }, [ssTratativa, sssBaseDados]);
 
-  return (<>
-  {menuSelect === 'sssList' && (
+  return (
+    <>
+      {menuSelect === 'sssList' && (
         <>
           <Table
             style={{ fontSize: '12px' }}
@@ -203,8 +212,10 @@ const TratativaSSs: React.FC = () => {
 
       {menuSelect === 'importDataList' && (
         <>
-          <button onClick={handleImport}>import</button>
-          {!!ssInProcess && <h3>Importando SS: {ssInProcess}</h3>}
+          <button type="button" onClick={handleImport}>
+            import
+          </button>
+          {!!ssInProcess && <h3>{`Importando SS: ${ssInProcess}`}</h3>}
           <Table
             style={{ fontSize: '12px' }}
             header={header}
@@ -218,7 +229,7 @@ const TratativaSSs: React.FC = () => {
         <Dialog
           open={open}
           onClose={() => setOpen(false)}
-          title={'SS: ' + ssTratativa.ss}
+          title={`SS: ${ssTratativa.ss}`}
           buttons={[
             {
               text: 'Cancelar',
@@ -233,15 +244,15 @@ const TratativaSSs: React.FC = () => {
           ]}
         >
           <div>
-            <label>Bem</label>
+            <span>Bem</span>
             <textarea
-              value={ssTratativa.tag + ' - ' + ssTratativa.nome_bem || ''}
+              value={`${ssTratativa.tag} - ${ssTratativa.nome_bem}` || ''}
               readOnly
               style={{ width: '552px', height: '35px', resize: 'none' }}
             />
           </div>
           <div>
-            <label>Tipo Serviço</label>
+            <span>Tipo Serviço</span>
             <textarea
               value={ssTratativa.servico || ''}
               readOnly
@@ -250,7 +261,7 @@ const TratativaSSs: React.FC = () => {
           </div>
 
           <div>
-            <label>Descrição Serviço</label>
+            <span>Descrição Serviço</span>
             <textarea
               value={ssTratativa.descricao_servico || ''}
               readOnly
@@ -259,7 +270,7 @@ const TratativaSSs: React.FC = () => {
           </div>
 
           <div>
-            <label>Recursos</label>
+            <span>Recursos</span>
             <textarea
               ref={inputRecursos}
               defaultValue={ssTratativa.recursos || ''}
@@ -278,7 +289,7 @@ const TratativaSSs: React.FC = () => {
           </div>
 
           <div>
-            <label>Tempo</label>
+            <span>Tempo</span>
 
             <input
               ref={inputTempo}
@@ -289,7 +300,7 @@ const TratativaSSs: React.FC = () => {
           </div>
 
           <div>
-            <label>Prioridade</label>
+            <span>Prioridade</span>
             <select
               ref={selectPrioridade}
               defaultValue={ssTratativa.prioridade || 2}
@@ -302,7 +313,7 @@ const TratativaSSs: React.FC = () => {
           </div>
 
           <div>
-            <label>Observações da Tratativa</label>
+            <span>Observações da Tratativa</span>
             <textarea
               ref={textObservacao}
               defaultValue={ssTratativa.observacao_tratativas || ''}
@@ -311,7 +322,8 @@ const TratativaSSs: React.FC = () => {
           </div>
         </Dialog>
       )}
-  </>)
+    </>
+  );
 };
 
 export default TratativaSSs;

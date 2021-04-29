@@ -1,12 +1,9 @@
 import React, {
   useState,
-  useMemo,
   useCallback,
   useEffect,
   TableHTMLAttributes,
 } from 'react';
-import ItemWithRemoveButton from '../../../../components/ItemWithRemoveButton';
-import PainelToListItens from '../../../../components/PainelToListItens';
 
 import formatValue from '../../../../utils/formatValue';
 import FilterContent from './FilterContent';
@@ -47,7 +44,7 @@ const Table: React.FC<ITable> = (
     let newLinesFiltered: ITableLines[] = [...lines];
 
     fieldsFilter.forEach(fieldFilter => {
-      let linesFiltersInField: ITableLines[] = [];
+      const linesFiltersInField: ITableLines[] = [];
 
       const filtersToApply = filterList.filter(
         filter => filter.field === fieldFilter,
@@ -79,7 +76,7 @@ const Table: React.FC<ITable> = (
       if (exists) {
         return newFilters;
       }
-      newFilters.push({ field: field, value: value });
+      newFilters.push({ field, value });
       return newFilters;
     });
   }, []);

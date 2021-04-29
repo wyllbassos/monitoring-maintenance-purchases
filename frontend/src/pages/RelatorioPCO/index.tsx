@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import React, { useEffect } from 'react';
 
 import { usePco } from './hooks/pco';
 import TablePCODataList from './components/TablePCODataList';
 import TablePCOGroupByCC from './components/TablePCOGroupByCC';
 import TableListPCsForTransfer from './components/TableListPCsForTransfer';
-import TableListPCsBlock from './components/TableListPCsBlock/';
+import TableListPCsBlock from './components/TableListPCsBlock';
 import { usePageBase } from '../../hooks/pageBase';
 
 const RelatorioPCO: React.FC = () => {

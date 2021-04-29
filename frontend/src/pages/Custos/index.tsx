@@ -5,7 +5,7 @@ import api from '../../services/api';
 
 import { Container, Filtros } from './styles';
 import PageBase from '../../components/PageBase';
-import { usePageBase } from './../../hooks/pageBase';
+import { usePageBase } from '../../hooks/pageBase';
 
 export interface CustosManutencao {
   total: {
@@ -184,8 +184,6 @@ const Custos: React.FC = () => {
 
     return newCustosManutencao;
   }, [custosManutencao, tipoCusto]);
-
-  new String(undefined);
 
   return (
     <Container>

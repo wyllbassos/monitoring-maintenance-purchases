@@ -1,13 +1,11 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import React, { useState, useEffect, useCallback } from 'react';
 
 import { Container, ContainerTable, FiltersContainer } from './styles';
 
 import Table from './Table';
-import { Compra } from '../../pages/Prioridades/index';
 import { getRelatorioPCsBloqueados } from './util/getRelatorioPCsBloqueados';
-import PageBase from '../../components/PageBase';
 import { usePageBase } from '../../hooks/pageBase';
+import { Compra } from '../ComprasList/index';
 
 export interface RelatorioPC {
   pc: string;
@@ -56,6 +54,35 @@ const PcsBloqueados: React.FC = () => {
 
   const { setSidebarComponent } = usePageBase();
 
+  const handleSetState = useCallback(
+    async (newState: SetStateProps) => {
+      const statusAprovacao = newState.statusAprovacao || state.statusAprovacao;
+      const nivelAprovacao = newState.nivelAprovacao || state.nivelAprovacao;
+
+      const relatorioPC: RelatorioPC[] = newState.nivelAprovacao
+        ? await getRelatorioPCsBloqueados(nivelAprovacao)
+        : newState.relatorioPC || state.relatorioPC;
+      let relatorioPCFiltered: RelatorioPC[] = relatorioPC;
+
+      if (statusAprovacao === 'Vazios') {
+        relatorioPCFiltered = relatorioPC.filter(pc => !pc.status_aprovacao);
+      } else if (statusAprovacao !== 'Todos') {
+        relatorioPCFiltered = relatorioPC.filter(
+          pc => pc.status_aprovacao === statusAprovacao,
+        );
+      }
+
+      setState(current => ({
+        statusAprovacao,
+        nivelAprovacao,
+        relatorioPC,
+        relatorioPCFiltered,
+        options: current.options,
+      }));
+    },
+    [state],
+  );
+
   useEffect(() => {
     getRelatorioPCsBloqueados(state.nivelAprovacao).then(relatorioPC => {
       const niveisAprovacoes = [
@@ -92,7 +119,7 @@ const PcsBloqueados: React.FC = () => {
         };
       });
     });
-  }, []);
+  }, [state.nivelAprovacao]);
 
   useEffect(() => {
     setSidebarComponent(
@@ -134,36 +161,7 @@ const PcsBloqueados: React.FC = () => {
         </div>
       </FiltersContainer>,
     );
-  }, [state]);
-
-  const handleSetState = useCallback(
-    async (props: SetStateProps) => {
-      const statusAprovacao = props.statusAprovacao || state.statusAprovacao;
-      const nivelAprovacao = props.nivelAprovacao || state.nivelAprovacao;
-
-      let relatorioPC: RelatorioPC[] = props.nivelAprovacao
-        ? await getRelatorioPCsBloqueados(nivelAprovacao)
-        : props.relatorioPC || state.relatorioPC;
-      let relatorioPCFiltered: RelatorioPC[] = relatorioPC;
-
-      if (statusAprovacao === 'Vazios') {
-        relatorioPCFiltered = relatorioPC.filter(pc => !pc.status_aprovacao);
-      } else if (statusAprovacao !== 'Todos') {
-        relatorioPCFiltered = relatorioPC.filter(
-          pc => pc.status_aprovacao === statusAprovacao,
-        );
-      }
-
-      setState(current => ({
-        statusAprovacao,
-        nivelAprovacao,
-        relatorioPC,
-        relatorioPCFiltered,
-        options: current.options,
-      }));
-    },
-    [state],
-  );
+  }, [state, setSidebarComponent, handleSetState]);
 
   return (
     <Container>

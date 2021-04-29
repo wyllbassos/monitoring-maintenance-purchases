@@ -26,16 +26,19 @@
   "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
   "rules": {
     "react/jsx-props-no-spreading": "off",
-    "prettier/prettier": ["error", {
-     "endOfLine":"auto"
-   }],
+    "prettier/prettier": [
+      "error",
+      {
+      "endOfLine":"auto"
+      }
+    ],
+    "react/destructuring-assignment": ["off"],
+    "camelcase": "off",
+    "@typescript-eslint/camelcase": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
     "import/prefer-default-export": "off",
-    "@typescript-eslint/interface-name-prefix" : {
-      "prefixWithI": "always"
-    },
     "@typescript-eslint/explicit-function-return-type": [
       "error",
       {

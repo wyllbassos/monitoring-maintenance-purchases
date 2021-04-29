@@ -57,7 +57,6 @@ const Prioridades: React.FC = () => {
 
   useEffect(() => {
     async function loadCompras(): Promise<void> {
-      console.log(filters);
       const { data } = await api.get<{
         comprasManutencao: Compra[];
         total: number;
@@ -67,7 +66,6 @@ const Prioridades: React.FC = () => {
 
       const { comprasManutencao, total } = data;
       setCompras(comprasManutencao);
-      console.log(comprasManutencao);
     }
 
     loadCompras();

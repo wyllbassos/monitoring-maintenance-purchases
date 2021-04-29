@@ -1,6 +1,5 @@
 /* eslint-disable no-restricted-syntax */
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 
 import filesize from 'filesize';
 
@@ -24,7 +23,8 @@ const Import: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [timeLoading, setTimeLoading] = useState(0);
   const [password, setPassword] = useState('');
-  const history = useHistory();
+
+  console.log('ok');
 
   useEffect(() => {
     if (loading) setTimeout(() => setTimeLoading(timeLoading + 1), 1000);

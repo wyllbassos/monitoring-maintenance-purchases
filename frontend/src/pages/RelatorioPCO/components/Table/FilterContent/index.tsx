@@ -51,10 +51,15 @@ const FilterContent: React.FC<IFilterContent> = ({
           value={filterValue}
           onChange={({ target }) => setFilterValue(target.value)}
         />
-        <button onClick={() => handleAddFilter(filterField, filterValue)}>
+        <button
+          type="button"
+          onClick={() => handleAddFilter(filterField, filterValue)}
+        >
           Aplicar Filtro
         </button>
-        <button onClick={handleClearFilter}>Limpar Filtro</button>
+        <button type="button" onClick={handleClearFilter}>
+          Limpar Filtro
+        </button>
       </FilterInputsContent>
       {!!filterList.length && (
         <PainelToListItens>
@@ -62,7 +67,7 @@ const FilterContent: React.FC<IFilterContent> = ({
             <ItemWithRemoveButton
               key={field + value}
               handleRemovePcForTransfer={() => handleRemoveFilter(index)}
-              value={field + ' = ' + value}
+              value={`${field} = ${value}`}
             />
           ))}
         </PainelToListItens>

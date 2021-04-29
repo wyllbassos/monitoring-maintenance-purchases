@@ -1,5 +1,9 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import React from 'react';
+import React, { useState } from 'react';
+
+import { Menu, MenuOpen } from '@material-ui/icons';
+
+import Header from '../Header';
+import { usePageBase } from '../../hooks/pageBase';
 
 import {
   Container,
@@ -8,16 +12,13 @@ import {
   SidebarContent,
   SidebarButtons,
   SidebarButtonShowHide,
-  Footer,
 } from './styles';
 
-import { Menu, MenuOpen } from '@material-ui/icons';
+type PageBaseProps = {
+  children: React.ReactNode;
+};
 
-import Header from '../Header';
-import { useState } from 'react';
-import { usePageBase } from '../../hooks/pageBase';
-
-const PageBase: React.FC = ({ children }) => {
+const PageBase: React.FC<PageBaseProps> = ({ children }: PageBaseProps) => {
   const [selectedSidebarButtonState, setSelectedSidebarButtonState] = useState(
     0,
   );
@@ -25,42 +26,37 @@ const PageBase: React.FC = ({ children }) => {
 
   const { sidebarComponent, sidebarButtons } = usePageBase();
 
-  console.log(sidebarButtons);
-
   return (
     <Container>
       <Header />
       <Body>
-        {!!sidebarComponent && (
-          <SidebarContent isSideBarShow={isSideBarShow}>
-            {sidebarComponent}
-          </SidebarContent>
-        )}
-
-        {!!sidebarButtons && (
-          <SidebarContent isSideBarShow={isSideBarShow}>
-            {sidebarButtons.map((sidebarButton, index) => (
-              <SidebarButtons
-                key={sidebarButton.text + index}
-                selected={index === selectedSidebarButtonState}
-                onClick={() => {
-                  setSelectedSidebarButtonState(index);
-                  sidebarButton.onClick && sidebarButton.onClick();
-                }}
-              >
-                {sidebarButton.text}
-              </SidebarButtons>
-            ))}
-          </SidebarContent>
-        )}
-
         {(!!sidebarComponent || !!sidebarButtons) && (
-          <SidebarButtonShowHide
-            onClick={() => handleShowSideBar(!isSideBarShow)}
-          >
-            {isSideBarShow ? <MenuOpen /> : <Menu />}
-          </SidebarButtonShowHide>
+          <>
+            <SidebarContent isSideBarShow={isSideBarShow}>
+              {sidebarComponent}
+
+              {!!sidebarButtons &&
+                sidebarButtons.map((sidebarButton, index) => (
+                  <SidebarButtons
+                    key={sidebarButton.text + String(index)}
+                    selected={index === selectedSidebarButtonState}
+                    onClick={() => {
+                      setSelectedSidebarButtonState(index);
+                      if (sidebarButton.onClick) sidebarButton.onClick();
+                    }}
+                  >
+                    {sidebarButton.text}
+                  </SidebarButtons>
+                ))}
+            </SidebarContent>
+            <SidebarButtonShowHide
+              onClick={() => handleShowSideBar(!isSideBarShow)}
+            >
+              {isSideBarShow ? <MenuOpen /> : <Menu />}
+            </SidebarButtonShowHide>
+          </>
         )}
+
         <Content isSideBarShow={isSideBarShow}>{children}</Content>
       </Body>
     </Container>

@@ -10,10 +10,14 @@ import ComprasList from '../pages/ComprasList';
 import Custos from '../pages/Custos';
 import PcsBloqueados from '../pages/PcsBloqueados';
 import RelatorioPCO from '../pages/RelatorioPCO';
-import { PcoProvider } from '../pages/RelatorioPCO/hooks/pco';
 import TratativaSSs from '../pages/TratativaSSs';
 
-export type Route = 'Lista Compras' | "PC's Bloqueados" | 'PCO' | 'Custos' | 'Tratativas';
+export type Route =
+  | 'Lista Compras'
+  | "PC's Bloqueados"
+  | 'PCO'
+  | 'Custos'
+  | 'Tratativas';
 
 type PageBaseItens = {
   route: Route;
@@ -49,7 +53,13 @@ const PageBaseContext = createContext<IPageBaseContextData>(
   {} as IPageBaseContextData,
 );
 
-export const PageBaseProvider: React.FC = ({ children }) => {
+type PageBaseProviderProps = {
+  children: React.ReactNode;
+};
+
+export const PageBaseProvider: React.FC<PageBaseProviderProps> = ({
+  children,
+}: PageBaseProviderProps) => {
   const [state, setState] = useState<IPageBaseStateData>({
     isSideBarShow: false,
     pageBaseItens,
@@ -78,7 +88,6 @@ export const PageBaseProvider: React.FC = ({ children }) => {
 
   const setSidebarButtons = useCallback(
     (sidebarButtons: SideBarButton[]) => {
-      console.log(sidebarButtons);
       setState(current => ({
         ...current,
         sidebarComponent: undefined,
@@ -88,26 +97,21 @@ export const PageBaseProvider: React.FC = ({ children }) => {
     [setState],
   );
 
-  const handleChangePageBaseItens = useCallback(
-    (route: Route) => {
-      const newPageBaseItens = [
-        ...pageBaseItens.map(headerItenMenu => {
-          const selected = headerItenMenu.route === route;
-          return { ...headerItenMenu, selected };
-        }),
-      ];
+  const handleChangePageBaseItens = useCallback((route: Route) => {
+    const newPageBaseItens = [
+      ...pageBaseItens.map(headerItenMenu => {
+        const selected = headerItenMenu.route === route;
+        return { ...headerItenMenu, selected };
+      }),
+    ];
 
-      setState(current => ({
-        ...current,
-        sidebarComponent: undefined,
-        sidebarButtons: undefined,
-        pageBaseItens: [...newPageBaseItens],
-      }));
-    },
-    [pageBaseItens],
-  );
-
-  console.log(state.sidebarButtons);
+    setState(current => ({
+      ...current,
+      sidebarComponent: undefined,
+      sidebarButtons: undefined,
+      pageBaseItens: [...newPageBaseItens],
+    }));
+  }, []);
 
   return (
     <PageBaseContext.Provider

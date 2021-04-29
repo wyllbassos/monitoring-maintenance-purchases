@@ -66,9 +66,9 @@ const TablePCOGroupByCC: React.FC<IProps> = ({
     () => [
       ...pcoDataGroupByCC.map(custoPCO => {
         let pcs_nao_empenhados = '';
-        custoPCO.pcs_nao_empenhados.forEach(
-          pc => (pcs_nao_empenhados += `${pc}; `),
-        );
+        custoPCO.pcs_nao_empenhados.forEach(pc => {
+          pcs_nao_empenhados += `${pc}; `;
+        });
         return {
           ...custoPCO,
           pcs: makeButtonDetalhePC(custoPCO.itens),

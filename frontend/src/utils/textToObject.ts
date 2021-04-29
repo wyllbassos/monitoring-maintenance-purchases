@@ -65,7 +65,7 @@ export function textToObject<T = any>(
 
   if (fields) {
     if (convertKeys.length !== fields.length) {
-      alert('Dados devem ter ' + fields.length + 'colunas!');
+      alert(`Dados devem ter ${fields.length} colunas!`);
       return null;
     }
 
@@ -77,10 +77,8 @@ export function textToObject<T = any>(
     });
 
     if (!fieldsOk) {
-      alert(
-        'A ordem das colunas deve ser: ' +
-          JSON.stringify(fields.map(fieldRet => fieldRet.key)),
-      );
+      const fieldsKeys = JSON.stringify(fields.map(fieldRet => fieldRet.key));
+      alert(`A ordem das colunas deve ser: ${fieldsKeys}`);
       return null;
     }
   }
