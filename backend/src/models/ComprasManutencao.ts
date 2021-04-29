@@ -71,7 +71,7 @@ class ComprasManutencao extends BaseColumnSchemaPart {
   })
   valor_total: number;
 
-  @Column('enum')
+  @Column()
   status_sc: 'B' | 'L' | 'R';
 
   @Column()

@@ -8,7 +8,7 @@ class Solicitantes extends BaseColumnSchemaPart {
   @Column()
   usuario: string;
 
-  @Column('enum')
+  @Column()
   area: 'PCM' | 'ALMOX' | 'PRODUCAO' | 'PROJETOS' | 'OUTROS';
 
   @OneToMany(
