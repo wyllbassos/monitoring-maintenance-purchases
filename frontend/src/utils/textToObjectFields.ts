@@ -1,9 +1,9 @@
-export interface IFields {
+export interface Fields {
   key: string;
   format?: 'number' | 'date';
 }
 
-export const PCOFields: IFields[] = [
+export const PCOFields: Fields[] = [
   { key: 'conta' },
   { key: 'descricao' },
   { key: 'c_custo' },
@@ -26,7 +26,7 @@ export const PCOFields: IFields[] = [
   { key: 'real_ctb', format: 'number' },
 ];
 
-export const SSFields = [
+export const SSFields: Fields[] = [
   { key: 'ss' },
   { key: 'tag' },
   { key: 'nome_bem' },
@@ -37,10 +37,40 @@ export const SSFields = [
   { key: 'solicitante' },
   { key: 'os' },
   { key: 'responsavel' },
-  // { key: 'recursos' },
-  // { key: 'tempo' },
-  // { key: 'prioridade' },
-  // { key: 'observacao_tratativas' },
 ];
 
-export const SSKeys = ['SS'];
+export const ComprasFields: Fields[] = [
+  { key: 'os' },
+  { key: 'sc' },
+  { key: 'item' },
+  { key: 'produto' },
+  { key: 'descricao' },
+  { key: 'quantidade' },
+  { key: 'emissao' },
+  { key: 'aplicacao' },
+  { key: 'observacao' },
+  { key: 'cotacao' },
+  { key: 'pc' },
+  { key: 'dt_aprovacao_n1' },
+  { key: 'dt_aprovacao_n2' },
+  { key: 'dt_aprovacao_n3' },
+  { key: 'quantidade_ja_entregue' },
+  { key: 'ja_emitiu_fornecedor' },
+  { key: 'valor_total' },
+  { key: 'status_sc' },
+  { key: 'status_pc' },
+  { key: 'previsao_entrega' },
+  { key: 'pc_eliminado_residuo' },
+  { key: 'motivo_eliminado_residuo' },
+  { key: 'sc_eliminado_residuo' },
+  { key: 'data_pc' },
+  { key: 'conta_pc' },
+  { key: 'centro_custo_pc' },
+  { key: 'solicitante' },
+  { key: 'requisitante' },
+  { key: 'fornecedor' },
+  { key: 'tipo_pagamento' },
+  { key: 'cod_aprovador_n1' },
+  { key: 'cod_aprovador_n2' },
+  { key: 'cod_aprovador_n3' },
+];

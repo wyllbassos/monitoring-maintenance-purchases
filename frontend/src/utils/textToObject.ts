@@ -1,4 +1,4 @@
-import { IFields } from './textToObjectFields';
+import { Fields } from './textToObjectFields';
 
 function convertToNumber(str: string): number {
   let value = Number(str);
@@ -45,7 +45,7 @@ function replaceChars(
 
 export function textToObject<T = any>(
   text: string,
-  fields: IFields[] | undefined = undefined,
+  fields: Fields[] | undefined = undefined,
 ): T[] | null {
   const lines = text.split('\n');
 

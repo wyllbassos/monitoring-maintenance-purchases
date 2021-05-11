@@ -11,13 +11,15 @@ import Custos from '../pages/Custos';
 import PcsBloqueados from '../pages/PcsBloqueados';
 import RelatorioPCO from '../pages/RelatorioPCO';
 import TratativaSSs from '../pages/TratativaSSs';
+import UpdateCompras from '../pages/UpdateCompras';
 
 export type Route =
   | 'Lista Compras'
   | "PC's Bloqueados"
   | 'PCO'
   | 'Custos'
-  | 'Tratativas';
+  | 'Tratativas'
+  | 'Update Compras';
 
 type PageBaseItens = {
   route: Route;
@@ -31,26 +33,27 @@ const pageBaseItens: PageBaseItens[] = [
   { route: 'PCO', selected: false, componet: <RelatorioPCO /> },
   { route: 'Custos', selected: false, componet: <Custos /> },
   { route: 'Tratativas', selected: false, componet: <TratativaSSs /> },
+  { route: 'Update Compras', selected: false, componet: <UpdateCompras /> },
 ];
 
 type SideBarButton = { text: string; onClick: () => void };
 
-export interface IPageBaseStateData {
+export interface PageBaseStateData {
   isSideBarShow: boolean;
   sidebarComponent?: JSX.Element;
   pageBaseItens: PageBaseItens[];
   sidebarButtons?: SideBarButton[];
 }
 
-export interface IPageBaseContextData extends IPageBaseStateData {
+export interface PageBaseContextData extends PageBaseStateData {
   handleShowSideBar: (isSideBarShow: boolean) => void;
   setSidebarComponent: (sidebarComponent: JSX.Element) => void;
   setSidebarButtons: (sideBarButton: SideBarButton[]) => void;
   handleChangePageBaseItens: (route: Route) => void;
 }
 
-const PageBaseContext = createContext<IPageBaseContextData>(
-  {} as IPageBaseContextData,
+const PageBaseContext = createContext<PageBaseContextData>(
+  {} as PageBaseContextData,
 );
 
 type PageBaseProviderProps = {
@@ -60,7 +63,7 @@ type PageBaseProviderProps = {
 export const PageBaseProvider: React.FC<PageBaseProviderProps> = ({
   children,
 }: PageBaseProviderProps) => {
-  const [state, setState] = useState<IPageBaseStateData>({
+  const [state, setState] = useState<PageBaseStateData>({
     isSideBarShow: false,
     pageBaseItens,
   });
@@ -128,7 +131,7 @@ export const PageBaseProvider: React.FC<PageBaseProviderProps> = ({
   );
 };
 
-export const usePageBase = (): IPageBaseContextData => {
+export const usePageBase = (): PageBaseContextData => {
   const context = useContext(PageBaseContext);
 
   if (!context) {

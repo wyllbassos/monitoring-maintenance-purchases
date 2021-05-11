@@ -6,7 +6,7 @@
     "scripts": {
         "build": "tsc --build ./src",
         "dev:server": "ts-node --transpile-only --ignore-watch node_modules src/server.ts",
-        "start": "cd dist && node server.js",
+        "start": "cd build && node server.js",
         "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
         "test": "cross-env NODE_ENV=test jest"
     },

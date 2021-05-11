@@ -7,6 +7,7 @@ import CreateCompraManutencaoService, {
 } from '../services/comprasmanutencao/CreateCompraManutencaoService';
 import DeleteCompraManutencaoService from '../services/comprasmanutencao/DeleteCompraManutencaoService';
 import ComprasManutencao from '../models/ComprasManutencao';
+import parseToCreateComprasManutencao from '../services/comprasmanutencao/ImportCompraManutencaoService/utils/parseToCreateComprasManutencao';
 
 interface Filtro {
   sc?: FindOperator<string>;
@@ -103,34 +104,14 @@ async function filtroGeralDinamico(
 
 class ComprasManutencaoController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const insertCompraManutencao: CreateCompraManutencao = request.body;
+    const data: CreateCompraManutencao = request.body;
 
     const createCompraManutencao = new CreateCompraManutencaoService();
 
-    const dt_aprovacao_n1 = insertCompraManutencao.dt_aprovacao_n1
-      ? new Date(insertCompraManutencao.dt_aprovacao_n1)
-      : null;
-    const dt_aprovacao_n2 = insertCompraManutencao.dt_aprovacao_n2
-      ? new Date(insertCompraManutencao.dt_aprovacao_n2)
-      : null;
-    const dt_aprovacao_n3 = insertCompraManutencao.dt_aprovacao_n3
-      ? new Date(insertCompraManutencao.dt_aprovacao_n3)
-      : null;
-    const previsao_entrega = insertCompraManutencao.previsao_entrega
-      ? new Date(insertCompraManutencao.previsao_entrega)
-      : null;
-    const data_pc = insertCompraManutencao.data_pc
-      ? new Date(insertCompraManutencao.data_pc)
-      : null;
+    const insertCompraManutencao = parseToCreateComprasManutencao([data])[0];
 
     const compraManutencao = await createCompraManutencao.execute({
       ...insertCompraManutencao,
-      emissao: new Date(insertCompraManutencao.emissao),
-      dt_aprovacao_n1,
-      dt_aprovacao_n2,
-      dt_aprovacao_n3,
-      previsao_entrega,
-      data_pc,
     });
 
     return response.json(compraManutencao);
