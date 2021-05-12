@@ -7,19 +7,19 @@ import React, {
 } from 'react';
 
 import ComprasList from '../pages/ComprasList';
-import Custos from '../pages/Custos';
+// import Custos from '../pages/Custos';
 import PcsBloqueados from '../pages/PcsBloqueados';
 import RelatorioPCO from '../pages/RelatorioPCO';
-import TratativaSSs from '../pages/TratativaSSs';
+// import TratativaSSs from '../pages/TratativaSSs';
 import UpdateCompras from '../pages/UpdateCompras';
 
 export type Route =
   | 'Lista Compras'
   | "PC's Bloqueados"
   | 'PCO'
-  | 'Custos'
-  | 'Tratativas'
-  | 'Update Compras';
+  // | 'Custos'
+  // | 'Tratativas'
+  | 'Atualizar Compras';
 
 type PageBaseItens = {
   route: Route;
@@ -31,9 +31,9 @@ const pageBaseItens: PageBaseItens[] = [
   { route: 'Lista Compras', selected: true, componet: <ComprasList /> },
   { route: "PC's Bloqueados", selected: false, componet: <PcsBloqueados /> },
   { route: 'PCO', selected: false, componet: <RelatorioPCO /> },
-  { route: 'Custos', selected: false, componet: <Custos /> },
-  { route: 'Tratativas', selected: false, componet: <TratativaSSs /> },
-  { route: 'Update Compras', selected: false, componet: <UpdateCompras /> },
+  // { route: 'Custos', selected: false, componet: <Custos /> },
+  // { route: 'Tratativas', selected: false, componet: <TratativaSSs /> },
+  { route: 'Atualizar Compras', selected: false, componet: <UpdateCompras /> },
 ];
 
 type SideBarButton = { text: string; onClick: () => void };

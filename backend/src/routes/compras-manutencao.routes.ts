@@ -8,12 +8,14 @@ import ComprasManutencaoController from '../controllers/ComprasManutencaoControl
 import ComprasManutencaoFilterController from '../controllers/ComprasManutencaoFilterController';
 import ComprasManutencaoRelatorioController from '../controllers/ComprasManutencaoRelatorioController';
 import ComprasManutencaoUpdateField from '../controllers/ComprasManutencaoUpdateField';
+import ComprasManutencaoAtualizarController from '../controllers/ComprasManutencaoAtualizarController';
 
 const comprasManutencaoImportController = new ComprasManutencaoImportController();
 const comprasManutencaoController = new ComprasManutencaoController();
 const comprasManutencaoFilterController = new ComprasManutencaoFilterController();
 const comprasManutencaoRelatorioController = new ComprasManutencaoRelatorioController();
 const comprasManutencaoUpdateField = new ComprasManutencaoUpdateField();
+const comprasManutencaoAtualizarController = new ComprasManutencaoAtualizarController();
 
 const comprasManutencaoRouter = Router();
 const upload = multer(uploadConfig);
@@ -26,6 +28,10 @@ comprasManutencaoRouter.get(
 );
 
 comprasManutencaoRouter.post('/', comprasManutencaoController.create);
+comprasManutencaoRouter.post(
+  '/atualizar',
+  comprasManutencaoAtualizarController.create,
+);
 
 comprasManutencaoRouter.delete('/:id', comprasManutencaoController.delete);
 

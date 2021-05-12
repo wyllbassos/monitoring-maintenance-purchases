@@ -6,6 +6,7 @@ import { textToObject } from '../../utils/textToObject';
 import { ComprasFields } from '../../utils/textToObjectFields';
 import api from '../../services/api';
 import { usePageBase } from '../../hooks/pageBase';
+import { UpdateContainer } from './styles';
 
 interface UpdateCompras {
   os: string;
@@ -93,11 +94,11 @@ const UpdateCompras: React.FC = () => {
   useEffect(() => {
     setSidebarButtons([
       {
-        text: 'Entrada de Dados Para Updatear',
+        text: 'Entrada de Dados Para Atualizar',
         onClick: () => setMenuSelect('inputTextToUpdate'),
       },
       {
-        text: 'Lista Para Updatear',
+        text: 'Lista Para Atualizar',
         onClick: () => setMenuSelect('updateDataList'),
       },
     ]);
@@ -154,6 +155,7 @@ const Updating: React.FC<Updating> = ({ comprasUpdate }: Updating) => {
   const [comprasInUpdating, setComprasInUpdating] = useState(false);
   const [updatingTimer, setUpdatingTimer] = useState(0);
   const [updatingOk, setUpdatingOk] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
     if (comprasInUpdating) {
@@ -164,27 +166,48 @@ const Updating: React.FC<Updating> = ({ comprasUpdate }: Updating) => {
   }, [updatingTimer, comprasInUpdating]);
 
   const handleUpdate = useCallback(async () => {
+    if (password === '' || !comprasUpdate || !comprasUpdate.length) {
+      setUpdatingOk('Dados invalidos');
+      return;
+    }
+
     setComprasInUpdating(true);
-    // Airbnb Template não aceita uso de recursividade
-    // eslint-disable-next-line no-restricted-syntax
-    for await (const compraUpdate of comprasUpdate) {
-      await api.post('compras-manutencao', compraUpdate);
+    try {
+      await api.post('compras-manutencao/atualizar', {
+        comprasManutencao: comprasUpdate,
+        password,
+      });
+      setUpdatingOk(
+        `Atualizados ${comprasUpdate.length} processos de compras.`,
+      );
+    } catch (error) {
+      setUpdatingOk('Erro na importação!');
     }
     setComprasInUpdating(false);
-    setUpdatingOk(`Atualizados ${comprasUpdate.length} processos de compras.`);
+
     // console.log(newCompras);
-  }, [comprasUpdate]);
+  }, [comprasUpdate, password]);
 
   return (
-    <>
-      <button type="button" onClick={handleUpdate}>
-        Atualizar Compras
-      </button>
+    <UpdateContainer>
+      <div>
+        <button type="button" onClick={handleUpdate}>
+          Atualizar Compras
+        </button>
+        <span>Senha</span>
+        <input
+          onChange={e => {
+            setPassword(e.target.value);
+          }}
+          value={password}
+          type="password"
+        />
+      </div>
       {!!comprasInUpdating && (
         <h3>{`Atualizando Processo de Compras: ${updatingTimer}s`}</h3>
       )}
       {!!updatingOk && <h3>{updatingOk}</h3>}
-    </>
+    </UpdateContainer>
   );
 };
 
