@@ -6,12 +6,16 @@ import React, {
   ReactElement,
 } from 'react';
 
+import axios, { AxiosInstance } from 'axios';
+
 import ComprasList from '../pages/ComprasList';
 // import Custos from '../pages/Custos';
 import PcsBloqueados from '../pages/PcsBloqueados';
 import RelatorioPCO from '../pages/RelatorioPCO';
 // import TratativaSSs from '../pages/TratativaSSs';
 import UpdateCompras from '../pages/UpdateCompras';
+
+const api = axios.create();
 
 export type Route =
   | 'Lista Compras'
@@ -50,6 +54,7 @@ export interface PageBaseContextData extends PageBaseStateData {
   setSidebarComponent: (sidebarComponent: JSX.Element) => void;
   setSidebarButtons: (sideBarButton: SideBarButton[]) => void;
   handleChangePageBaseItens: (route: Route) => void;
+  api: AxiosInstance;
 }
 
 const PageBaseContext = createContext<PageBaseContextData>(
@@ -63,6 +68,11 @@ type PageBaseProviderProps = {
 export const PageBaseProvider: React.FC<PageBaseProviderProps> = ({
   children,
 }: PageBaseProviderProps) => {
+  if (typeof window !== 'undefined') {
+    const { hostname } = window.location;
+    api.defaults.baseURL = `http://${hostname}:3333`;
+  }
+
   const [state, setState] = useState<PageBaseStateData>({
     isSideBarShow: false,
     pageBaseItens,
@@ -124,6 +134,7 @@ export const PageBaseProvider: React.FC<PageBaseProviderProps> = ({
         setSidebarComponent,
         setSidebarButtons,
         handleChangePageBaseItens,
+        api,
       }}
     >
       {children}

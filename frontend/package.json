@@ -1,5 +1,5 @@
 {
-    "name": "FrontEndControleDeCompras",
+    "name": "front-end-controle-de-compras",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
@@ -16,11 +16,14 @@
         "react-router-dom": "^5.1.2",
         "react-scripts": "^4.0.3",
         "styled-components": "^5.1.0",
-        "ts-transformer-keys": "^0.4.3"
+        "ts-transformer-keys": "^0.4.3",
+        "@types/styled-components": "^5.1.0",
+        "@types/react": "^16.9.0",
+        "@types/react-router-dom": "^5.1.4"
     },
     "scripts": {
         "start": "set PORT=3001 && react-app-rewired start",
-        "start:front_compras": "set PORT=3001 && react-app-rewired start",
+        "start:build": "serve -p 3002 -s ./build",
         "build": "react-app-rewired build",
         "test": "react-app-rewired test",
         "eject": "react-scripts eject",
@@ -45,10 +48,7 @@
         "@types/axios": "^0.14.0",
         "@types/jest": "^24.0.0",
         "@types/node": "^12.0.0",
-        "@types/react": "^16.9.0",
         "@types/react-dom": "^16.9.0",
-        "@types/react-router-dom": "^5.1.4",
-        "@types/styled-components": "^5.1.0",
         "@typescript-eslint/eslint-plugin": "^2.28.0",
         "@typescript-eslint/parser": "^2.28.0",
         "axios-mock-adapter": "^1.18.1",

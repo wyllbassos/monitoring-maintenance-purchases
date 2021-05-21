@@ -9,11 +9,10 @@ import {
   FormControleAprovacao,
 } from './styles';
 
-import api from '../../../services/api';
 import formatValue from '../../../utils/formatValue';
-import Thead from './Thead';
 import { RelatorioPC } from '..';
 import Dialog from '../../../components/Dialog';
+import { usePageBase } from '../../../hooks/pageBase';
 
 interface Props {
   relatorioPC: RelatorioPC[];
@@ -31,6 +30,8 @@ const Table: React.FC<Props> = ({ relatorioPC, setRelatorioPC }: Props) => {
     pc: '',
     status_aprovacao: '',
   });
+
+  const { api } = usePageBase();
 
   const handleCloseDialog = useCallback(() => {
     setRemoveDatePC({ pc: '', status_aprovacao: '' });

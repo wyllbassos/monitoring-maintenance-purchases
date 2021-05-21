@@ -1,9 +1,10 @@
+import { AxiosInstance } from 'axios';
 import { RelatorioPC } from '../index';
-import api from '../../../services/api';
 import { Compra } from '../../ComprasList';
 
 export const getRelatorioPCsBloqueados = async (
   nivel: string,
+  api: AxiosInstance,
 ): Promise<RelatorioPC[]> => {
   const { data } = await api.get<Compra[]>(`/compras-manutencao/${nivel}`);
 

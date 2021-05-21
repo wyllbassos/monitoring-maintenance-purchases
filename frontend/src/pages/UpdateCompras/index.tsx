@@ -4,7 +4,7 @@ import makeObjectLinesOfTable from '../RelatorioPCO/components/utils/makeObjectL
 import Table from '../RelatorioPCO/components/Table';
 import { textToObject } from '../../utils/textToObject';
 import { ComprasFields } from '../../utils/textToObjectFields';
-import api from '../../services/api';
+
 import { usePageBase } from '../../hooks/pageBase';
 import { UpdateContainer } from './styles';
 
@@ -131,10 +131,7 @@ const UpdateCompras: React.FC = () => {
       {menuSelect === 'updateDataList' && (
         <>
           <Updating comprasUpdate={comprasUpdate} />
-          {/* {!!comprasInUpdating && (
-            <h3>{`Atualizando Processo de Compras: ${updatingTimer}s`}</h3>
-          )}
-          {!!updatingOk && <h3>{updatingOk}</h3>} */}
+
           <Table
             style={{ fontSize: '12px' }}
             header={header}
@@ -156,6 +153,8 @@ const Updating: React.FC<Updating> = ({ comprasUpdate }: Updating) => {
   const [updatingTimer, setUpdatingTimer] = useState(0);
   const [updatingOk, setUpdatingOk] = useState('');
   const [password, setPassword] = useState('');
+
+  const { api } = usePageBase();
 
   useEffect(() => {
     if (comprasInUpdating) {
@@ -186,7 +185,7 @@ const Updating: React.FC<Updating> = ({ comprasUpdate }: Updating) => {
     setComprasInUpdating(false);
 
     // console.log(newCompras);
-  }, [comprasUpdate, password]);
+  }, [comprasUpdate, password, api]);
 
   return (
     <UpdateContainer>

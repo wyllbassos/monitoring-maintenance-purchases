@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import api from '../../services/api';
-
 import { Paginacao, Filtros, FiltersList, ContainerList } from './styles';
 
 import List from './List';
-import PageBase from '../../components/PageBase';
+
 import { usePageBase } from '../../hooks/pageBase';
 
 export interface Compra {
@@ -57,14 +55,13 @@ const ComprasList: React.FC = () => {
   const [totalPaginas, setTotalPaginas] = useState(1);
   const [search, setSearch] = useState('');
   const [field, setField] = useState('sc');
-  const [updateAt, setUpdateAt] = useState<Date | undefined>(undefined);
   const [filters, setFilters] = useState<Filter[]>(
     fieldsFilter.map(fieldFilter => {
       return { field: fieldFilter, search: '' };
     }),
   );
 
-  const { setSidebarComponent } = usePageBase();
+  const { setSidebarComponent, api } = usePageBase();
 
   useEffect(() => {
     async function loadCompras(): Promise<void> {
@@ -76,15 +73,14 @@ const ComprasList: React.FC = () => {
         params: { limit, skip, filters },
       });
 
-      const { comprasManutencao, total, lastUpdate } = data;
-      setUpdateAt(lastUpdate);
+      const { comprasManutencao, total } = data;
       setTotalRegistros(total);
       setTotalPaginas(Math.ceil(total / limit));
       setCompras(comprasManutencao);
     }
 
     loadCompras();
-  }, [limit, skip, filters, search, field]);
+  }, [limit, skip, filters, search, field, api]);
 
   useEffect(() => {
     setSidebarComponent(
@@ -102,21 +98,7 @@ const ComprasList: React.FC = () => {
         )}
       </FiltersList>,
     );
-  }, [filters]);
-
-  const handleNextPage = useCallback(() => {
-    const newPage = pagina + 1;
-    if (newPage > totalPaginas) return;
-    setPagina(newPage);
-    setSkip(pagina * limit);
-  }, [pagina, limit, totalPaginas]);
-
-  const handlePreviusPage = useCallback(() => {
-    const newPage = pagina - 1;
-    if (newPage <= 0) return;
-    setPagina(newPage);
-    setSkip((newPage - 1) * limit);
-  }, [pagina, limit]);
+  }, [filters, setSidebarComponent]);
 
   const handleChangePage = useCallback(
     (newPage: number) => {
@@ -150,15 +132,9 @@ const ComprasList: React.FC = () => {
   const handleChangeField = useCallback(
     e => {
       const newField = e.target.value as string;
-      // const newFilters = [...filters];
       const indexFilter = filters.findIndex(
         filter => filter.field === newField,
       );
-      // if (filters[indexFilter].search !== '')
-      //   setSearch(filters[indexFilter].search);
-      // setField(newField);
-      // setFilters(newFilters);
-      // newFilters[indexFilter].
       setField(newField);
       setSearch(filters[indexFilter].search);
     },
@@ -171,10 +147,6 @@ const ComprasList: React.FC = () => {
       const newFilters = [...filters];
       const indexFilter = filters.findIndex(filter => filter.field === field);
       newFilters[indexFilter].search = newSearch;
-      // handleChangePage(0);
-      // setSearch(newSearch.toLocaleUpperCase());
-      // setFilters(newFilters);]
-      // const newSearch = e.target.value;
       handleChangePage(0);
       setFilters(newFilters);
       setSearch(newSearch.toLocaleUpperCase());
@@ -194,35 +166,7 @@ const ComprasList: React.FC = () => {
     [setField, setSearch, setFilters],
   );
 
-  const handleSaveFilter = useCallback(
-    e => {
-      const newFilters = [...filters];
-      const indexFilter = filters.findIndex(filter => filter.field === field);
-      newFilters[indexFilter].search = search.toLocaleUpperCase();
-      setFilters(newFilters);
-    },
-    [filters, field, search, setFilters],
-  );
-
   return (
-    // <PageBase
-    //   route="/"
-    //   sidebarComponent={
-    //     <FiltersList>
-    //       <span>Filtros:</span>
-    //       {filters.map(filter =>
-    //         filter.search === '' ? (
-    //           ''
-    //         ) : (
-    //           <div key={`${filter.field} ${filter.search}`}>
-    //             <span>{`${filter.field}: `}</span>
-    //             <span>{`${filter.search}`}</span>
-    //           </div>
-    //         ),
-    //       )}
-    //     </FiltersList>
-    //   }
-    // >
     <>
       <Filtros>
         <span>Pesquisar</span>

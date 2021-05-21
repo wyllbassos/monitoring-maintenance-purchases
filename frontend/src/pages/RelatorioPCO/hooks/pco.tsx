@@ -1,11 +1,11 @@
+/* eslint-disable no-alert */
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { usePageBase } from '../../../hooks/pageBase';
 import { RelatorioPC } from '../../PcsBloqueados';
 import { getRelatorioPCsBloqueados } from '../../PcsBloqueados/util/getRelatorioPCsBloqueados';
 
 import { IDataPCO, IDataPCOGoupByCC } from '../types';
 import { convertTextToPCO, groupDataByCC } from './utils';
-
-import initialInput from './utils/initialInput.js';
 
 export type TSelectedTable =
   | ''
@@ -140,7 +140,7 @@ const getStateForRemovePcForTransfer = (
   };
 };
 
-const initialPCO = convertTextToPCO(initialInput.text);
+const initialPCO = convertTextToPCO('');
 
 type PcoProvideProps = { children: React.ReactNode };
 
@@ -148,7 +148,7 @@ export const PcoProvider: React.FC<PcoProvideProps> = ({
   children,
 }: PcoProvideProps) => {
   const [state, setState] = useState<IPcoContextData>({
-    textInput: initialInput.text,
+    textInput: '',
     selectedTable: '',
     pco: initialPCO,
     itensCCSelected: [],
@@ -193,11 +193,13 @@ export const PcoProvider: React.FC<PcoProvideProps> = ({
     },
   });
 
+  const { api } = usePageBase();
+
   useEffect(() => {
-    getRelatorioPCsBloqueados('bloqueados').then(pcsBloqueados => {
+    getRelatorioPCsBloqueados('bloqueados', api).then(pcsBloqueados => {
       setState(current => ({ ...current, pcsBloqueados }));
     });
-  }, []);
+  }, [api]);
 
   return <PcoContext.Provider value={state}>{children}</PcoContext.Provider>;
 };

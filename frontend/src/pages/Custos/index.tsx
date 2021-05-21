@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import formatValue from '../../utils/formatValue';
 
-import api from '../../services/api';
-
 import { Container, Filtros } from './styles';
-import PageBase from '../../components/PageBase';
 import { usePageBase } from '../../hooks/pageBase';
 
 export interface CustosManutencao {
@@ -53,7 +50,7 @@ const Custos: React.FC = () => {
   const [mes, setMes] = useState('01');
   const [tipoCusto, setTipoCusto] = useState<TipoCusto>('Todos');
 
-  const { setSidebarComponent } = usePageBase();
+  const { setSidebarComponent, api } = usePageBase();
 
   useEffect(() => {
     async function loadCompras(): Promise<void> {
@@ -64,7 +61,7 @@ const Custos: React.FC = () => {
     }
 
     loadCompras();
-  }, [ano, mes]);
+  }, [ano, mes, api]);
 
   useEffect(() => {
     setSidebarComponent(
@@ -101,7 +98,7 @@ const Custos: React.FC = () => {
         </select>
       </Filtros>,
     );
-  }, []);
+  }, [ano, mes, setSidebarComponent, tipoCusto]);
 
   const custoManutencaoFormated = useMemo(() => {
     const newCustosManutencao = {

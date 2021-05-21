@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import formatValue from '../../utils/formatValue';
-
-import api from '../../services/api';
 
 import Header from '../../components/Header';
 
 import { Container, Paginacao } from './styles';
+import { usePageBase } from './../../hooks/pageBase';
 
 export interface Compra {
   status: string;
@@ -55,6 +53,8 @@ const Prioridades: React.FC = () => {
     return ret;
   });
 
+  const { api } = usePageBase();
+
   useEffect(() => {
     async function loadCompras(): Promise<void> {
       const { data } = await api.get<{
@@ -69,14 +69,14 @@ const Prioridades: React.FC = () => {
     }
 
     loadCompras();
-  }, [filters, search, field]);
+  }, [filters, search, field, api]);
 
   return (
     <>
       <Header />
       <Container>
         <div>
-          <label htmlFor="">Incluir</label>
+          <span>Incluir</span>
           <select>
             <option value="pc">pc</option>
             <option value="sc">sc</option>
@@ -98,7 +98,7 @@ const Prioridades: React.FC = () => {
         </table>
       </Container>
 
-      <Paginacao></Paginacao>
+      <Paginacao />
     </>
   );
 };

@@ -10,7 +10,7 @@ import Upload from '../../components/Upload';
 import { Container, Title, ImportFileContainer, Footer } from './styles';
 
 import alert from '../../assets/alert.svg';
-import api from '../../services/api';
+import { usePageBase } from '../../hooks/pageBase';
 
 interface FileProps {
   file: File;
@@ -24,7 +24,7 @@ const Import: React.FC = () => {
   const [timeLoading, setTimeLoading] = useState(0);
   const [password, setPassword] = useState('');
 
-  console.log('ok');
+  const { api } = usePageBase();
 
   useEffect(() => {
     if (loading) setTimeout(() => setTimeLoading(timeLoading + 1), 1000);

@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Fields } from './textToObjectFields';
 
 function convertToNumber(str: string): number {
@@ -15,7 +18,7 @@ function convertToNumber(str: string): number {
   }
   return value;
 }
-
+const ola = 0;
 const formatData = {
   number: (str: string): number => {
     const value = convertToNumber(str);
@@ -65,7 +68,7 @@ export function textToObject<T = any>(
 
   if (fields) {
     if (convertKeys.length !== fields.length) {
-      alert(`Dados devem ter ${fields.length} colunas!`);
+      console.log(`Dados devem ter ${fields.length} colunas!`);
       return null;
     }
 
@@ -78,12 +81,12 @@ export function textToObject<T = any>(
 
     if (!fieldsOk) {
       const fieldsKeys = JSON.stringify(fields.map(fieldRet => fieldRet.key));
-      alert(`A ordem das colunas deve ser: ${fieldsKeys}`);
+      console.log(`A ordem das colunas deve ser: ${fieldsKeys}`);
       return null;
     }
   }
 
-  const objectData: any[] = [];
+  const objectData: unknown[] = [];
 
   arrayData.forEach(data => {
     const retunObject: any = {};

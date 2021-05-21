@@ -10,7 +10,6 @@ import makeObjectLinesOfTable from '../RelatorioPCO/components/utils/makeObjectL
 import Table from '../RelatorioPCO/components/Table';
 import { textToObject } from '../../utils/textToObject';
 import { SSFields } from '../../utils/textToObjectFields';
-import { apiSS } from '../../services/api';
 import Dialog from '../../components/Dialog';
 import { usePageBase } from '../../hooks/pageBase';
 
@@ -76,7 +75,9 @@ const TratativaSSs: React.FC = () => {
   const selectPrioridade = useRef<HTMLSelectElement>(null);
   const textObservacao = useRef<HTMLTextAreaElement>(null);
 
-  const { setSidebarButtons } = usePageBase();
+  const { setSidebarButtons, api } = usePageBase();
+
+  const apiSS = { ...api };
 
   useEffect(() => {
     setSidebarButtons([
@@ -93,6 +94,7 @@ const TratativaSSs: React.FC = () => {
         onClick: () => setMenuSelect('importDataList'),
       },
     ]);
+
     apiSS.get<ISS[]>('sss').then(({ data }) => {
       setSssBaseDados(data);
     });

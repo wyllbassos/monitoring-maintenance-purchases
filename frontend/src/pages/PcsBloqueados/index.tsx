@@ -52,7 +52,7 @@ const PcsBloqueados: React.FC = () => {
     },
   });
 
-  const { setSidebarComponent } = usePageBase();
+  const { setSidebarComponent, api } = usePageBase();
 
   const handleSetState = useCallback(
     async (newState: SetStateProps) => {
@@ -60,7 +60,7 @@ const PcsBloqueados: React.FC = () => {
       const nivelAprovacao = newState.nivelAprovacao || state.nivelAprovacao;
 
       const relatorioPC: RelatorioPC[] = newState.nivelAprovacao
-        ? await getRelatorioPCsBloqueados(nivelAprovacao)
+        ? await getRelatorioPCsBloqueados(nivelAprovacao, api)
         : newState.relatorioPC || state.relatorioPC;
       let relatorioPCFiltered: RelatorioPC[] = relatorioPC;
 
@@ -84,7 +84,7 @@ const PcsBloqueados: React.FC = () => {
   );
 
   useEffect(() => {
-    getRelatorioPCsBloqueados(state.nivelAprovacao).then(relatorioPC => {
+    getRelatorioPCsBloqueados(state.nivelAprovacao, api).then(relatorioPC => {
       const niveisAprovacoes = [
         'bloqueados',
         'nivel-1',
